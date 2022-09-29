@@ -1,60 +1,71 @@
-# GameDB
+<p align="center">
+    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_msvc_build.yml">
+        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_msvc_build.yml/badge.svg"/>
+    </a>
+    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_clang_build.yml">
+        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_clang_build.yml/badge.svg"/>
+    </a>
+</p>
 
-## Roadmap
+<p align="center">
+    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_gcc_build.yml">
+        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_gcc_build.yml/badge.svg"/>
+    </a>
+    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_clang_build.yml">
+        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_clang_build.yml/badge.svg"/>
+    </a>
+</p>
 
-### 0.1.0 (MVP Validation)
+<p align="center">
+    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/mac_clang_build.yml">
+        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/mac_clang_build.yml/badge.svg"/>
+    </a>
+</p>
 
--   [ ] Create Project
--   [ ] Checkout Project
--   [ ] Create Schema (String Fields Only)
--   [ ] Create Rows
--   [ ] Submit Changes 
--   [ ] Diff Preview
--   [ ] Revert Changes
--   [ ] Publish Project (Local JSON file Only)
+<div align="center">
+    <h1 align="center">GameDB</h1>
+</div>
 
-### 1.0.0
+## Requirements
 
--   [ ] Create more field types for schemas. (Int, Float, Bool, Enum, Ref)
--   [ ] Table search (Fuzzy)
--   [ ] User Roles (Read Only, Read/Write)
+All third party libraries will be installed automatically via <a href="https://github.com/microsoft/vcpkg">vcpkg</a>.
 
-### 1.1.0
+### Supported Toolchains
 
--   [ ] Create Branch
--   [ ] Merge Branches 
--   [ ] Diff Branches 
--   [ ] Schema Field Data Validation (Regex, Comparison and Logical Operators)
+| Compiler      | Generator | Standard Library | C++ Standard | Test Environment   |
+| :------------ | :-------- | :--------------- | :----------- | :----------------- |
+| GCC >= 7.0    | Ninja     | libstdc++        | C++17        | Ubuntu 20.04       |
+| Clang >= 6.0  | Ninja     | libc++           | C++17        | Xcode 13.4.1       |
+| MSVC >= 19.14 | Ninja     | Microsoft STL    | C++17        | Visual Studio 2022 |
 
-### 1.2.0
+## How to Build
 
--   [ ] Lock Schema
--   [ ] Lock Schema Field
--   [ ] Lock Schema Table
--   [ ] Lock Schema Table Row
--   [ ] Lock Schema Table Column
+```bash
+# --recurse-submodules is needed due to vcpkg dependency!
+git clone --recurse-submodules git@github.com:Pluto-Games/GameDB.Client.git
+```
 
-### 1.3.0
+Use one of the following presets along with CMake.
 
--   [ ] User Roles Per Schema
--   [ ] Table search (Per Schema field)
+### Presets
 
-### 1.4.0
+-   Windows
+    -   windows-msvc-debug
+    -   windows-msvc-release
+    -   windows-clang-debug
+    -   windows-clang-release
 
--   [ ] Schema Table Cell Formula Support
--   [ ] Create Changes Review
--   [ ] Approve Changes Review
+-   Linux
+    -   linux-gcc-debug
+    -   linux-gcc-release
+    -   linux-clang-debug
+    -   linux-clang-release
 
-## High level workflow
+-   MacOS
+    -   mac-clang-debug
+    -   mac-clang-release
 
-```mermaid
-sequenceDiagram
-    Client->>Server: Create Project
-    Server->>Git: git init
-    Server->>Client: Project Created!
-    Client->>Server: Submit Changes
-    Server->>Git: git add ${ModifiedFiles}
-    Server->>Git: git commit -m ${CommitMessage}
-    Server->>Git: git push
-    Server->>Client: Changes submitted!
+```bash
+cmake --preset windows-msvc-debug
+cmake --build --preset windows-msvc-debug --target install
 ```
