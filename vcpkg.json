@@ -1,0 +1,15 @@
+{
+  "name": "gamedb",
+  "version": "0.0.1",
+  "builtin-baseline": "2f0a16b5ae24fec6c615924e2fbc8bc43ab73764",
+  "dependencies": [
+    {
+      "name": "argparse",
+      "version>=": "2.8"
+    },
+    {
+      "name": "fmt",
+      "version>=": "9.0.0"
+    }
+  ]
+}
