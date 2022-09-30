@@ -10,6 +10,22 @@
     {
       "name": "fmt",
       "version>=": "9.0.0"
+    },
+    {
+      "name": "glew",
+      "version>=": "2.2.0"
+    },
+    {
+      "name": "glfw3",
+      "version>=": "3.3.8"
+    },
+    {
+      "name": "imgui",
+      "version>=": "1.88",
+      "features": [
+        "glfw-binding",
+        "opengl3-binding"
+      ]
     }
   ]
 }

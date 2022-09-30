@@ -1,5 +1,6 @@
-#include "GameDB/HelloWorld.hpp"
 #include "GameDB/Config.hpp"
+#include "GameDB/HelloWorld.hpp"
+#include "GameDB/Editor/Application.hpp"
 #include "GameDB/Editor/HelloWorld.hpp"
 
 #include <argparse/argparse.hpp>
@@ -24,7 +25,11 @@ namespace Pluto::GameDB::Editor::Standalone
         {
             std::cout << err.what() << std::endl;
             std::cout << argumentParser << std::endl;
+            return EXIT_FAILURE;
         }
+
+        Application application;
+        application.Run();
 
         return EXIT_SUCCESS;
     }
