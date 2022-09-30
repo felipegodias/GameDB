@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  CACHE STRING "Vcpkg toolchain file")
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -44,6 +47,8 @@ if (ENABLE_CLANG_TIDY)
         message(FATAL_ERROR "Could not found the exectutable for clang-tidy installed on the machine!")
     endif()
 endif()
+
+include("ThirdParty/vcpkg.cmake")
 
 add_subdirectory("GameDB")
 add_subdirectory("GameDB.Editor")
