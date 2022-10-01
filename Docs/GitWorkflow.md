@@ -24,9 +24,9 @@
         merge v0.1/master
         commit
         checkout v0.1/master
-        merge v0.1/task/GDB-3 tag:"v0.1.0"
+        merge v0.1/task/GDB-3
         checkout master
-        merge v0.1/master
+        merge v0.1/master tag:"v0.1.0"
         branch v0.2/master
         branch v0.2/task/GDB-4
         commit
@@ -36,15 +36,15 @@
         branch v0.1/task/GDB-5
         commit
         checkout v0.1/master
-        merge v0.1/task/GDB-5 tag:"v0.1.1"
+        merge v0.1/task/GDB-5
         checkout master
-        merge v0.1/master
+        merge v0.1/master tag:"v0.1.1"
         checkout v0.2/master
         merge v0.1/master
         branch v0.2/task/GDB-6
         commit
         checkout v0.2/master
-        merge v0.2/task/GDB-6 tag:"v0.2.0"
+        merge v0.2/task/GDB-6
         checkout master
-        merge v0.2/master
+        merge v0.2/master tag:"v0.2.0"
 ```
