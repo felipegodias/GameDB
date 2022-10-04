@@ -83,6 +83,8 @@ namespace Pluto::GameDB::Editor
 
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
@@ -146,6 +148,14 @@ namespace Pluto::GameDB::Editor
                 clear_color.w);
             glClear(GL_COLOR_BUFFER_BIT);
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) 
+            { 
+                GLFWwindow* backup_current_context = glfwGetCurrentContext(); 
+                ImGui::UpdatePlatformWindows(); 
+                ImGui::RenderPlatformWindowsDefault(); 
+                glfwMakeContextCurrent(backup_current_context); 
+            }
 
             glfwSwapBuffers(window);
         }
