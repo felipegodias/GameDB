@@ -26,6 +26,10 @@
         "glfw-binding",
         "opengl3-binding"
       ]
+    },
+    {
+      "name": "nlohmann-json",
+      "version>=": "3.11.2"
     }
   ]
 }
