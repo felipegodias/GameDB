@@ -26,20 +26,34 @@ namespace Pluto::GameDB
             {
             }
 
-            virtual ~SchemaFieldValue() = 0 {}
+            SchemaFieldValue(const SchemaFieldValue& other) = default;
+            SchemaFieldValue(SchemaFieldValue&& other) noexcept = default;
+            SchemaFieldValue& operator=(const SchemaFieldValue& other) = default;
+            SchemaFieldValue& operator=(SchemaFieldValue&& other) noexcept = default;
+
+            virtual ~SchemaFieldValue() = 0;
 
             virtual void ToJson(Json& json) const = 0;
         };
+        SchemaFieldValue::~SchemaFieldValue() = default;
 
         class SchemaFieldType
         {
         public:
-            virtual ~SchemaFieldType() = 0 {}
+            SchemaFieldType() = default;
+            SchemaFieldType(const SchemaFieldType& other) = default;
+            SchemaFieldType(SchemaFieldType&& other) noexcept = default;
+            SchemaFieldType& operator=(const SchemaFieldType& other) = default;
+            SchemaFieldType& operator=(SchemaFieldType&& other) noexcept = default;
+
+            virtual ~SchemaFieldType() = 0;
 
             [[nodiscard]] virtual std::string GetTypeName() const = 0;
             [[nodiscard]] virtual std::unique_ptr<SchemaFieldValue> InstantiateValue(SchemaField* schemaField) const = 0;
             virtual void ToJson(Json& json) const = 0;
         };
+        SchemaFieldType::~SchemaFieldType() = default;
+        
 
         class SchemaFieldValueString final : public SchemaFieldValue
         {
@@ -129,6 +143,8 @@ namespace Pluto::GameDB
                 Fields = std::move(other.Fields);
                 return *this;
             }
+
+            ~TableRow() = default;
         };
 
         class Table
@@ -192,7 +208,7 @@ namespace Pluto::GameDB
         schema.Fields.push_back(std::make_unique<SchemaField>("d92e9519e1c7433a9eb9b9a91963bb78", "Id", std::make_unique<SchemaFieldTypeString>()));
         schema.Fields.push_back(std::make_unique<SchemaField>("17e25ec8041445eda84b836348a0c065", "Name", std::make_unique<SchemaFieldTypeString>()));
 
-        size_t numRows = 100000;
+        constexpr size_t numRows = 100000;
         std::vector<TableRow> rows;
         rows.reserve(numRows);
         for (size_t i = 0; i < numRows; ++i)

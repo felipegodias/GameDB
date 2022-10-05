@@ -8,7 +8,7 @@
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
-        "ENABLE_CLANG_TIDY": false // Temporary disabling clang_tidy since argparse is having issues with it.
+        "ENABLE_CLANG_TIDY": true
       }
     },
     {

@@ -1,16 +1,15 @@
+#include <iostream>
+#include <argparse/argparse.hpp>
+#include <fmt/format.h>
+
 #include "GameDB/Config.hpp"
 #include "GameDB/HelloWorld.hpp"
 #include "GameDB/Editor/Application.hpp"
 #include "GameDB/Editor/HelloWorld.hpp"
 
-#include <argparse/argparse.hpp>
-#include <fmt/format.h>
-
-#include <iostream>
-
 namespace Pluto::GameDB::Editor::Standalone
 {
-    int Main([[maybe_unused]] const int argc, [[maybe_unused]] const char* argv[])
+    int Main(const std::vector<std::string>& args)
     {
         std::cout << GetGameDBHelloWorld() << std::endl;
         std::cout << GetGameDBEditorHelloWorld() << std::endl;
@@ -19,7 +18,7 @@ namespace Pluto::GameDB::Editor::Standalone
         argparse::ArgumentParser argumentParser(PROJECT_NAME, PROJECT_VER);
         try
         {
-            argumentParser.parse_args(argc, argv);
+            argumentParser.parse_args(args);
         }
         catch (const std::runtime_error& err)
         {
@@ -37,5 +36,12 @@ namespace Pluto::GameDB::Editor::Standalone
 
 int main(const int argc, const char* argv[])
 {
-    return Pluto::GameDB::Editor::Standalone::Main(argc, argv);
+    std::vector<std::string> args;
+    args.reserve(argc);
+    for (int i = 0; i < argc; ++i)
+    {
+        args.emplace_back(argv[i]);
+    }
+
+    return Pluto::GameDB::Editor::Standalone::Main(args);
 }

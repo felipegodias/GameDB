@@ -23,9 +23,11 @@ namespace Pluto::GameDB::Editor
 
     void Application::Run()
     {
+        [[maybe_unused]] auto instance = *this;
+
         // Setup window
         glfwSetErrorCallback(GlfwErrorCallback);
-        if (!glfwInit())
+        if (glfwInit() == GLFW_FALSE)
         {
             return;
         }
@@ -46,16 +48,18 @@ namespace Pluto::GameDB::Editor
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
 #else
         // GL 3.0 + GLSL 130
-        auto glsl_version = "#version 130";
+        const std::string glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        glfwWindowHint(GLFW_DECORATED, true);
+        glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
         //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
         //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
         // Create window with graphics context
-        GLFWwindow* window = glfwCreateWindow(1280, 720, "GameDB", nullptr, nullptr);
+        const int windowWidth = 1280;
+        const int windowHeight = 720;
+        GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "GameDB", nullptr, nullptr);
         if (window == nullptr)
         {
             return;
@@ -68,23 +72,23 @@ namespace Pluto::GameDB::Editor
         if (GLEW_OK != err)
         {
             /* Problem: glewInit failed, something is seriously wrong. */
-            fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+            std::cout << "Error: " << glewGetErrorString(err) << std::endl;
         }
-        fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
+        std::cout << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
 
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
-        (void)io;
+        ImGuiIO& imGuiIo = ImGui::GetIO();
+        (void)imGuiIo;
         //ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         //io.FontGlobalScale = 2;
 
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        imGuiIo.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        imGuiIo.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
         // Setup Dear ImGui style
         ImGui::StyleColorsDark();
@@ -93,7 +97,7 @@ namespace Pluto::GameDB::Editor
 
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(window, true);
-        ImGui_ImplOpenGL3_Init(glsl_version);
+        ImGui_ImplOpenGL3_Init(glsl_version.c_str());
 
         // Load Fonts
         // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -115,10 +119,10 @@ namespace Pluto::GameDB::Editor
         //ImGui::GetIO().Fonts->AddFontDefault(&cfg);
 
         // Our state
-        auto clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+        const auto clear_color = ImVec4(0.45F, 0.55F, 0.60F, 1.00F);
 
         // Main loop
-        while (!glfwWindowShouldClose(window))
+        while (glfwWindowShouldClose(window) == GLFW_FALSE)
         {
             // Poll and handle events (inputs, window resize, etc.)
             // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -132,7 +136,7 @@ namespace Pluto::GameDB::Editor
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+            ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
             ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 
             //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
@@ -141,7 +145,8 @@ namespace Pluto::GameDB::Editor
             // Rendering
             ImGui::Render();
 
-            int display_w, display_h;
+            int display_w = 0;
+            int display_h = 0;
             glfwGetFramebufferSize(window, &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
             glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
@@ -149,7 +154,7 @@ namespace Pluto::GameDB::Editor
             glClear(GL_COLOR_BUFFER_BIT);
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) 
+            if ((imGuiIo.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) == ImGuiConfigFlags_ViewportsEnable)
             { 
                 GLFWwindow* backup_current_context = glfwGetCurrentContext(); 
                 ImGui::UpdatePlatformWindows(); 
