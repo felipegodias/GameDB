@@ -13,8 +13,6 @@ jobs:
       - name: Declare Git Variables
         id: git_vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-      - name: Install dependencies
-        run: bash ./install_linux_requirements.sh
       - name: CMake Config Debug
         run: cmake --preset linux-gcc-debug
       - name: Cmake Build Debug
