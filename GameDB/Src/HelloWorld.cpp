@@ -1,5 +1,6 @@
 #include "GameDB/HelloWorld.hpp"
 
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -19,10 +20,10 @@ namespace Pluto::GameDB
         class SchemaFieldValue
         {
         public:
-            SchemaField* SchemaField;
+            SchemaField* schemaField;
 
             explicit SchemaFieldValue(GameDB::SchemaField* schemaField)
-                : SchemaField(schemaField)
+                : schemaField(schemaField)
             {
             }
 
@@ -74,6 +75,8 @@ namespace Pluto::GameDB
         class SchemaFieldTypeString final : public SchemaFieldType
         {
         public:
+
+
             [[nodiscard]] std::string GetTypeName() const override
             {
                 return "String";
@@ -152,7 +155,7 @@ namespace Pluto::GameDB
         public:
             Guid InstanceId;
             std::string Name;
-            Schema Schema;
+            Schema schema;
             std::vector<TableRow> Entries;
         };
 
@@ -172,7 +175,7 @@ namespace Pluto::GameDB
             json["Name"] = table.Name;
 
             Json schemaJson;
-            for (const auto& field : table.Schema.Fields)
+            for (const auto& field : table.schema.Fields)
             {
                 Json typeJson(*field->Type);
 
@@ -188,7 +191,7 @@ namespace Pluto::GameDB
             {
                 Json rowJson;
                 rowJson["InstanceId"] = entry.InstanceId;
-                for (const auto& field : table.Schema.Fields)
+                for (const auto& field : table.schema.Fields)
                 {
                     rowJson[field->InstanceId] = *entry.Fields.at(field->InstanceId);
                 }
