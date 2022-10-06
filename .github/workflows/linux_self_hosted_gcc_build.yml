@@ -1,0 +1,31 @@
+name: Linux GCC Build
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Declare Git Variables
+        id: git_vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Install dependencies
+        run: bash ./install_linux_requirements.sh
+      - name: CMake Config Debug
+        run: cmake --preset linux-gcc-debug
+      - name: Cmake Build Debug
+        run: cmake --build --preset linux-gcc-debug --target install
+      - name: CMake Config Release
+        run: cmake --preset linux-gcc-release
+      - name: Cmake Build Release
+        run: cmake --build --preset linux-gcc-release --target install
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: gamedb-linux-gcc-${{ steps.git_vars.outputs.sha_short }}
+          path: out
+          retention-days: 5
