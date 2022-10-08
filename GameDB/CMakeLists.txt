@@ -3,11 +3,12 @@ add_library(GameDB STATIC
     "Src/Data/BaseValue.cpp"
     "Src/Data/Field.cpp"
     "Src/Data/Guid.cpp"
+    "Src/Data/Schema.cpp"
     "Src/Data/StringType.cpp"
     "Src/Data/StringValue.cpp"
     "Src/Debug/Assert.cpp"
     "Src/HelloWorld.cpp"
-)
+ )
 
 configure_file("Include/GameDB/Config.hpp.in" "GameDB/Include/GameDB/Config.hpp")
 
