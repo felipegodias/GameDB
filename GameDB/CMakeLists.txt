@@ -1,6 +1,8 @@
 add_library(GameDB STATIC 
     "Src/Data/BaseType.cpp"
     "Src/Data/BaseValue.cpp"
+    "Src/Data/StringType.cpp"
+    "Src/Data/StringValue.cpp"
     "Src/Debug/Assert.cpp"
     "Src/HelloWorld.cpp"
 )
