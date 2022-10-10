@@ -1,2 +1,2 @@
-Checks: "-*,cppcoreguidelines-*,modernize-*,-modernize-use-trailing-return-type,readability-*,performance-*"
+Checks: "-*,cppcoreguidelines-*,bugprone-*,modernize-*,-modernize-use-trailing-return-type,readability-*,performance-*,clang-analyzer-core.*"
 WarningsAsErrors: '1'
