@@ -14,7 +14,7 @@ namespace Pluto::GameDB
     class Schema
     {
     public:
-        Schema(Guid instanceId, std::vector<Field> fields);
+        Schema(Guid instanceId, std::vector<std::unique_ptr<Field>> fields);
 
         /**
          * \brief 
@@ -26,7 +26,7 @@ namespace Pluto::GameDB
          * \brief
          * \param field
          */
-        void AddField(Field field);
+        void AddField(std::unique_ptr<Field> field);
 
         /**
          * \brief
@@ -39,35 +39,21 @@ namespace Pluto::GameDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] const std::vector<Field>& GetFields() const;
+        [[nodiscard]] const std::vector<std::unique_ptr<Field>>& GetFields() const;
 
         /**
          * \brief 
          * \param instanceId 
          * \return 
          */
-        [[nodiscard]] std::optional<std::reference_wrapper<const Field>> GetField(const Guid& instanceId) const;
-
-        /**
-         * \brief
-         * \param instanceId
-         * \return
-         */
-        [[nodiscard]] std::optional<std::reference_wrapper<Field>> GetField(const Guid& instanceId);
+        [[nodiscard]] Field* GetField(const Guid& instanceId) const;
 
         /**
          * \brief 
          * \param name 
          * \return 
          */
-        [[nodiscard]] std::optional<std::reference_wrapper<const Field>> GetField(std::string_view name) const;
-
-        /**
-         * \brief
-         * \param name
-         * \return
-         */
-        [[nodiscard]] std::optional<std::reference_wrapper<Field>> GetField(std::string_view name);
+        [[nodiscard]] Field* GetField(std::string_view name) const;
 
     private:
         /**
@@ -78,7 +64,7 @@ namespace Pluto::GameDB
         /**
          * \brief 
          */
-        std::vector<Field> _fields;
+        std::vector<std::unique_ptr<Field>> _fields;
     };
 }
 

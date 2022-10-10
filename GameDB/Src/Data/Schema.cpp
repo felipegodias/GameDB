@@ -6,7 +6,7 @@
 
 namespace Pluto::GameDB
 {
-    Schema::Schema(const Guid instanceId, std::vector<Field> fields)
+    Schema::Schema(const Guid instanceId, std::vector<std::unique_ptr<Field>> fields)
         : _instanceId(instanceId),
           _fields(std::move(fields))
     {
@@ -17,15 +17,15 @@ namespace Pluto::GameDB
         return _instanceId;
     }
 
-    void Schema::AddField(Field field)
+    void Schema::AddField(std::unique_ptr<Field> field)
     {
-        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const Field& fieldIt)
+        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const auto& fieldIt)
         {
-            return fieldIt.GetInstanceId() == field.GetInstanceId() || fieldIt.GetName() == field.GetName();
+            return fieldIt->GetInstanceId() == field->GetInstanceId() || fieldIt->GetName() == field->GetName();
         });
 
         // Checks if an field with the id or name already exists!
-        if (fieldsIt == _fields.end())
+        if (fieldsIt != _fields.end())
         {
             throw std::runtime_error("");
         }
@@ -35,9 +35,9 @@ namespace Pluto::GameDB
 
     bool Schema::RemoveField(const Guid& instanceId)
     {
-        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const Field& fieldIt)
+        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const auto& fieldIt)
         {
-            return fieldIt.GetInstanceId() == instanceId;
+            return fieldIt->GetInstanceId() == instanceId;
         });
 
         if (fieldsIt == _fields.end())
@@ -49,68 +49,38 @@ namespace Pluto::GameDB
         return true;
     }
 
-    const std::vector<Field>& Schema::GetFields() const
+    const std::vector<std::unique_ptr<Field>>& Schema::GetFields() const
     {
         return _fields;
     }
 
-    std::optional<std::reference_wrapper<const Field>> Schema::GetField(const Guid& instanceId) const
+    Field* Schema::GetField(const Guid& instanceId) const
     {
-        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const Field& fieldIt)
+        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const auto& fieldIt)
         {
-            return fieldIt.GetInstanceId() == instanceId;
+            return fieldIt->GetInstanceId() == instanceId;
         });
 
         if (fieldsIt == _fields.end())
         {
-            return std::nullopt;
+            return nullptr;
         }
 
-        return *fieldsIt;
+        return fieldsIt->get();
     }
 
-    std::optional<std::reference_wrapper<Field>> Schema::GetField(const Guid& instanceId)
+    Field* Schema::GetField(const std::string_view name) const
     {
-        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const Field& fieldIt)
+        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const auto& fieldIt)
         {
-            return fieldIt.GetInstanceId() == instanceId;
+            return fieldIt->GetName() == name;
         });
 
         if (fieldsIt == _fields.end())
         {
-            return std::nullopt;
+            return nullptr;
         }
 
-        return *fieldsIt;
-    }
-
-    std::optional<std::reference_wrapper<const Field>> Schema::GetField(const std::string_view name) const
-    {
-        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const Field& fieldIt)
-        {
-            return fieldIt.GetName() == name;
-        });
-
-        if (fieldsIt == _fields.end())
-        {
-            return std::nullopt;
-        }
-
-        return *fieldsIt;
-    }
-
-    std::optional<std::reference_wrapper<Field>> Schema::GetField(const std::string_view name)
-    {
-        const auto fieldsIt = std::find_if(_fields.begin(), _fields.end(), [&](const Field& fieldIt)
-        {
-            return fieldIt.GetName() == name;
-        });
-
-        if (fieldsIt == _fields.end())
-        {
-            return std::nullopt;
-        }
-
-        return *fieldsIt;
+        return fieldsIt->get();
     }
 }
