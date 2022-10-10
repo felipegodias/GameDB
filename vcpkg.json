@@ -29,6 +29,10 @@
       ]
     },
     {
+      "name": "ms-gsl",
+      "version>=": "4.0.0"
+    },
+    {
       "name": "nlohmann-json",
       "version>=": "3.11.2"
     }
