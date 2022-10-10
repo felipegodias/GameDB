@@ -1,6 +1,7 @@
 #include <iostream>
 #include <argparse/argparse.hpp>
 #include <fmt/format.h>
+#include <gsl/span>
 
 #include "GameDB/Config.hpp"
 #include "GameDB/HelloWorld.hpp"
@@ -36,12 +37,35 @@ namespace Pluto::GameDB::Editor::Standalone
 
 int main(const int argc, const char* argv[])
 {
-    std::vector<std::string> args;
-    args.reserve(argc);
-    for (int i = 0; i < argc; ++i)
+    try
     {
-        args.emplace_back(argv[i]);
+        gsl::span<const char*> argsSpan(argv, argv);
+        std::vector<std::string> args;
+        args.reserve(argc);
+        for (const char* arg : argsSpan)
+        {
+            args.emplace_back(arg);
+        }
+
+        const int exitCode = Pluto::GameDB::Editor::Standalone::Main(args);
+        return exitCode;
+    }
+    catch (const std::runtime_error& re)
+    {
+        // speciffic handling for runtime_error
+        std::cerr << "Runtime error: " << re.what() << std::endl;
+    }
+    catch (const std::exception& ex)
+    {
+        // speciffic handling for all exceptions extending std::exception, except
+        // std::runtime_error which is handled explicitly
+        std::cerr << "Error occurred: " << ex.what() << std::endl;
+    }
+    catch (...)
+    {
+        // catch any other errors (that we have no information about)
+        std::cerr << "Unknown failure occurred. Possible memory corruption" << std::endl;
     }
 
-    return Pluto::GameDB::Editor::Standalone::Main(args);
+    return EXIT_FAILURE;
 }

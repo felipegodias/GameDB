@@ -17,6 +17,10 @@ target_include_directories(GameDB PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}/GameDB/Include"
 )
 
+target_link_libraries(GameDB PUBLIC
+    Microsoft.GSL::GSL
+)    
+
 target_link_libraries(GameDB PRIVATE
     fmt::fmt
     nlohmann_json::nlohmann_json
