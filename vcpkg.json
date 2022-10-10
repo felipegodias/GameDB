@@ -35,6 +35,10 @@
     {
       "name": "nlohmann-json",
       "version>=": "3.11.2"
+    },
+    {
+      "name": "spdlog",
+      "version>=": "1.10.0"
     }
   ]
 }
