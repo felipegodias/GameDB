@@ -39,7 +39,7 @@ int main(const int argc, const char* argv[])
 {
     try
     {
-        gsl::span<const char*> argsSpan(argv, argv);
+        gsl::span<const char*> argsSpan(argv, argc);
         std::vector<std::string> args;
         args.reserve(argc);
         for (const char* arg : argsSpan)
