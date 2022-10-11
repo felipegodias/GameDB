@@ -114,6 +114,10 @@ namespace Pluto::GameDB::Editor
         //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
         //IM_ASSERT(font != NULL);
 
+        const float fontSize = 16.0F;
+        const float fontScale = 1.25F;
+        imGuiIo.Fonts->AddFontFromFileTTF("Resources/Fonts/Roboto-Regular.ttf", fontSize * fontScale);
+
         //ImFontConfig cfg;
         //cfg.SizePixels = 13 * SCALE;
         //ImGui::GetIO().Fonts->AddFontDefault(&cfg);
