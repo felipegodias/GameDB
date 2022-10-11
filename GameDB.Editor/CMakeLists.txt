@@ -2,6 +2,7 @@ add_library(GameDB.Editor STATIC
     "Src/Color.cpp"
     "Src/HelloWorld.cpp"
     "Src/Application.cpp"
+    "Src/Vector2.cpp"
 )
 
 target_include_directories(GameDB.Editor PUBLIC
