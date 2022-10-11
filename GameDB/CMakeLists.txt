@@ -20,9 +20,6 @@ target_include_directories(GameDB PUBLIC
 
 target_link_libraries(GameDB PUBLIC
     Microsoft.GSL::GSL
-)    
-
-target_link_libraries(GameDB PRIVATE
     fmt::fmt
     nlohmann_json::nlohmann_json
     spdlog::spdlog
