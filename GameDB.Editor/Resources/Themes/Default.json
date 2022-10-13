@@ -1,0 +1,103 @@
+{
+  "name": "Default",
+  "font": "Roboto-Regular.ttf",
+  "palette": {
+    "border": "#30303049",
+    "borderShadow": "#0000003d",
+    "button": "#0c0c0c89",
+    "buttonActive": "#333a38ff",
+    "buttonHovered": "#30303089",
+    "checkMark": "#54dbaaff",
+    "childBg": "#00000000",
+    "dockingEmptyBg": "#ff0000ff",
+    "dockingPreview": "#54dbaaff",
+    "dragDropTarget": "#54dbaaff",
+    "frameBg": "#0c0c0c89",
+    "frameBgActive": "#333a38ff",
+    "frameBgHovered": "#30303089",
+    "header": "#00000084",
+    "headerActive": "#333a3854",
+    "headerHovered": "#0000005b",
+    "menuBarBg": "#232323ff",
+    "modalWindowDimBg": "#ff000059",
+    "navHighlight": "#ff0000ff",
+    "navWindowingDimBg": "#ff000033",
+    "navWindowingHighlight": "#ff0000b2",
+    "plotHistogram": "#ff0000ff",
+    "plotHistogramHovered": "#ff0000ff",
+    "plotLines": "#ff0000ff",
+    "plotLinesHovered": "#ff0000ff",
+    "popupBg": "#303030ea",
+    "resizeGrip": "#47474749",
+    "resizeGripActive": "#667770ff",
+    "resizeGripHovered": "#70707049",
+    "scrollbarBg": "#0c0c0c89",
+    "scrollbarGrab": "#56565689",
+    "scrollbarGrabActive": "#8e8e8e89",
+    "scrollbarGrabHovered": "#66666689",
+    "separator": "#47474749",
+    "separatorActive": "#667770ff",
+    "separatorHovered": "#70707049",
+    "sliderGrab": "#56565689",
+    "sliderGrabActive": "#8e8e8e89",
+    "tab": "#00000084",
+    "tabActive": "#3333335b",
+    "tabHovered": "#232323ff",
+    "tabUnfocused": "#00000084",
+    "tabUnfocusedActive": "#232323ff",
+    "tableBorderLight": "#47474749",
+    "tableBorderStrong": "#00000084",
+    "tableHeaderBg": "#00000084",
+    "tableRowBg": "#00000000",
+    "tableRowBgAlt": "#ffffff0f",
+    "text": "#ffffffff",
+    "textDisabled": "#7f7f7fff",
+    "textSelectedBg": "#333a38ff",
+    "titleBg": "#000000ff",
+    "titleBgActive": "#0f0f0fff",
+    "titleBgCollapsed": "#000000ff",
+    "windowBg": "#191919ff"
+  },
+  "style": {
+    "cellPadding": {
+      "x": 6.0,
+      "y": 6.0
+    },
+    "childBorderSize": 1.0,
+    "childRounding": 4.0,
+    "frameBorderSize": 1.0,
+    "framePadding": {
+      "x": 5.0,
+      "y": 2.0
+    },
+    "frameRounding": 3.0,
+    "grabMinSize": 10.0,
+    "grabRounding": 3.0,
+    "indentSpacing": 25.0,
+    "itemInnerSpacing": {
+      "x": 6.0,
+      "y": 6.0
+    },
+    "itemSpacing": {
+      "x": 6.0,
+      "y": 6.0
+    },
+    "logSliderDeadzone": 4.0,
+    "popupBorderSize": 1.0,
+    "popupRounding": 4.0,
+    "scrollbarRounding": 9.0,
+    "scrollbarSize": 15.0,
+    "tabBorderSize": 1.0,
+    "tabRounding": 4.0,
+    "touchExtraPadding": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "windowBorderSize": 1.0,
+    "windowPadding": {
+      "x": 8.0,
+      "y": 8.0
+    },
+    "windowRounding": 7.0
+  }
+}

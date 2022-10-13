@@ -2,6 +2,9 @@ add_library(GameDB.Editor STATIC
     "Src/Color.cpp"
     "Src/HelloWorld.cpp"
     "Src/Application.cpp"
+    "Src/Palette.cpp"
+    "Src/Style.cpp"
+    "Src/Theme.cpp"
     "Src/Vector2.cpp"
 )
 
