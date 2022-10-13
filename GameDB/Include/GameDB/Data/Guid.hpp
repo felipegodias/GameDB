@@ -3,10 +3,15 @@
 
 namespace Pluto::GameDB
 {
+    /**
+     * \brief 
+     */
     class Guid final
     {
     public:
-        explicit Guid(size_t value);
+        using ValueType = unsigned int;
+
+        explicit Guid(ValueType value);
 
         bool operator==(const Guid& rhs) const;
         bool operator!=(const Guid& rhs) const;
@@ -16,7 +21,7 @@ namespace Pluto::GameDB
         static const Guid Empty;
 
     private:
-        size_t _value;
+        ValueType _value;
     };
 }
 
