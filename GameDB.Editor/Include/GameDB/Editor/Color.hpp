@@ -11,13 +11,10 @@ namespace Pluto::GameDB::Editor
      */
     struct Color final
     {
-        float r; // NOLINT(readability-identifier-length)
-        float g; // NOLINT(readability-identifier-length)
-        float b; // NOLINT(readability-identifier-length)
-        float a; // NOLINT(readability-identifier-length)
-
-        Color();
-        Color(float red, float green, float blue, float alpha);
+        float r = 0.0F; // NOLINT(readability-identifier-length)
+        float g = 0.0F; // NOLINT(readability-identifier-length)
+        float b = 0.0F; // NOLINT(readability-identifier-length)
+        float a = 0.0F; // NOLINT(readability-identifier-length)
 
         /**
          * \brief 
@@ -30,20 +27,6 @@ namespace Pluto::GameDB::Editor
          * \return 
          */
         [[nodiscard]] std::string ToString() const;
-
-        /**
-         * \brief 
-         * \param json 
-         * \param color 
-         */
-        static void ToJson(nlohmann::json& json, const Color& color);
-
-        /**
-         * \brief 
-         * \param json 
-         * \param color 
-         */
-        static void FromJson(const nlohmann::json& json, Color& color);
     };
 
     // Converters for nlohmann/json.

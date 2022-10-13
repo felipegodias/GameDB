@@ -28,22 +28,6 @@ namespace Pluto::GameDB::Editor
         }
     }
 
-    Color::Color()
-        : r(0),
-          g(0),
-          b(0),
-          a(0)
-    {
-    }
-
-    Color::Color(const float red, const float green, const float blue, const float alpha) // NOLINT(bugprone-easily-swappable-parameters)
-        : r(red),
-          g(green),
-          b(blue),
-          a(alpha)
-    {
-    }
-
     bool Color::TryParse(const std::string_view str)
     {
         // Validate!
@@ -74,23 +58,13 @@ namespace Pluto::GameDB::Editor
         return strStream.str();
     }
 
-    void Color::ToJson(nlohmann::json& json, const Color& color)
+    void to_json(nlohmann::json& json, const Color& color)
     {
         json = color.ToString();
     }
 
-    void Color::FromJson(const nlohmann::json& json, Color& color)
-    {
-        color.TryParse(json.get<std::string>());
-    }
-
-    void to_json(nlohmann::json& json, const Color& color)
-    {
-        Color::ToJson(json, color);
-    }
-
     void from_json(const nlohmann::json& json, Color& color)
     {
-        Color::FromJson(json, color);
+        color.TryParse(json.get<std::string>());
     }
 }
