@@ -1,8 +1,10 @@
 #include "GameDB/Data/Schema.hpp"
 
+#include <algorithm>
+#include <stdexcept>
+
 #include "GameDB/Data/BaseType.hpp"
 
-#include <stdexcept>
 
 namespace Pluto::GameDB
 {
