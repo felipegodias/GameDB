@@ -8,7 +8,7 @@
       "generator": "Ninja Multi-Config",
       "cacheVariables": {
         "CMAKE_CONFIGURATION_TYPES": "Debug;Profile;RelWithDebInfo;Release;",
-        "ENABLE_CLANG_TIDY": true,
+        "ENABLE_CLANG_TIDY": false,
         "ENABLE_ALL_WARNINGS_AS_ERROR": true
       },
       "environment": {
