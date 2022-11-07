@@ -39,7 +39,7 @@ int main(const int argc, const char* argv[])
 {
     try
     {
-        gsl::span<const char*> argsSpan(argv, argc);
+        const gsl::span<const char*> argsSpan(argv, argc);
         std::vector<std::string> args;
         args.reserve(argc);
         for (const char* arg : argsSpan)
@@ -52,12 +52,12 @@ int main(const int argc, const char* argv[])
     }
     catch (const std::runtime_error& re)
     {
-        // speciffic handling for runtime_error
+        // specific handling for runtime_error
         std::cerr << "Runtime error: " << re.what() << std::endl;
     }
     catch (const std::exception& ex)
     {
-        // speciffic handling for all exceptions extending std::exception, except
+        // specific handling for all exceptions extending std::exception, except
         // std::runtime_error which is handled explicitly
         std::cerr << "Error occurred: " << ex.what() << std::endl;
     }
