@@ -9,6 +9,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: 0
       - name: Declare Git Variables
         id: git_vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
