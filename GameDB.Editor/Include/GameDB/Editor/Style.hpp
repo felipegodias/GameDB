@@ -1,9 +1,8 @@
 #ifndef PLUTO_GAME_DB_EDITOR_STYLE_H
 #define PLUTO_GAME_DB_EDITOR_STYLE_H
 
-#include <nlohmann/json.hpp>
-
 #include "Vector2.hpp"
+#include "GameDB/Serializers/Json.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -36,7 +35,7 @@ namespace Pluto::GameDB::Editor
         float tabRounding = 0.0F;
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+    GAME_DB_JSON_DEFINE_TYPE_NON_INTRUSIVE(
         Style,
         windowPadding,
         framePadding,

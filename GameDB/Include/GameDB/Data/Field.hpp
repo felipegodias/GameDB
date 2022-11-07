@@ -19,7 +19,7 @@ namespace Pluto::GameDB
         Field();
         Field(Guid instanceId, std::string name, std::unique_ptr<BaseType> type);
 
-        Field(const Field& other) = delete;
+        Field(const Field& other) = delete; 
         Field(Field&& other) noexcept = default;
         Field& operator=(const Field& other) = delete;
         Field& operator=(Field&& other) noexcept = default;

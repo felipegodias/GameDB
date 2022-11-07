@@ -1,6 +1,7 @@
 #include "GameDB/Debug/Assert.hpp"
 
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 namespace Pluto::GameDB
 {

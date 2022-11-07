@@ -1,7 +1,6 @@
 #ifndef PLUTO_GAME_DB_SCHEMA_H
 #define PLUTO_GAME_DB_SCHEMA_H
 
-#include <optional>
 #include <vector>
 
 #include "Field.hpp"

@@ -1,7 +1,6 @@
 #ifndef PLUTO_GAME_DB_ASSERT_H
 #define PLUTO_GAME_DB_ASSERT_H
 
-#include <cstdlib>
 #include <string_view>
 
 namespace Pluto::GameDB

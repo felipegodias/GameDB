@@ -58,12 +58,17 @@ namespace Pluto::GameDB::Editor
         return strStream.str();
     }
 
-    void to_json(nlohmann::json& json, const Color& color)
+    void to_json(OrderedJson& json, const Color& color)
     {
         json = color.ToString();
     }
 
-    void from_json(const nlohmann::json& json, Color& color)
+    void to_json(Json& json, const Color& color)
+    {
+        json = color.ToString();
+    }
+
+    void from_json(const Json& json, Color& color)
     {
         color.TryParse(json.get<std::string>());
     }

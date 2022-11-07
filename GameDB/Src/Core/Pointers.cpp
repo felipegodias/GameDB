@@ -1,0 +1,1 @@
+#include "GameDB/Core/Pointers.hpp"

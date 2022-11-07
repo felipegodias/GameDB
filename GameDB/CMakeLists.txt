@@ -1,4 +1,5 @@
 add_library(GameDB STATIC 
+    "Src/Core/Pointers.cpp"
     "Src/Data/BaseType.cpp"
     "Src/Data/BaseValue.cpp"
     "Src/Data/Field.cpp"
@@ -7,7 +8,9 @@ add_library(GameDB STATIC
     "Src/Data/StringType.cpp"
     "Src/Data/StringValue.cpp"
     "Src/Data/Table.cpp"
+    "Src/Data/TableRow.cpp"
     "Src/Debug/Assert.cpp"
+    "Src/Serializers/Json.cpp"
     "Src/HelloWorld.cpp"
 )
 

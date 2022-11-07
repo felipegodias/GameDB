@@ -1,9 +1,8 @@
 #ifndef PLUTO_GAME_DB_EDITOR_PALETTE_H
 #define PLUTO_GAME_DB_EDITOR_PALETTE_H
 
-#include <nlohmann/json.hpp>
-
 #include "Color.hpp"
+#include "GameDB/Serializers/Json.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -69,7 +68,7 @@ namespace Pluto::GameDB::Editor
         Color modalWindowDimBg;
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+    GAME_DB_JSON_DEFINE_TYPE_NON_INTRUSIVE(
         Palette,
         text,
         textDisabled,

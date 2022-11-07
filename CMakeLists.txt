@@ -20,6 +20,9 @@ project(GameDB
 
 message("Using compiler '${CMAKE_CXX_COMPILER_ID}' version '${CMAKE_CXX_COMPILER_VERSION}'")
 
+message("${CMAKE_SYSTEM_VERSION}")
+message("${CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION}")
+
 set(GNU_MIN_VERSION "7.0")
 set(MSVC_MIN_VERSION "19.14")
 set(Clang_MIN_VERSION "6.0")
@@ -29,13 +32,15 @@ if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS ${${CMAKE_CXX_COMPILER_ID}_MIN_VERSIO
     message(FATAL_ERROR "Insufficient ${CMAKE_CXX_COMPILER_ID} version. Minimum Required is ${${CMAKE_CXX_COMPILER_ID}_MIN_VERSION}!")
 endif()
 
-set(MSVC_COMPILER_OPTIONS /W4 /WX /permissive-)
-set(GCC_COMPILER_OPTIONS -Wall -Wextra -Werror)
-set(Clang_COMPILER_OPTIONS -Wall -Wextra -Werror)
-set(AppleClang_COMPILER_OPTIONS -Wall -Wextra -Werror)
-set(COMPILER_OPTIONS ${${CMAKE_CXX_COMPILER_ID}_COMPILER_OPTIONS})
-
-add_compile_options(${COMPILER_OPTIONS})
+set(ENABLE_ALL_WARNINGS_AS_ERROR ON CACHE STRING "Enable all warnings as errors")
+if (ENABLE_ALL_WARNINGS_AS_ERROR)
+    set(MSVC_COMPILER_OPTIONS /W4 /WX /permissive-)
+    set(GCC_COMPILER_OPTIONS -Wall -Wextra -Werror)
+    set(Clang_COMPILER_OPTIONS -Wall -Wextra -Werror)
+    set(AppleClang_COMPILER_OPTIONS -Wall -Wextra -Werror)
+    set(COMPILER_OPTIONS ${${CMAKE_CXX_COMPILER_ID}_COMPILER_OPTIONS})
+    add_compile_options(${COMPILER_OPTIONS})
+endif()
 
 set(ENABLE_CLANG_TIDY ON CACHE STRING "Enable clang tidy")
 if (ENABLE_CLANG_TIDY)

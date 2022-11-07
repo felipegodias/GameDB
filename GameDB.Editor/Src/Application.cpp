@@ -131,9 +131,13 @@ namespace Pluto::GameDB::Editor
                 return;
             }
 
-            nlohmann::json themeJson;
+            Json themeJson;
             themeFile >> themeJson;
             Theme theme = themeJson;
+
+            OrderedJson oJson = theme;
+            std::cout << oJson.dump(2) << std::endl;
+
             ApplyTheme(theme);
         }
     }
@@ -242,7 +246,7 @@ namespace Pluto::GameDB::Editor
         //ImGui::GetIO().Fonts->AddFontDefault(&cfg);
 
         // Our state
-        const auto clear_color = ImVec4(0.45F, 0.55F, 0.60F, 1.00F);
+        const auto clear_color = ImVec4(0.12F, 0.12F, 0.12F, 1.00F);
 
         // Main loop
         while (glfwWindowShouldClose(window) == GLFW_FALSE)

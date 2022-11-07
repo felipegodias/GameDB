@@ -1,9 +1,8 @@
 #ifndef PLUTO_GAME_DB_TABLE_H
 #define PLUTO_GAME_DB_TABLE_H
 
-#include <gsl/pointers>
-
 #include "Schema.hpp"
+#include "GameDB/Core/Pointers.hpp"
 
 namespace Pluto::GameDB
 {
@@ -25,7 +24,7 @@ namespace Pluto::GameDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] gsl::not_null<Schema*> GetSchema() const;
+        [[nodiscard]] NotNull<Schema*> GetSchema() const;
 
     private:
         /**

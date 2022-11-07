@@ -2,7 +2,8 @@
 #define PLUTO_GAME_DB_EDITOR_COLOR_H
 
 #include <string>
-#include <nlohmann/json.hpp>
+
+#include "GameDB/Serializers/Json.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -30,8 +31,9 @@ namespace Pluto::GameDB::Editor
     };
 
     // Converters for nlohmann/json.
-    void to_json(nlohmann::json& json, const Color& color);
-    void from_json(const nlohmann::json& json, Color& color);
+    void to_json(OrderedJson& json, const Color& color);
+    void to_json(Json& json, const Color& color);
+    void from_json(const Json& json, Color& color);
 }
 
 #endif // ! PLUTO_GAME_DB_EDITOR_COLOR_H

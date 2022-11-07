@@ -1,7 +1,7 @@
 #ifndef PLUTO_GAME_DB_EDITOR_VECTOR_2_H
 #define PLUTO_GAME_DB_EDITOR_VECTOR_2_H
 
-#include <nlohmann/json.hpp>
+#include "GameDB/Serializers/Json.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -11,7 +11,7 @@ namespace Pluto::GameDB::Editor
         float y = 0.0F; // NOLINT(readability-identifier-length)
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+    GAME_DB_JSON_DEFINE_TYPE_NON_INTRUSIVE(
         Vector2,
         x,
         y

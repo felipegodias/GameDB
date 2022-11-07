@@ -13,7 +13,7 @@ namespace Pluto::GameDB
         return _instanceId;
     }
 
-    gsl::not_null<Schema*> Table::GetSchema() const
+    NotNull<Schema*> Table::GetSchema() const
     {
         return _schema.get();
     }

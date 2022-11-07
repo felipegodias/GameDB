@@ -2,10 +2,10 @@
 #define PLUTO_GAME_DB_EDITOR_THEME_H
 
 #include <string>
-#include <nlohmann/json.hpp>
 
 #include "Palette.hpp"
 #include "Style.hpp"
+#include "GameDB/Serializers/Json.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -20,7 +20,7 @@ namespace Pluto::GameDB::Editor
         Palette palette;
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+    GAME_DB_JSON_DEFINE_TYPE_NON_INTRUSIVE(
         Theme,
         name,
         font,
