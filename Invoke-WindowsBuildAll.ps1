@@ -1,11 +1,17 @@
-cmake --preset windows-msvc-debug
-cmake --build --preset windows-msvc-debug
+Write-Host "::: Configure Windows MSVC x64 :::"
+cmake --preset windows-msvc-x64
 
-cmake --preset windows-msvc-release
-cmake --build --preset windows-msvc-release
+Write-Host "::: Configure Windows Clang x64 :::"
+cmake --preset windows-clang-x64
 
-cmake --preset windows-clang-debug
-cmake --build --preset windows-clang-debug
+Write-Host "::: Build Windows MSVC x64 :::"
+cmake --build --preset windows-msvc-x64-debug
+cmake --build --preset windows-msvc-x64-profile
+cmake --build --preset windows-msvc-x64-release-with-debug-info
+cmake --build --preset windows-msvc-x64-release
 
-cmake --preset windows-clang-release
-cmake --build --preset windows-clang-release
+Write-Host "::: Build Windows Clang x64 :::"
+cmake --build --preset windows-clang-x64-debug
+cmake --build --preset windows-clang-x64-profile
+cmake --build --preset windows-clang-x64-release-with-debug-info
+cmake --build --preset windows-clang-x64-release

@@ -1,11 +1,17 @@
-wsl cmake --preset linux-gcc-debug
-wsl cmake --build --preset linux-gcc-debug
+Write-Host "::: Configure Linux GCC x64 :::"
+wsl cmake --preset linux-gcc-x64
 
-wsl cmake --preset linux-gcc-release
-wsl cmake --build --preset linux-gcc-release
+Write-Host "::: Configure Linux Clang x64 :::"
+wsl cmake --preset linux-clang-x64
 
-wsl cmake --preset linux-clang-debug
-wsl cmake --build --preset linux-clang-debug
+Write-Host "::: Build Linux GCC x64 :::"
+wsl cmake --build --preset linux-gcc-x64-debug
+wsl cmake --build --preset linux-gcc-x64-profile
+wsl cmake --build --preset linux-gcc-x64-release-with-debug-info
+wsl cmake --build --preset linux-gcc-x64-release
 
-wsl cmake --preset linux-clang-release
-wsl cmake --build --preset linux-clang-release
+Write-Host "::: Build Linux Clang x64 :::"
+wsl cmake --build --preset linux-clang-x64-debug
+wsl cmake --build --preset linux-clang-x64-profile
+wsl cmake --build --preset linux-clang-x64-release-with-debug-info
+wsl cmake --build --preset linux-clang-x64-release

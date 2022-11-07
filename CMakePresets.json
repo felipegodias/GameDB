@@ -4,311 +4,256 @@
     {
       "name": "base",
       "hidden": true,
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
+      "binaryDir": "${sourceDir}/out/${presetName}",
+      "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "ENABLE_CLANG_TIDY": true
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Profile;RelWithDebInfo;Release;",
+        "ENABLE_CLANG_TIDY": true,
+        "ENABLE_ALL_WARNINGS_AS_ERROR": true
+      },
+      "environment": {
+        "NINJA_STATUS": "[%p] [%f/%t] [elapsed seconds %e] "
+      }
+    },
+    {
+      "name": "x64-base",
+      "hidden": true,
+      "architecture": {
+        "strategy": "external",
+        "value": "x64"
       }
     },
     {
       "name": "windows-base",
+      "inherits": "base",
       "hidden": true,
-      "inherits": [
-        "base"
-      ],
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
       "condition": {
-        "type": "equals",
         "lhs": "${hostSystemName}",
+        "type": "equals",
         "rhs": "Windows"
       }
     },
     {
-      "name": "windows-msvc-base",
+      "name": "windows-msvc",
       "hidden": true,
-      "inherits": [
-        "windows-base"
-      ],
+      "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "cl"
       }
     },
     {
-      "name": "windows-clang-base",
+      "name": "windows-clang",
       "hidden": true,
-      "inherits": [
-        "windows-base"
-      ],
+      "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "clang"
       }
     },
     {
-      "name": "windows-msvc-debug",
-      "displayName": "Windows MSVC Debug",
+      "name": "windows-msvc-x64",
+      "displayName": "1 - MSVC x64",
       "inherits": [
-        "windows-msvc-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+        "x64-base",
+        "windows-msvc"
+      ]
     },
     {
-      "name": "windows-msvc-release",
-      "displayName": "Windows MSVC Release",
+      "name": "windows-clang-x64",
+      "displayName": "2 - Clang x64",
       "inherits": [
-        "windows-msvc-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "windows-clang-debug",
-      "displayName": "Windows CLang Debug",
-      "inherits": [
-        "windows-clang-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "windows-clang-release",
-      "displayName": "Windows Clang Release",
-      "inherits": [
-        "windows-clang-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+        "x64-base",
+        "windows-clang"
+      ]
     },
     {
       "name": "linux-base",
+      "inherits": "base",
       "hidden": true,
-      "inherits": [
-        "base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_WITH_INSTALL_RPATH": true
-      },
       "condition": {
-        "type": "equals",
         "lhs": "${hostSystemName}",
+        "type": "equals",
         "rhs": "Linux"
       }
     },
     {
-      "name": "linux-gcc-base",
+      "name": "linux-gcc",
+      "inherits": "linux-base",
       "hidden": true,
-      "inherits": [
-        "linux-base"
-      ],
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "g++"
       }
     },
     {
-      "name": "linux-clang-base",
+      "name": "linux-clang",
+      "inherits": "linux-base",
       "hidden": true,
-      "inherits": [
-        "linux-base"
-      ],
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "clang++"
       }
     },
     {
-      "name": "linux-gcc-debug",
-      "displayName": "Linux GCC Debug",
+      "name": "linux-gcc-x64",
+      "displayName": "1 - GCC x64",
       "inherits": [
-        "linux-gcc-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+        "x64-base",
+        "linux-gcc"
+      ]
     },
     {
-      "name": "linux-gcc-release",
-      "displayName": "Linux GCC Release",
+      "name": "linux-clang-x64",
+      "displayName": "2 - Clang x64",
       "inherits": [
-        "linux-gcc-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "linux-clang-debug",
-      "displayName": "Linux CLang Debug",
-      "inherits": [
-        "linux-clang-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "linux-clang-release",
-      "displayName": "Linux CLang Release",
-      "inherits": [
-        "linux-clang-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+        "x64-base",
+        "linux-clang"
+      ]
     },
     {
       "name": "mac-base",
+      "inherits": "base",
       "hidden": true,
-      "inherits": [
-        "base"
-      ],
       "condition": {
-        "type": "equals",
         "lhs": "${hostSystemName}",
+        "type": "equals",
         "rhs": "Darwin"
       }
     },
     {
-      "name": "mac-clang-base",
+      "name": "mac-apple-clang",
+      "inherits": "mac-base",
       "hidden": true,
-      "inherits": [
-        "mac-base"
-      ],
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "c++"
       }
     },
     {
-      "name": "mac-clang-debug",
-      "displayName": "Mac Clang Debug",
+      "name": "mac-apple-clang-x64",
+      "displayName": "1 - AppleClang x64",
       "inherits": [
-        "mac-clang-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "mac-clang-release",
-      "displayName": "Mac Clang Release",
-      "inherits": [
-        "mac-clang-base"
-      ],
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+        "x64-base",
+        "mac-apple-clang"
+      ]
     }
   ],
   "buildPresets": [
     {
-      "name": "windows-msvc-debug",
-      "configurePreset": "windows-msvc-debug"
+      "name": "windows-msvc-x64-debug",
+      "displayName": "1 - Debug",
+      "configurePreset": "windows-msvc-x64",
+      "configuration": "Debug"
     },
     {
-      "name": "windows-msvc-release",
-      "configurePreset": "windows-msvc-release"
+      "name": "windows-msvc-x64-profile",
+      "displayName": "2 - Profile",
+      "configurePreset": "windows-msvc-x64",
+      "configuration": "Profile"
     },
     {
-      "name": "windows-clang-debug",
-      "configurePreset": "windows-clang-debug"
+      "name": "windows-msvc-x64-release-with-debug-info",
+      "displayName": "3 - Release With Debug Info",
+      "configurePreset": "windows-msvc-x64",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "windows-clang-release",
-      "configurePreset": "windows-clang-release"
+      "name": "windows-msvc-x64-release",
+      "displayName": "4 - Release",
+      "configurePreset": "windows-msvc-x64",
+      "configuration": "Release"
     },
     {
-      "name": "linux-gcc-debug",
-      "configurePreset": "linux-gcc-debug"
+      "name": "windows-clang-x64-debug",
+      "displayName": "1 - Debug",
+      "configurePreset": "windows-clang-x64",
+      "configuration": "Debug"
     },
     {
-      "name": "linux-gcc-release",
-      "configurePreset": "linux-gcc-release"
+      "name": "windows-clang-x64-profile",
+      "displayName": "2 - Profile",
+      "configurePreset": "windows-clang-x64",
+      "configuration": "Profile"
     },
     {
-      "name": "linux-clang-debug",
-      "configurePreset": "linux-clang-debug"
+      "name": "windows-clang-x64-release-with-debug-info",
+      "displayName": "3 - Release With Debug Info",
+      "configurePreset": "windows-clang-x64",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "linux-clang-release",
-      "configurePreset": "linux-clang-release"
+      "name": "windows-clang-x64-release",
+      "displayName": "4 - Release",
+      "configurePreset": "windows-clang-x64",
+      "configuration": "Release"
     },
     {
-      "name": "mac-clang-debug",
-      "configurePreset": "mac-clang-debug"
+      "name": "linux-gcc-x64-debug",
+      "displayName": "1 - Debug",
+      "configurePreset": "linux-gcc-x64",
+      "configuration": "Debug"
     },
     {
-      "name": "mac-clang-release",
-      "configurePreset": "mac-clang-release"
-    }
-  ],
-  "testPresets": [
-    {
-      "name": "base",
-      "hidden": true,
-      "output": {
-        "outputOnFailure": true,
-        "verbosity": "verbose"
-      },
-      "execution": {
-        "noTestsAction": "error",
-        "stopOnFailure": true
-      }
+      "name": "linux-gcc-x64-profile",
+      "displayName": "2 - Profile",
+      "configurePreset": "linux-gcc-x64",
+      "configuration": "Profile"
     },
     {
-      "name": "windows-msvc-debug",
-      "inherits": "base",
-      "configurePreset": "windows-msvc-debug"
+      "name": "linux-gcc-x64-release-with-debug-info",
+      "displayName": "3 - Release With Debug Info",
+      "configurePreset": "linux-gcc-x64",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "windows-msvc-release",
-      "inherits": "base",
-      "configurePreset": "windows-msvc-release"
+      "name": "linux-gcc-x64-release",
+      "displayName": "4 - Release",
+      "configurePreset": "linux-gcc-x64",
+      "configuration": "Release"
     },
     {
-      "name": "windows-clang-debug",
-      "inherits": "base",
-      "configurePreset": "windows-clang-debug"
+      "name": "linux-clang-x64-debug",
+      "displayName": "1 - Debug",
+      "configurePreset": "linux-clang-x64",
+      "configuration": "Debug"
     },
     {
-      "name": "windows-clang-release",
-      "inherits": "base",
-      "configurePreset": "windows-clang-release"
+      "name": "linux-clang-x64-profile",
+      "displayName": "2 - Profile",
+      "configurePreset": "linux-clang-x64",
+      "configuration": "Profile"
     },
     {
-      "name": "linux-gcc-debug",
-      "inherits": "base",
-      "configurePreset": "linux-gcc-debug"
+      "name": "linux-clang-x64-release-with-debug-info",
+      "displayName": "3 - Release With Debug Info",
+      "configurePreset": "linux-clang-x64",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "linux-gcc-release",
-      "inherits": "base",
-      "configurePreset": "linux-gcc-release"
+      "name": "linux-clang-x64-release",
+      "displayName": "4 - Release",
+      "configurePreset": "linux-clang-x64",
+      "configuration": "Release"
     },
     {
-      "name": "linux-clang-debug",
-      "inherits": "base",
-      "configurePreset": "linux-clang-debug"
+      "name": "mac-apple-clang-x64-debug",
+      "displayName": "1 - Debug",
+      "configurePreset": "mac-apple-clang-x64",
+      "configuration": "Debug"
     },
     {
-      "name": "linux-clang-release",
-      "inherits": "base",
-      "configurePreset": "linux-clang-release"
+      "name": "mac-apple-clang-x64-profile",
+      "displayName": "2 - Profile",
+      "configurePreset": "mac-apple-clang-x64",
+      "configuration": "Profile"
     },
     {
-      "name": "mac-clang-debug",
-      "inherits": "base",
-      "configurePreset": "mac-clang-debug"
+      "name": "mac-apple-clang-x64-release-with-debug-info",
+      "displayName": "3 - Release With Debug Info",
+      "configurePreset": "mac-apple-clang-x64",
+      "configuration": "RelWithDebInfo"
     },
     {
-      "name": "mac-clang-release",
-      "inherits": "base",
-      "configurePreset": "mac-clang-release"
+      "name": "mac-apple-clang-x64-release",
+      "displayName": "4 - Release",
+      "configurePreset": "mac-apple-clang-x64",
+      "configuration": "Release"
     }
   ]
 }

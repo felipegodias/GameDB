@@ -9,23 +9,26 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
+          fetch-depth: 0
       - name: Declare Git Variables
         id: git_vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Install dependencies
         run: bash ./install_mac_requirements.sh
-      - name: CMake Config Debug
-        run: cmake --preset mac-clang-debug
+      - name: CMake Configure
+        run: cmake --preset mac-apple-clang-x64
       - name: Cmake Build Debug
-        run: cmake --build --preset mac-clang-debug --target install
-      - name: CMake Config Release
-        run: cmake --preset mac-clang-release
+        run: cmake --build --preset mac-apple-clang-x64-debug
+      - name: Cmake Build Profile
+        run: cmake --build --preset mac-apple-clang-x64-profile
+      - name: Cmake Build Release With Debug Info
+        run: cmake --build --preset mac-apple-clang-x64-release-with-debug-info
       - name: Cmake Build Release
-        run: cmake --build --preset mac-clang-release --target install
+        run: cmake --build --preset mac-apple-clang-x64-release
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: gamedb-mac-clang-${{ steps.git_vars.outputs.sha_short }}
+          name: gamedb-mac-apple-clang-${{ steps.git_vars.outputs.sha_short }}
           path: out
           retention-days: 5
