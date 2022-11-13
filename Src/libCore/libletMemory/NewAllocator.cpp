@@ -1,24 +1,27 @@
 #include "GameDB/Memory/NewAllocator.hpp"
 
-#include <iostream>
+#include <unordered_map>
 
 #include "GameDB/Memory/GeneralAllocator.hpp"
+#include "GameDB/Memory/StlContainerAllocator.hpp"
+
+std::unordered_map<size_t, size_t, std::hash<size_t>, std::equal_to<>, GDB::StlContainerAllocator<std::pair<const size_t, size_t>, GDB::TrackedMallocAllocator>> sizes;
 
 void* operator new(const size_t size)
 {
-    const auto ptr = static_cast<size_t*>(GDB::GeneralAllocator::Allocate(size + sizeof(size_t)));
-    *ptr = size;
-    return ptr + 1;
+    void* ptr = GDB::GeneralAllocator::Allocate(size);
+    sizes[reinterpret_cast<size_t>(ptr)] = size;
+    return ptr;
 }
 
 void operator delete(void* ptr) noexcept
 {
-    const auto realPtr = static_cast<size_t*>(ptr) - 1;
-    const size_t size = *realPtr;
-    operator delete(realPtr, size);
-}
+    const auto sizesIt = sizes.find(reinterpret_cast<size_t>(ptr));
+    if (sizesIt == sizes.end())
+    {
+        abort();
+    }
 
-void operator delete(void* ptr, const size_t size) noexcept
-{
-    GDB::GeneralAllocator::Deallocate(ptr, size);
+    GDB::GeneralAllocator::Deallocate(ptr, sizesIt->second);
+    sizes.erase(sizesIt);
 }
