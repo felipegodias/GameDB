@@ -7,7 +7,7 @@
       "binaryDir": "${sourceDir}/out/${presetName}",
       "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "CMAKE_CONFIGURATION_TYPES": "Debug;Profile;RelWithDebInfo;Release;",
+        "CMAKE_CONFIGURATION_TYPES": "Debug;Profile;Release;",
         "ENABLE_CLANG_TIDY": false,
         "ENABLE_ALL_WARNINGS_AS_ERROR": true
       },
@@ -55,7 +55,13 @@
       "inherits": [
         "x64-base",
         "windows-msvc"
-      ]
+      ],
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-msvc-x64",
+          "enableMicrosoftCodeAnalysis": true
+        }
+      }
     },
     {
       "name": "windows-clang-x64",
@@ -63,7 +69,14 @@
       "inherits": [
         "x64-base",
         "windows-clang"
-      ]
+      ],
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "intelliSenseMode": "windows-clang-x64",
+          "enableMicrosoftCodeAnalysis": true,
+          "enableClangTidyCodeAnalysis": true
+        }
+      }
     },
     {
       "name": "linux-base",
@@ -148,14 +161,8 @@
       "configuration": "Profile"
     },
     {
-      "name": "windows-msvc-x64-release-with-debug-info",
-      "displayName": "3 - Release With Debug Info",
-      "configurePreset": "windows-msvc-x64",
-      "configuration": "RelWithDebInfo"
-    },
-    {
       "name": "windows-msvc-x64-release",
-      "displayName": "4 - Release",
+      "displayName": "3 - Release",
       "configurePreset": "windows-msvc-x64",
       "configuration": "Release"
     },
@@ -172,14 +179,8 @@
       "configuration": "Profile"
     },
     {
-      "name": "windows-clang-x64-release-with-debug-info",
-      "displayName": "3 - Release With Debug Info",
-      "configurePreset": "windows-clang-x64",
-      "configuration": "RelWithDebInfo"
-    },
-    {
       "name": "windows-clang-x64-release",
-      "displayName": "4 - Release",
+      "displayName": "3 - Release",
       "configurePreset": "windows-clang-x64",
       "configuration": "Release"
     },
@@ -196,14 +197,8 @@
       "configuration": "Profile"
     },
     {
-      "name": "linux-gcc-x64-release-with-debug-info",
-      "displayName": "3 - Release With Debug Info",
-      "configurePreset": "linux-gcc-x64",
-      "configuration": "RelWithDebInfo"
-    },
-    {
       "name": "linux-gcc-x64-release",
-      "displayName": "4 - Release",
+      "displayName": "3 - Release",
       "configurePreset": "linux-gcc-x64",
       "configuration": "Release"
     },
@@ -220,14 +215,8 @@
       "configuration": "Profile"
     },
     {
-      "name": "linux-clang-x64-release-with-debug-info",
-      "displayName": "3 - Release With Debug Info",
-      "configurePreset": "linux-clang-x64",
-      "configuration": "RelWithDebInfo"
-    },
-    {
       "name": "linux-clang-x64-release",
-      "displayName": "4 - Release",
+      "displayName": "3 - Release",
       "configurePreset": "linux-clang-x64",
       "configuration": "Release"
     },
@@ -244,14 +233,8 @@
       "configuration": "Profile"
     },
     {
-      "name": "mac-apple-clang-x64-release-with-debug-info",
-      "displayName": "3 - Release With Debug Info",
-      "configurePreset": "mac-apple-clang-x64",
-      "configuration": "RelWithDebInfo"
-    },
-    {
       "name": "mac-apple-clang-x64-release",
-      "displayName": "4 - Release",
+      "displayName": "3 - Release",
       "configurePreset": "mac-apple-clang-x64",
       "configuration": "Release"
     }

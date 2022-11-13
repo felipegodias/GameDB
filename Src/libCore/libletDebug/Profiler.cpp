@@ -1,0 +1,1 @@
+#include "GameDB/Debug/Profiler.hpp"

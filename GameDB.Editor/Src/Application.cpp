@@ -11,7 +11,9 @@
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 #include <gsl/span>
 
+#include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/Theme.hpp"
+#include "GameDB/Memory.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -24,12 +26,12 @@ namespace Pluto::GameDB::Editor
 
         ImVec4 ToImVec4(const Color& color)
         {
-            return { color.r, color.g, color.b, color.a };
+            return {color.r, color.g, color.b, color.a};
         }
 
         ImVec2 ToImVec2(const Vector2& vector2)
         {
-            return { vector2.x, vector2.y };
+            return {vector2.x, vector2.y};
         }
 
         void ApplyTheme(const Theme& theme)
@@ -142,8 +144,36 @@ namespace Pluto::GameDB::Editor
         }
     }
 
+    class DoubleFactory
+    {
+    public:
+        double operator()(const DIContainer&) const
+        {
+            return 25;
+        }
+    };
+
+    float FloatFactory(const DIContainer& diContainer)
+    {
+        const auto value = diContainer.Resolve<double>();
+        return static_cast<float>(value.value());
+    }
+
     void Application::Run()
     {
+        DIContainer diContainer;
+
+        DoubleFactory doubleFactory;
+        diContainer.RegisterFactory<double>(doubleFactory);
+        diContainer.RegisterFactory<float>(FloatFactory);
+        diContainer.RegisterFactory<int>([](const DIContainer& container)
+        {
+            const auto value = container.Resolve<float>();
+            return static_cast<int>(value.value());
+        });
+
+        [[maybe_unused]] int val = diContainer.Resolve<int>().value();
+
         [[maybe_unused]] auto instance = *this;
 
         // Setup window
@@ -269,6 +299,10 @@ namespace Pluto::GameDB::Editor
             //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
             ImGui::ShowDemoWindow();
 
+            ImGui::Begin("Test");
+            ImGui::LabelText("Memory:", "%zu", GDB::TrackedAllocator<GDB::MallocAllocator>::GetAllocated());
+            ImGui::End();
+
             // Rendering
             ImGui::Render();
 
@@ -277,16 +311,16 @@ namespace Pluto::GameDB::Editor
             glfwGetFramebufferSize(window, &display_w, &display_h);
             glViewport(0, 0, display_w, display_h);
             glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w,
-                clear_color.w);
+                         clear_color.w);
             glClear(GL_COLOR_BUFFER_BIT);
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             if ((imGuiIo.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) == ImGuiConfigFlags_ViewportsEnable)
-            { 
-                GLFWwindow* backup_current_context = glfwGetCurrentContext(); 
-                ImGui::UpdatePlatformWindows(); 
-                ImGui::RenderPlatformWindowsDefault(); 
-                glfwMakeContextCurrent(backup_current_context); 
+            {
+                GLFWwindow* backup_current_context = glfwGetCurrentContext();
+                ImGui::UpdatePlatformWindows();
+                ImGui::RenderPlatformWindowsDefault();
+                glfwMakeContextCurrent(backup_current_context);
             }
 
             glfwSwapBuffers(window);

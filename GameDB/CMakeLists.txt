@@ -10,9 +10,10 @@ add_library(GameDB STATIC
     "Src/Data/Table.cpp"
     "Src/Data/TableRow.cpp"
     "Src/Debug/Assert.cpp"
+    "Src/DI/DIContainer.cpp"
     "Src/Serializers/Json.cpp"
     "Src/HelloWorld.cpp"
-)
+ )
 
 configure_file("Include/GameDB/Config.hpp.in" "GameDB/Include/GameDB/Config.hpp")
 
@@ -23,7 +24,7 @@ target_include_directories(GameDB PUBLIC
 
 target_link_libraries(GameDB PUBLIC
     Microsoft.GSL::GSL
-    fmt::fmt
+    fmt::fmt-header-only
     nlohmann_json::nlohmann_json
     spdlog::spdlog
 )

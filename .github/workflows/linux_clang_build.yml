@@ -21,8 +21,6 @@ jobs:
         run: cmake --build --preset linux-clang-x64-debug
       - name: Cmake Build Profile
         run: cmake --build --preset linux-clang-x64-profile
-      - name: Cmake Build Release With Debug Info
-        run: cmake --build --preset linux-clang-x64-release-with-debug-info
       - name: Cmake Build Release
         run: cmake --build --preset linux-clang-x64-release
       - name: Upload Artifacts

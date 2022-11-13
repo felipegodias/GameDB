@@ -18,6 +18,7 @@ target_link_libraries(GameDB.Editor PRIVATE
     GLEW::GLEW
     glfw
     imgui::imgui
+    libCore
 )
 
 message (${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

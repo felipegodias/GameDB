@@ -1,0 +1,1 @@
+#include "GameDB/Debug/ProfileScopeSample.hpp"
