@@ -13,7 +13,7 @@ namespace GDB
     class DataValue
     {
     public:
-        DataValue(DataId id, DataType* dataType);
+        DataValue(DataId dataId, DataType* dataType);
 
         virtual ~DataValue() = 0;
 
@@ -21,7 +21,7 @@ namespace GDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] DataId GetId() const;
+        [[nodiscard]] DataId GetDataId() const;
 
         /**
          * \brief 
@@ -30,7 +30,7 @@ namespace GDB
         [[nodiscard]] DataType* GetDataType() const;
 
     private:
-        DataId _id;
+        DataId _dataId;
         DataType* _dataType;
     };
 }

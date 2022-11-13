@@ -6,7 +6,7 @@ namespace GDB
 {
     DataType::~DataType() = default;
 
-    DataId DataType::GetId() const
+    DataId DataType::GetDataId() const
     {
         return DataId::Empty;
     }

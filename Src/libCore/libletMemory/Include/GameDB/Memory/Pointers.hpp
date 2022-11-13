@@ -10,8 +10,8 @@ namespace GDB
 {
     template <typename Ty>
     using UniquePtr = std::unique_ptr<Ty, std::function<void(void*)>>;
-
-    template <typename Ty, typename AllocatorTy = GeneralAllocator, typename ... ArgsTy, std::enable_if_t<
+    
+    template <typename Ty, typename AllocatorTy = FreeListTypeAllocator<Ty, TrackedMallocAllocator>, typename ... ArgsTy, std::enable_if_t<
                   std::is_constructible_v<Ty, ArgsTy...>, int>  = 0>
     UniquePtr<Ty> MakeUnique(ArgsTy&& ... args)
     {

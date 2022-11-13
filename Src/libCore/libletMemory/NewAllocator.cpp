@@ -5,23 +5,35 @@
 #include "GameDB/Memory/GeneralAllocator.hpp"
 #include "GameDB/Memory/StlContainerAllocator.hpp"
 
-std::unordered_map<size_t, size_t, std::hash<size_t>, std::equal_to<>, GDB::StlContainerAllocator<std::pair<const size_t, size_t>, GDB::GeneralAllocator>> sizes;
-
-void* operator new(const size_t size)
+namespace 
 {
-    void* ptr = GDB::GeneralAllocator::Allocate(size);
-    sizes[reinterpret_cast<size_t>(ptr)] = size;
+    using SizesMap = std::unordered_map<uintptr_t, size_t, std::hash<uintptr_t>, std::equal_to<>, GDB::StlContainerAllocator<std::pair<const uintptr_t, size_t>, GDB::GeneralAllocator>>;
+
+    SizesMap* GetSizesMap()
+    {
+        static SizesMap sizesMap;
+        return &sizesMap;
+    }
+}
+
+gsl::owner<void*> operator new(const size_t size) // NOLINT [readability-inconsistent-declaration-parameter-name]
+{
+    gsl::owner<void*> ptr = GDB::GeneralAllocator::Allocate(size);
+    GetSizesMap()->emplace(reinterpret_cast<uintptr_t>(ptr), size); // NOLINT [cppcoreguidelines-pro-type-reinterpret-cast]
     return ptr;
 }
 
-void operator delete(void* ptr) noexcept
+void operator delete(gsl::owner<void*> ptr) noexcept // NOLINT [readability-inconsistent-declaration-parameter-name]
 {
-    const auto sizesIt = sizes.find(reinterpret_cast<size_t>(ptr));
-    if (sizesIt == sizes.end())
+    SizesMap* sizesMap = GetSizesMap();
+    const auto sizesIt = sizesMap->find(reinterpret_cast<uintptr_t>(ptr)); // NOLINT [cppcoreguidelines-pro-type-reinterpret-cast]
+    if (sizesIt == sizesMap->end())
     {
-        abort();
+        // WTF!? Should not reach this point but life goes on...
+        GDB::MallocAllocator::Deallocate(ptr, 0);
+        return;
     }
 
     GDB::GeneralAllocator::Deallocate(ptr, sizesIt->second);
-    sizes.erase(sizesIt);
+    sizesMap->erase(sizesIt);
 }

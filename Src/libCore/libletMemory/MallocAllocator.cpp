@@ -5,16 +5,15 @@
 
 namespace GDB
 {
-    void* MallocAllocator::Allocate(const size_t size)
+    gsl::owner<void*> MallocAllocator::Allocate(const size_t size)
     {
-        void* ptr = std::malloc(size);
-        std::cout << "Allocate: " << ptr << " Size: " << size << std::endl;
+        const gsl::owner<void*> ptr = std::malloc(size); // NOLINT [cppcoreguidelines-no-malloc]
         return ptr;
     }
 
-    void MallocAllocator::Deallocate(void* ptr, [[maybe_unused]] size_t size)
+    void MallocAllocator::Deallocate(gsl::owner<void*> ptr, [[maybe_unused]] size_t size)
     {
-        std::cout << "Deallocate: " << ptr << " Size: " << size << std::endl;
-        std::free(ptr);
+        std::free(ptr); // NOLINT [cppcoreguidelines-no-malloc]
     }
 }
+

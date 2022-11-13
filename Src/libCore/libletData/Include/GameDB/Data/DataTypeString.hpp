@@ -11,7 +11,7 @@ namespace GDB
     class DataTypeString final : public DataType
     {
     public:
-        [[nodiscard]] DataId GetId() const override;
+        [[nodiscard]] DataId GetDataId() const override;
         [[nodiscard]] const String& GetName() const override;
         [[nodiscard]] UniquePtr<DataValue> Instantiate() override;
     };

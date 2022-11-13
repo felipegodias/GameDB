@@ -4,10 +4,10 @@
 
 namespace GDB
 {
-    DataId DataTypeString::GetId() const
+    DataId DataTypeString::GetDataId() const
     {
-        static DataId id = DataId::Random();
-        return id;
+        static DataId dataId = DataId::Random();
+        return dataId;
     }
 
     const String& DataTypeString::GetName() const

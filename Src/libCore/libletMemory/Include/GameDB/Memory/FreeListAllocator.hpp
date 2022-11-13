@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <vector>
+#include <gsl/pointers>
 
 #include "StlContainerAllocator.hpp"
 
@@ -26,7 +27,7 @@ namespace GDB
         struct Buffer
         {
             std::size_t Elements;
-            std::byte* Block;
+            gsl::owner<std::byte*> Block;
         };
 
         /**
@@ -34,7 +35,7 @@ namespace GDB
          * \param size 
          * \return 
          */
-        static void* Allocate([[maybe_unused]] std::size_t size)
+        static gsl::owner<void*> Allocate([[maybe_unused]] std::size_t size)
         {
             if (_freeQueue.empty())
             {
@@ -58,7 +59,7 @@ namespace GDB
             }
 
             const size_t idx = freeIdx - _buffers[buffersIdx].Elements;
-            void* ptr = &_buffers[buffersIdx].Block[idx * BlockSize];
+            const gsl::owner<void*> ptr = &_buffers[buffersIdx].Block[idx * BlockSize];
             return ptr;
         }
 
@@ -67,7 +68,7 @@ namespace GDB
          * \param ptr 
          * \param size 
          */
-        static void Deallocate(void* ptr, [[maybe_unused]] std::size_t size)
+        static void Deallocate(const gsl::owner<void*> ptr, [[maybe_unused]] std::size_t size)
         {
             auto bytePtr = static_cast<std::byte*>(ptr);
             for (size_t i = 0 ; i < _buffers.size(); ++i)

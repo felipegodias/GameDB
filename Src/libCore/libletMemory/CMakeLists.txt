@@ -10,3 +10,7 @@ add_library(libletMemory STATIC
 target_include_directories(libletMemory PUBLIC
     "Include"
 )
+
+target_link_libraries(libletMemory PUBLIC
+	Microsoft.GSL::GSL
+)

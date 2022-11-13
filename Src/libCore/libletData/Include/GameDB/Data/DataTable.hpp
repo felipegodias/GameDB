@@ -16,13 +16,13 @@ namespace GDB
     class DataTable
     {
     public:
-        DataTable(DataId id, String name);
+        DataTable(DataId dataId, String name);
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] DataId GetId() const;
+        [[nodiscard]] DataId GetDataId() const;
 
         /**
          * \brief
@@ -61,7 +61,7 @@ namespace GDB
         DataRow* AddRow();
 
     private:
-        DataId _id;
+        DataId _dataId;
         String _name;
         Vector<UniquePtr<DataColumn>> _columns;
         Vector<UniquePtr<DataRow>> _rows;

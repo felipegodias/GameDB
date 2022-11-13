@@ -14,13 +14,13 @@ namespace GDB
     class DataColumn
     {
     public:
-        DataColumn(DataId id, String name, UniquePtr<DataType> dataType);
+        DataColumn(DataId dataId, String name, UniquePtr<DataType> dataType);
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] DataId GetId() const;
+        [[nodiscard]] DataId GetDataId() const;
 
         /**
          * \brief 
@@ -41,7 +41,7 @@ namespace GDB
         [[nodiscard]] DataType* GetDataType() const;
 
     private:
-        DataId _id;
+        DataId _dataId;
         String _name;
         UniquePtr<DataType> _dataType;
     };

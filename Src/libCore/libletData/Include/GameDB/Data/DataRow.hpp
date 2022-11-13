@@ -17,13 +17,13 @@ namespace GDB
     class DataRow
     {
     public:
-        explicit DataRow(DataId id);
+        explicit DataRow(DataId dataId);
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] DataId GetId() const;
+        [[nodiscard]] DataId GetDataId() const;
 
         /**
          * \brief 
@@ -40,7 +40,7 @@ namespace GDB
         void SetValue(const DataColumn& column, UniquePtr<DataValue> dataValue);
 
     private:
-        DataId _id;
+        DataId _dataId;
         UnorderedMap<DataId, UniquePtr<DataValue>> _columns;
     };
 }

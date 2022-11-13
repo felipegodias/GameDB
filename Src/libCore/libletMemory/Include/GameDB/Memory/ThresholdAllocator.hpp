@@ -2,6 +2,7 @@
 #define GDB_LIBLET_MEMORY_THRESHOLD_ALLOCATOR_HPP
 
 #include <cstdlib>
+#include <gsl/pointers>
 
 namespace GDB
 {
@@ -20,7 +21,7 @@ namespace GDB
          * \param size 
          * \return 
          */
-        static void* Allocate(const std::size_t size)
+        static gsl::owner<void*> Allocate(const std::size_t size)
         {
             if (size > Threshold)
             {
@@ -35,7 +36,7 @@ namespace GDB
          * \param ptr 
          * \param size 
          */
-        static void Deallocate(void* ptr, const std::size_t size)
+        static void Deallocate(gsl::owner<void*> ptr, const std::size_t size)
         {
             if (size > Threshold)
             {

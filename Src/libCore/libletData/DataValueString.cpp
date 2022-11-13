@@ -2,8 +2,8 @@
 
 namespace GDB
 {
-    DataValueString::DataValueString(const DataId id, DataType* dataType)
-        : DataValue(id, dataType)
+    DataValueString::DataValueString(const DataId dataId, DataType* dataType)
+        : DataValue(dataId, dataType)
     {
     }
 

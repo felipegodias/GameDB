@@ -2,17 +2,17 @@
 
 namespace GDB
 {
-    DataValue::DataValue(const DataId id, DataType* dataType)
-        : _id(id),
+    DataValue::DataValue(const DataId dataId, DataType* dataType)
+        : _dataId(dataId),
           _dataType(dataType)
     {
     }
 
     DataValue::~DataValue() = default;
 
-    DataId DataValue::GetId() const
+    DataId DataValue::GetDataId() const
     {
-        return _id;
+        return _dataId;
     }
 
     DataType* DataValue::GetDataType() const

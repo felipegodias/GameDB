@@ -21,7 +21,7 @@ namespace GDB
          * \brief
          * \return
          */
-        [[nodiscard]] virtual DataId GetId() const = 0;
+        [[nodiscard]] virtual DataId GetDataId() const = 0;
 
         /**
          * \brief

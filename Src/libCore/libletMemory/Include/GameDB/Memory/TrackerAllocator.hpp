@@ -2,6 +2,7 @@
 #define GDB_LIBLET_MEMORY_TRACKED_ALLOCATOR_HPP
 
 #include <cstdlib>
+#include <gsl/pointers>
 
 namespace GDB
 {
@@ -18,7 +19,7 @@ namespace GDB
          * \param size 
          * \return 
          */
-        static void* Allocate(const std::size_t size)
+        static gsl::owner<void*> Allocate(const std::size_t size)
         {
             void* ptr = AllocatorTy::Allocate(size);
             _allocated += size;
@@ -30,7 +31,7 @@ namespace GDB
          * \param ptr 
          * \param size 
          */
-        static void Deallocate(void* ptr, const std::size_t size)
+        static void Deallocate(gsl::owner<void*> ptr, const std::size_t size)
         {
             _allocated -= size;
             AllocatorTy::Deallocate(ptr, size);

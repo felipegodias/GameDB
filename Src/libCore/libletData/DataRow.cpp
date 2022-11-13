@@ -2,19 +2,19 @@
 
 namespace GDB
 {
-    DataRow::DataRow(const DataId id)
-        : _id(id)
+    DataRow::DataRow(const DataId dataId)
+        : _dataId(dataId)
     {
     }
 
-    DataId DataRow::GetId() const
+    DataId DataRow::GetDataId() const
     {
-        return _id;
+        return _dataId;
     }
 
     std::optional<DataValue*> DataRow::GetValue(const DataColumn& column) const
     {
-        const auto columnsIt = _columns.find(column.GetId());
+        const auto columnsIt = _columns.find(column.GetDataId());
         if (columnsIt == _columns.end())
         {
             return std::nullopt;
@@ -25,6 +25,6 @@ namespace GDB
 
     void DataRow::SetValue(const DataColumn& column, UniquePtr<DataValue> dataValue)
     {
-        _columns[column.GetId()] = std::move(dataValue);
+        _columns[column.GetDataId()] = std::move(dataValue);
     }
 }

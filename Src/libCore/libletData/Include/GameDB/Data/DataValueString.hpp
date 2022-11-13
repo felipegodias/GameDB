@@ -12,7 +12,7 @@ namespace GDB
     class DataValueString final : public DataValue
     {
     public:
-        DataValueString(DataId id, DataType* dataType);
+        DataValueString(DataId dataId, DataType* dataType);
 
         /**
          * \brief 
