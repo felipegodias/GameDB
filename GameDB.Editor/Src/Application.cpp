@@ -14,6 +14,8 @@
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/Theme.hpp"
 #include "GameDB/Memory.hpp"
+#include "GameDB/Format/Format.hpp"
+#include "GameDB/Container.hpp"
 
 namespace Pluto::GameDB::Editor
 {
@@ -278,6 +280,9 @@ namespace Pluto::GameDB::Editor
         // Our state
         const auto clear_color = ImVec4(0.12F, 0.12F, 0.12F, 1.00F);
 
+        int frame = 0;
+        std::chrono::nanoseconds ns = {};
+
         // Main loop
         while (glfwWindowShouldClose(window) == GLFW_FALSE)
         {
@@ -300,7 +305,26 @@ namespace Pluto::GameDB::Editor
             ImGui::ShowDemoWindow();
 
             ImGui::Begin("Test");
-            ImGui::LabelText("Memory:", "%zu", GDB::TrackedAllocator<GDB::MallocAllocator>::GetAllocated());
+
+            auto t1 = std::chrono::high_resolution_clock::now();
+            {
+                GDB::Vector<std::array<std::byte, 16>> vec;
+                vec.reserve(64);
+            }
+            auto t2 = std::chrono::high_resolution_clock::now();
+            /* Getting number of milliseconds as an integer. */
+            auto ms_int = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
+            ns += ms_int;
+            ++frame;
+
+            if (frame > 60)
+            {
+                std::cout << ns.count() / frame << "ns" << std::endl;
+                frame = 0;
+                ns = {};
+            }
+            
+
             ImGui::End();
 
             // Rendering

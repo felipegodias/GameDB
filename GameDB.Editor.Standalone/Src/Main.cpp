@@ -11,6 +11,7 @@
 #include "GameDB/Data.hpp"
 #include "GameDB/Debug.hpp"
 #include "GameDB/Container.hpp"
+#include "GameDB/Format/Format.hpp"
 
 using namespace GDB;
 
@@ -53,8 +54,6 @@ namespace Pluto::GameDB::Editor::Standalone
 
     int Main(const std::vector<std::string>& args)
     {
-        GeneralAllocator::Allocate(16);
-
         auto mainLogger = std::make_unique<Logger>();
         mainLogger->AddSink(std::make_unique<LoggerSinkStdOut>());
         Log::Global()->SetLogger("Main", std::move(mainLogger));
@@ -90,8 +89,6 @@ namespace Pluto::GameDB::Editor::Standalone
                 drawer->Draw(row.get());
             }
         }
-
-
 
         argparse::ArgumentParser argumentParser(PROJECT_NAME, PROJECT_VER);
         try

@@ -26,8 +26,15 @@ namespace GDB
          */
         struct Buffer
         {
-            std::size_t Elements;
             gsl::owner<std::byte*> Block;
+        };
+
+        /**
+         * \brief 
+         */
+        struct FreeBlock
+        {
+            FreeBlock* Next;
         };
 
         /**
@@ -37,29 +44,20 @@ namespace GDB
          */
         static gsl::owner<void*> Allocate([[maybe_unused]] std::size_t size)
         {
-            if (_freeQueue.empty())
+            if (_freeBlock == nullptr)
             {
-                _freeQueue.push_back(1);
+                // Resize buffer.
+                const size_t elements = static_cast<size_t>(std::pow(2, _buffers.size()));
+                auto block = static_cast<std::byte*>(AllocatorTy::Allocate(elements * BlockSize));
+                _buffers.push_back({ block });
+                for (long long i = elements - 1; i >= 0; --i)
+                {
+                    Deallocate(block + i * BlockSize, BlockSize);
+                }
             }
 
-            const std::size_t freeIdx = _freeQueue.back();
-            _freeQueue.pop_back();
-
-            if (_freeQueue.empty())
-            {
-                _freeQueue.push_back(freeIdx + 1);
-            }
-
-            const auto buffersIdx = static_cast<std::size_t>(std::log2(freeIdx));
-            if (_buffers.size() <= buffersIdx)
-            {
-                size_t elements = static_cast<std::size_t>(std::pow(2, buffersIdx));
-                auto* block = static_cast<std::byte*>(AllocatorTy::Allocate(elements * BlockSize));
-                _buffers.push_back({ elements, block });
-            }
-
-            const size_t idx = freeIdx - _buffers[buffersIdx].Elements;
-            const gsl::owner<void*> ptr = &_buffers[buffersIdx].Block[idx * BlockSize];
+            FreeBlock* ptr = _freeBlock;
+            _freeBlock = _freeBlock->Next;
             return ptr;
         }
 
@@ -70,23 +68,16 @@ namespace GDB
          */
         static void Deallocate(const gsl::owner<void*> ptr, [[maybe_unused]] std::size_t size)
         {
-            auto bytePtr = static_cast<std::byte*>(ptr);
-            for (size_t i = 0 ; i < _buffers.size(); ++i)
-            {
-                if (_buffers[i].Block <= bytePtr && bytePtr <= _buffers[i].Block + _buffers[i].Elements * BlockSize)
-                {
-                    const size_t idx = (bytePtr - _buffers[i].Block) / BlockSize;
-                    const size_t freeIdx = static_cast<size_t>(std::pow(2, i)) + idx;
-                    _freeQueue.push_back(freeIdx);
-                }
-            }
+            FreeBlock* block = static_cast<FreeBlock*>(ptr);
+            block->Next = _freeBlock;
+            _freeBlock = block;
         }
 
     private:
         FreeListAllocator() = default;
 
         inline static Vector<Buffer> _buffers;
-        inline static Vector<std::size_t> _freeQueue;
+        inline static FreeBlock* _freeBlock = nullptr;
     };
 
     template <typename Ty, typename AllocatorTy>
