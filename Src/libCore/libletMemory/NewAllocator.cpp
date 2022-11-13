@@ -5,7 +5,7 @@
 #include "GameDB/Memory/GeneralAllocator.hpp"
 #include "GameDB/Memory/StlContainerAllocator.hpp"
 
-std::unordered_map<size_t, size_t, std::hash<size_t>, std::equal_to<>, GDB::StlContainerAllocator<std::pair<const size_t, size_t>, GDB::TrackedMallocAllocator>> sizes;
+std::unordered_map<size_t, size_t, std::hash<size_t>, std::equal_to<>, GDB::StlContainerAllocator<std::pair<const size_t, size_t>, GDB::GeneralAllocator>> sizes;
 
 void* operator new(const size_t size)
 {
