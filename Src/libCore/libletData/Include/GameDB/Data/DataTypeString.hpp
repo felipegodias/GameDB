@@ -12,8 +12,8 @@ namespace GDB
     {
     public:
         [[nodiscard]] DataId GetId() const override;
-        [[nodiscard]] const std::string& GetName() const override;
-        [[nodiscard]] std::unique_ptr<DataValue> Instantiate() override;
+        [[nodiscard]] const String& GetName() const override;
+        [[nodiscard]] UniquePtr<DataValue> Instantiate() override;
     };
 }
 

@@ -23,7 +23,7 @@ namespace GDB
         return columnsIt->second.get();
     }
 
-    void DataRow::SetValue(const DataColumn& column, std::unique_ptr<DataValue> dataValue)
+    void DataRow::SetValue(const DataColumn& column, UniquePtr<DataValue> dataValue)
     {
         _columns[column.GetId()] = std::move(dataValue);
     }

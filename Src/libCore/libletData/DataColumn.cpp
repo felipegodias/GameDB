@@ -2,7 +2,7 @@
 
 namespace GDB
 {
-    DataColumn::DataColumn(const DataId id, std::string name, std::unique_ptr<DataType> dataType)
+    DataColumn::DataColumn(const DataId id, String name, UniquePtr<DataType> dataType)
         : _id(id),
           _name(std::move(name)),
           _dataType(std::move(dataType))
@@ -14,12 +14,12 @@ namespace GDB
         return _id;
     }
 
-    const std::string& DataColumn::GetName() const
+    const String& DataColumn::GetName() const
     {
         return _name;
     }
 
-    void DataColumn::SetName(std::string name)
+    void DataColumn::SetName(String name)
     {
         _name = std::move(name);
     }

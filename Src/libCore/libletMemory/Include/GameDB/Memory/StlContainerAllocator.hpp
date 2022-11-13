@@ -44,6 +44,18 @@ namespace GDB
             AllocatorTy::Deallocate(ptr, sizeof(value_type) * n);
         }
     };
+
+    template <class T, class U, typename AllocatorTy>
+    bool operator==(StlContainerAllocator<T, AllocatorTy> const&, StlContainerAllocator<U, AllocatorTy> const&) noexcept
+    {
+        return true;
+    }
+
+    template <class T, class U, typename AllocatorTy>
+    bool operator!=(StlContainerAllocator<T, AllocatorTy> const& x, StlContainerAllocator<U, AllocatorTy> const& y) noexcept
+    {
+        return !(x == y);
+    }
 }
 
 #endif // !GDB_LIBLET_MEMORY_STL_CONTAINER_ALLOCATOR_HPP

@@ -1,13 +1,13 @@
 #ifndef GDB_LIBLET_DATA_DATA_ROW_HPP
 #define GDB_LIBLET_DATA_DATA_ROW_HPP
 
-#include <memory>
 #include <optional>
-#include <unordered_map>
 
 #include "DataColumn.hpp"
 #include "DataId.hpp"
 #include "DataValue.hpp"
+#include "GameDB/Container/UnorderedMap.hpp"
+#include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
 {
@@ -37,11 +37,11 @@ namespace GDB
          * \param column 
          * \param dataValue 
          */
-        void SetValue(const DataColumn& column, std::unique_ptr<DataValue> dataValue);
+        void SetValue(const DataColumn& column, UniquePtr<DataValue> dataValue);
 
     private:
         DataId _id;
-        std::unordered_map<DataId, std::unique_ptr<DataValue>> _columns;
+        UnorderedMap<DataId, UniquePtr<DataValue>> _columns;
     };
 }
 

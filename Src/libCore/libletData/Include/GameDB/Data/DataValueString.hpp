@@ -1,9 +1,8 @@
 #ifndef GDB_LIBLET_DATA_DATA_VALUE_STRING_HPP
 #define GDB_LIBLET_DATA_DATA_VALUE_STRING_HPP
 
-#include <string>
-
 #include "DataValue.hpp"
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
@@ -19,16 +18,16 @@ namespace GDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] const std::string& GetValue() const;
+        [[nodiscard]] const String& GetValue() const;
 
         /**
          * \brief 
          * \param value 
          */
-        void SetValue(std::string value);
+        void SetValue(String value);
 
     private:
-        std::string _value;
+        String _value;
     };
 }
 

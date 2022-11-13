@@ -1,13 +1,12 @@
 #ifndef GDB_LIBLET_DATA_DATA_TABLE_HPP
 #define GDB_LIBLET_DATA_DATA_TABLE_HPP
 
-#include <memory>
-#include <string>
-#include <vector>
-
 #include "DataColumn.hpp"
 #include "DataId.hpp"
 #include "DataRow.hpp"
+#include "GameDB/Container/String.hpp"
+#include "GameDB/Container/Vector.hpp"
+#include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
 {
@@ -17,7 +16,7 @@ namespace GDB
     class DataTable
     {
     public:
-        DataTable(DataId id, std::string name);
+        DataTable(DataId id, String name);
 
         /**
          * \brief 
@@ -29,31 +28,31 @@ namespace GDB
          * \brief
          * \return
          */
-        [[nodiscard]] const std::string& GetName() const;
+        [[nodiscard]] const String& GetName() const;
 
         /**
          * \brief 
          * \param name 
          */
-        void SetName(std::string name);
+        void SetName(String name);
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] const std::vector<std::unique_ptr<DataColumn>>& GetColumns() const;
+        [[nodiscard]] const Vector<UniquePtr<DataColumn>>& GetColumns() const;
 
         /**
          * \brief 
          * \param column 
          */
-        void AddColumn(std::unique_ptr<DataColumn> column);
+        void AddColumn(UniquePtr<DataColumn> column);
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] const std::vector<std::unique_ptr<DataRow>>& GetRows() const;
+        [[nodiscard]] const Vector<UniquePtr<DataRow>>& GetRows() const;
 
         /**
          * \brief 
@@ -63,9 +62,9 @@ namespace GDB
 
     private:
         DataId _id;
-        std::string _name;
-        std::vector<std::unique_ptr<DataColumn>> _columns;
-        std::vector<std::unique_ptr<DataRow>> _rows;
+        String _name;
+        Vector<UniquePtr<DataColumn>> _columns;
+        Vector<UniquePtr<DataRow>> _rows;
     };
 }
 

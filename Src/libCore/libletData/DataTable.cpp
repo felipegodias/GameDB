@@ -2,7 +2,7 @@
 
 namespace GDB
 {
-    DataTable::DataTable(const DataId id, std::string name)
+    DataTable::DataTable(const DataId id, String name)
         : _id(id),
           _name(std::move(name))
     {
@@ -13,22 +13,22 @@ namespace GDB
         return _id;
     }
 
-    const std::string& DataTable::GetName() const
+    const String& DataTable::GetName() const
     {
         return _name;
     }
 
-    void DataTable::SetName(std::string name)
+    void DataTable::SetName(String name)
     {
         _name = std::move(name);
     }
 
-    const std::vector<std::unique_ptr<DataColumn>>& DataTable::GetColumns() const
+    const Vector<UniquePtr<DataColumn>>& DataTable::GetColumns() const
     {
         return _columns;
     }
 
-    void DataTable::AddColumn(std::unique_ptr<DataColumn> column)
+    void DataTable::AddColumn(UniquePtr<DataColumn> column)
     {
         DataType* dataType = column->GetDataType();
         for (const auto& row : _rows)
@@ -38,14 +38,14 @@ namespace GDB
         _columns.push_back(std::move(column));
     }
 
-    const std::vector<std::unique_ptr<DataRow>>& DataTable::GetRows() const
+    const Vector<UniquePtr<DataRow>>& DataTable::GetRows() const
     {
         return _rows;
     }
 
     DataRow* DataTable::AddRow()
     {
-        _rows.push_back(std::make_unique<DataRow>(DataId::Random()));
+        _rows.push_back(MakeUnique<DataRow>(DataId::Random()));
         DataRow* row = _rows[_rows.size() - 1].get();
         for (const auto& column : _columns)
         {

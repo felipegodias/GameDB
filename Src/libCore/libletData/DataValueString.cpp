@@ -7,12 +7,12 @@ namespace GDB
     {
     }
 
-    const std::string& DataValueString::GetValue() const
+    const String& DataValueString::GetValue() const
     {
         return _value;
     }
 
-    void DataValueString::SetValue(std::string value)
+    void DataValueString::SetValue(String value)
     {
         _value = std::move(value);
     }

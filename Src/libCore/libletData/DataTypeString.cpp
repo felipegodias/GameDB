@@ -10,14 +10,14 @@ namespace GDB
         return id;
     }
 
-    const std::string& DataTypeString::GetName() const
+    const String& DataTypeString::GetName() const
     {
-        static std::string name = "String";
+        static String name = "String";
         return name;
     }
 
-    std::unique_ptr<DataValue> DataTypeString::Instantiate()
+    UniquePtr<DataValue> DataTypeString::Instantiate()
     {
-        return std::make_unique<DataValueString>(DataId::Random(), this);
+        return MakeUnique<DataValueString>(DataId::Random(), this);
     }
 }

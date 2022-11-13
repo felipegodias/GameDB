@@ -11,13 +11,13 @@ namespace GDB
         return DataId::Empty;
     }
 
-    const std::string& DataType::GetName() const
+    const String& DataType::GetName() const
     {
-        static std::string name;
+        static String name;
         return name;
     }
 
-    std::unique_ptr<DataValue> DataType::Instantiate()
+    UniquePtr<DataValue> DataType::Instantiate()
     {
         return nullptr;
     }

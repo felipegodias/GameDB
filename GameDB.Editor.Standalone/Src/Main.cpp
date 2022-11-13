@@ -65,8 +65,8 @@ namespace Pluto::GameDB::Editor::Standalone
 
         DataTable dataTable(DataId::Random(), "Pokemons");
 
-        auto columnId = std::make_unique<DataColumn>(DataId::Random(), "id", std::make_unique<DataTypeString>());
-        auto columnName = std::make_unique<DataColumn>(DataId::Random(), "name", std::make_unique<DataTypeString>());
+        auto columnId = MakeUnique<DataColumn>(DataId::Random(), "id", MakeUnique<DataTypeString>());
+        auto columnName = MakeUnique<DataColumn>(DataId::Random(), "name", MakeUnique<DataTypeString>());
         const DataColumn* columnNamePtr = columnName.get();
 
         dataTable.AddColumn(std::move(columnId));
@@ -77,10 +77,10 @@ namespace Pluto::GameDB::Editor::Standalone
         const auto dataValueString = dynamic_cast<DataValueString*>(dataValue.value());
         dataValueString->SetValue("Pikachu");
 
-        std::vector<std::unique_ptr<ColumnDrawer>> drawers;
+        Vector<UniquePtr<ColumnDrawer>> drawers;
         for (const auto& column : dataTable.GetColumns())
         {
-            drawers.push_back(std::make_unique<DataTypeStringColumnDrawer>(column.get()));
+            drawers.push_back(MakeUnique<DataTypeStringColumnDrawer>(column.get()));
         }
 
         for (const auto& row : dataTable.GetRows())

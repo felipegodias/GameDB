@@ -1,10 +1,9 @@
 #ifndef GDB_LIBLET_DATA_DATA_TYPE_HPP
 #define GDB_LIBLET_DATA_DATA_TYPE_HPP
 
-#include <string>
-#include <memory>
-
 #include "DataId.hpp"
+#include "GameDB/Container/String.hpp"
+#include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
 {
@@ -28,13 +27,13 @@ namespace GDB
          * \brief
          * \return
          */
-        [[nodiscard]] virtual const std::string& GetName() const = 0;
+        [[nodiscard]] virtual const String& GetName() const = 0;
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] virtual std::unique_ptr<DataValue> Instantiate() = 0;
+        [[nodiscard]] virtual UniquePtr<DataValue> Instantiate() = 0;
     };
 }
 

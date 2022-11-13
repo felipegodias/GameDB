@@ -12,3 +12,8 @@ add_library(libletData STATIC
 target_include_directories(libletData PUBLIC
     "Include"
 )
+
+target_link_libraries(libletData PUBLIC
+	libletContainer
+    libletMemory
+)
