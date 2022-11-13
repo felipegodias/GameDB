@@ -11,6 +11,12 @@
 void* operator new(std::size_t size);
 
 /**
+ * \brief
+ * \param ptr
+ */
+void operator delete(void* ptr) noexcept;
+
+/**
  * \brief 
  * \param ptr 
  * \param size 
