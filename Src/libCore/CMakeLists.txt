@@ -1,13 +1,13 @@
-add_library(libCore INTERFACE)
+add_library(gdb.libCore INTERFACE)
 
-target_link_libraries(libCore INTERFACE
-    libletContainer
-	libletData
-	libletDebug
-	libletMemory
+target_link_libraries(gdb.libCore INTERFACE
+	gdb.libContainer
+	gdb.libData
+	gdb.libDataSerializer
+	gdb.libDebug
+	gdb.libDI
+	gdb.libFormat
+	gdb.libJson
+	gdb.libMemory
+	gdb.libProject
 )
-
-add_subdirectory(libletContainer)
-add_subdirectory(libletData)
-add_subdirectory(libletDebug)
-add_subdirectory(libletMemory)

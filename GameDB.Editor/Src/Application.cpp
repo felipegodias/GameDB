@@ -323,7 +323,6 @@ namespace Pluto::GameDB::Editor
                 frame = 0;
                 ns = {};
             }
-            
 
             ImGui::End();
 

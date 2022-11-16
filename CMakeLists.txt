@@ -74,9 +74,9 @@ endif()
 
 include("ThirdParty/vcpkg.cmake")
 
-add_subdirectory("GameDB")
-add_subdirectory("GameDB.Editor")
-add_subdirectory("GameDB.Editor.Standalone")
+#add_subdirectory("GameDB")
+#add_subdirectory("GameDB.Editor")
+#add_subdirectory("GameDB.Editor.Standalone")
 add_subdirectory("Src")
 
 include(CPack)
