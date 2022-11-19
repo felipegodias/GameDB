@@ -8,6 +8,11 @@
 #include "GameDB/libEditor.hpp"
 #include "GameDB/libDataEditor.hpp"
 #include "GameDB/libData.hpp"
+#include "GameDB/libDI.hpp"
+#include "GameDB/libFileSystem.hpp"
+#include "GameDB/libKernel.hpp"
+#include "GameDB/libEditorTheme.hpp"
+#include "GameDB/libEditorThemeSerializer.hpp"
 
 namespace GDB
 {
@@ -25,21 +30,80 @@ namespace GDB
             return EXIT_FAILURE;
         }
 
-        
-        Window window;
-        Editor editor;
-
-        DataTable dataTable(DataId::Random(), "Pokemons");
-        dataTable.AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Id", MakeUnique<DataTypeString>()));
-        dataTable.AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Name", MakeUnique<DataTypeString>()));
-
-        editor.AddWindow<DataTableEditorWindow>(&dataTable, true);
-
-        while (window.IsOpen())
+        DIContainer::Global()->RegisterFactory<FileSystem*>([&args](const DIContainer&)
         {
-            window.BeginFrame();
-            editor.MainLoop();
-            window.EndFrame();
+            auto vfs = SingletonContainer::Global()->GetInstance<VirtualFileSystem>();
+            if (vfs != nullptr)
+            {
+                return vfs;
+            }
+
+            vfs = SingletonContainer::Global()->RegisterInstance<VirtualFileSystem>();
+            const std::filesystem::path exePath = args[0];
+            vfs->AddFileSystem<NativeFileSystem>("/bin", exePath.parent_path());
+            vfs->AddFileSystem<NativeFileSystem>("/res", exePath.parent_path() / "Resources");
+            vfs->AddFileSystem<NativeFileSystem>("/appdata", Kernel::GetAppDataPath());
+            return vfs;
+        });
+
+        DIContainer::Global()->RegisterFactory<Window*>([](const DIContainer&)
+        {
+            const auto window = SingletonContainer::Global()->GetInstance<Window>();
+            if (window != nullptr)
+            {
+                return window;
+            }
+
+            return SingletonContainer::Global()->RegisterInstance<Window>();
+        });
+
+        DIContainer::Global()->RegisterFactory<Editor*>([](const DIContainer&)
+        {
+            const auto editor = SingletonContainer::Global()->GetInstance<Editor>();
+            if (editor != nullptr)
+            {
+                return editor;
+            }
+
+            return SingletonContainer::Global()->RegisterInstance<Editor>();
+        });
+
+        const auto window = DIContainer::Global()->Resolve<Window*>();
+        const auto editor = DIContainer::Global()->Resolve<Editor*>();
+
+        {
+            const auto fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
+            auto themeFile = fileSystem->GetFile("/res/Themes/Default.json");
+            auto themeFileStream = themeFile->Open();
+
+            Json themeJson;
+            *themeFileStream >> themeJson;
+            Theme theme = themeJson;
+            Theme::Apply(theme);
+        }
+
+        DataSet dataSet;
+
+        DataTable* dataTable = dataSet.AddDataTable(DataId::Random(), "Pokemons");
+        dataTable->GetOnPropertyChanged()->AddListener([](const DataTable::OnPropertyChangedData& data)
+        {
+            std::cout << data.OldName << " " << data.OldColumnsSize << " " << data.OldRowsSize << std::endl;
+        });
+
+        dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Id", MakeUnique<DataTypeString>()));
+        dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Name", MakeUnique<DataTypeString>()));
+
+        editor->AddWindow<DataTableEditorWindow>(dataTable);
+        editor->AddWindow<DataSetEditorWindow>(&dataSet);
+
+        while (window->IsOpen())
+        {
+            editor->AwakeWindows();
+            editor->UpdateWindows();
+            window->BeginFrame();
+            editor->RenderWindows();
+            window->EndFrame();
+            editor->DestroyWindows();
         }
 
         return EXIT_SUCCESS;

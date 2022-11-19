@@ -2,6 +2,8 @@
 
 #include <imgui.h>
 
+#include <GameDB/Format/Format.hpp>
+
 namespace GDB
 {
     namespace
@@ -19,7 +21,7 @@ namespace GDB
 
         void DrawMenuGroups(const Map<String, UniquePtr<EditorMenuGroup>>& groups)
         {
-            for (const auto& [name, group]:groups)
+            for (const auto& [name, group] : groups)
             {
                 if (ImGui::BeginMenu(name.c_str()))
                 {
@@ -29,12 +31,18 @@ namespace GDB
                 }
             }
         }
+
+        int NextInstanceId()
+        {
+            static int instanceId = 0;
+            return instanceId++;
+        }
     }
 
-    EditorWindow::EditorWindow(String name, const bool isActive)
-        : _name(std::move(name)),
-          _isActive(isActive),
-          _isAwaken(false),
+    EditorWindow::EditorWindow(String name)
+        : _instanceId(NextInstanceId()),
+          _name(std::move(name)),
+          _state(State::WaitingForAwake),
           _editorMenu(MakeUnique<EditorMenu>())
     {
     }
@@ -46,19 +54,9 @@ namespace GDB
         return _name;
     }
 
-    bool EditorWindow::IsActive() const
+    EditorWindow::State EditorWindow::GetState() const
     {
-        return _isActive;
-    }
-
-    void EditorWindow::SetActive(const bool active)
-    {
-        _isActive = active;
-    }
-
-    bool EditorWindow::IsAwaken() const
-    {
-        return _isAwaken;
+        return _state;
     }
 
     EditorMenu* EditorWindow::GetEditorMenu() const
@@ -68,18 +66,18 @@ namespace GDB
 
     void EditorWindow::Awake()
     {
-        if (_isAwaken)
+        if (_state != State::WaitingForAwake)
         {
             return;
         }
 
-        _isAwaken = true;
+        _state = State::Active;
         OnAwake();
     }
 
     void EditorWindow::Update()
     {
-        if (!_isActive || !_isAwaken)
+        if (_state != State::Active)
         {
             return;
         }
@@ -89,7 +87,7 @@ namespace GDB
 
     void EditorWindow::Render()
     {
-        if (!_isActive || !_isAwaken)
+        if (_state != State::Active)
         {
             return;
         }
@@ -101,8 +99,8 @@ namespace GDB
             windowFlags |= ImGuiWindowFlags_MenuBar;
         }
 
-        bool b;
-        if (ImGui::Begin(_name.c_str(), &b, windowFlags))
+        bool open = true;
+        if (ImGui::Begin(Format("{0}###{1}", _name, _instanceId).c_str(), &open, windowFlags))
         {
             if (showMenu)
             {
@@ -115,6 +113,16 @@ namespace GDB
             OnGUI();
         }
         ImGui::End();
+
+        if (!open)
+        {
+            Destroy();
+        }
+    }
+
+    void EditorWindow::Destroy()
+    {
+        _state = State::WaitingForDestroy;
     }
 
     void EditorWindow::OnAwake()

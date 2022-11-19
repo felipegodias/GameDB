@@ -2,6 +2,7 @@ add_library(gdb.libData STATIC
     "DataColumn.cpp"
     "DataId.cpp"
     "DataRow.cpp"
+    "DataSet.cpp"
     "DataTable.cpp"
     "DataType.cpp"
     "DataTypeString.cpp"
@@ -15,5 +16,6 @@ target_include_directories(gdb.libData PUBLIC
 
 target_link_libraries(gdb.libData PUBLIC
 	gdb.libContainer
+    gdb.libEvent
     gdb.libMemory
 )

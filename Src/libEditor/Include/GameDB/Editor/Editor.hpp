@@ -10,24 +10,27 @@ namespace GDB
     class Editor
     {
     public:
-        void MainLoop() const;
+        Editor();
+        void AwakeWindows();
+        void UpdateWindows() const;
+        void RenderWindows() const;
+        void DestroyWindows();
 
-        EditorWindow* AddWindow(UniquePtr<EditorWindow> window);
+        WeakPtr<EditorWindow> AddWindow(SharedPtr<EditorWindow> window);
 
         template <typename Ty, typename ... ArgsTy,
                   std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true,
                   std::enable_if_t<std::is_constructible_v<Ty, ArgsTy...>, bool>  = true>
-        Ty* AddWindow(ArgsTy&& ... args)
+        WeakPtr<Ty> AddWindow(ArgsTy&& ... args)
         {
-            return static_cast<Ty*>(AddWindow(MakeUnique<Ty>(std::forward<ArgsTy>(args)...)));
+            auto ptr = MakeShared<Ty>(std::forward<ArgsTy>(args)...);
+            AddWindow(ptr);
+            return ptr;
         }
 
     private:
-        void AwakeWindows() const;
-        void UpdateWindows() const;
-        void RenderWindows() const;
-
-        Vector<UniquePtr<EditorWindow>> _windows;
+        Vector<SharedPtr<EditorWindow>> _toAwakeWindows;
+        Vector<SharedPtr<EditorWindow>> _activeWindows;
     };
 }
 

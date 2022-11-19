@@ -1,0 +1,1 @@
+#include "GameDB/EditorTheme/Palette.hpp"

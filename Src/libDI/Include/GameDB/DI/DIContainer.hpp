@@ -1,12 +1,11 @@
-#ifndef GDB_LIB_DI_DI_CONTAINER_H
-#define GDB_LIB_DI_DI_CONTAINER_H
+#ifndef GDB_LIB_DI_DI_CONTAINER_HPP
+#define GDB_LIB_DI_DI_CONTAINER_HPP
 
 #include <any>
 #include <functional>
-#include <optional>
-#include <stdexcept>
 #include <typeindex>
-#include <unordered_map>
+
+#include "GameDB/Container/UnorderedMap.hpp"
 
 namespace GDB
 {
@@ -17,17 +16,20 @@ namespace GDB
     {
     public:
         template <typename Ty>
-        using Factory = std::function<Ty(const DIContainer&)>;
+        using FactoryNoArg = std::function<Ty(const DIContainer&)>;
 
-        DIContainer()
-            : _parent(nullptr)
-        {
-        }
+        template <typename Ty, typename ArgTy>
+        using FactoryWithArg = std::function<Ty(const DIContainer&, const ArgTy&)>;
 
-        explicit DIContainer(DIContainer* parent)
-            : _parent(parent)
-        {
-        }
+        DIContainer();
+
+        explicit DIContainer(DIContainer* parent);
+
+        /**
+         * \brief 
+         * \return 
+         */
+        static DIContainer* Global();
 
         /**
          * \brief 
@@ -35,22 +37,26 @@ namespace GDB
          * \return 
          */
         template <typename Ty>
-        std::optional<Ty> Resolve() const
+        [[nodiscard]] Ty Resolve() const
         {
-            const auto factoriesIt = _factories.find(typeid(Ty));
-            if (factoriesIt == _factories.end())
-            {
-                if (_parent == nullptr)
-                {
-                    // TODO: LOG!
-                    return std::nullopt;
-                }
-
-                return _parent->Resolve<Ty>();
-            }
-
-            Factory<Ty> factory = std::any_cast<Factory<Ty>>(factoriesIt->second);
+            using Factory = FactoryNoArg<Ty>;
+            auto factory = std::any_cast<Factory>(FindFactory(typeid(Factory)));
             return factory(*this);
+        }
+
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \tparam ArgTy 
+         * \param arg 
+         * \return 
+         */
+        template <typename Ty, typename ArgTy>
+        [[nodiscard]] Ty Resolve(const ArgTy& arg) const
+        {
+            using Factory = FactoryWithArg<Ty, ArgTy>;
+            auto factory = std::any_cast<Factory>(FindFactory(typeid(Factory)));
+            return factory(*this, arg);
         }
 
         /**
@@ -59,9 +65,21 @@ namespace GDB
          * \param factory 
          */
         template <typename Ty>
-        void RegisterFactory(Factory<Ty> factory)
+        void RegisterFactory(FactoryNoArg<Ty> factory)
         {
-            _factories[typeid(Ty)] = factory;
+            RegisterFactory(typeid(FactoryNoArg<Ty>), std::move(factory));
+        }
+
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \tparam ArgTy 
+         * \param factory 
+         */
+        template <typename Ty, typename ArgTy>
+        void RegisterFactory(FactoryWithArg<Ty, ArgTy> factory)
+        {
+            RegisterFactory(typeid(FactoryWithArg<Ty, ArgTy>), std::move(factory));
         }
 
         /**
@@ -71,19 +89,28 @@ namespace GDB
         template <typename Ty>
         void RemoveFactory()
         {
-            const auto factoriesIt = _factories.find(typeid(Ty));
-            if (factoriesIt == _factories.end())
-            {
-                throw std::runtime_error("");
-            }
+            RemoveFactory(typeid(FactoryNoArg<Ty>));
+        }
 
-            _factories.erase(factoriesIt);
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \tparam ArgTy 
+         */
+        template <typename Ty, typename ArgTy>
+        void RemoveFactory()
+        {
+            RemoveFactory(typeid(FactoryWithArg<Ty, ArgTy>));
         }
 
     private:
+        [[nodiscard]] std::any FindFactory(std::type_index factoryType) const;
+        void RegisterFactory(std::type_index factoryType, std::any factory);
+        void RemoveFactory(std::type_index factoryType);
+
         DIContainer* _parent;
-        std::unordered_map<std::type_index, std::any> _factories;
+        UnorderedMap<std::type_index, std::any> _factories;
     };
 }
 
-#endif // !GDB_LIB_DI_DI_CONTAINER_H
+#endif // !GDB_LIB_DI_DI_CONTAINER_HPP

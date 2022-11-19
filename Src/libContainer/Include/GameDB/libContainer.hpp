@@ -3,6 +3,7 @@
 
 #include "Container/Map.hpp"
 #include "Container/String.hpp"
+#include "Container/StringStream.hpp"
 #include "Container/UnorderedMap.hpp"
 #include "Container/UnorderedSet.hpp"
 #include "Container/Vector.hpp"

@@ -6,6 +6,7 @@
 #include "DataRow.hpp"
 #include "GameDB/Container/String.hpp"
 #include "GameDB/Container/Vector.hpp"
+#include "GameDB/Event/Event.hpp"
 #include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
@@ -16,6 +17,16 @@ namespace GDB
     class DataTable
     {
     public:
+        struct OnPropertyChangedData
+        {
+            const DataTable* DataTable;
+            String OldName;
+            std::size_t OldColumnsSize;
+            std::size_t OldRowsSize;
+        };
+
+        using OnPropertyChanged = Event<OnPropertyChangedData>;
+
         DataTable(DataId dataId, String name);
 
         /**
@@ -60,11 +71,18 @@ namespace GDB
          */
         DataRow* AddRow();
 
+        /**
+         * \brief 
+         * \return 
+         */
+        OnPropertyChanged* GetOnPropertyChanged();
+
     private:
         DataId _dataId;
         String _name;
         Vector<UniquePtr<DataColumn>> _columns;
         Vector<UniquePtr<DataRow>> _rows;
+        OnPropertyChanged _onPropertyChanged;
     };
 }
 

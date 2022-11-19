@@ -1,6 +1,7 @@
 add_library(gdb.libContainer STATIC 
     "Map.cpp"
     "String.cpp"
+    "StringStream.cpp"
     "UnorderedMap.cpp"
     "UnorderedSet.cpp"
     "Vector.cpp"

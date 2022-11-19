@@ -9,7 +9,7 @@ namespace GDB
     class DataTableEditorWindow final : public EditorWindow
     {
     public:
-        DataTableEditorWindow(DataTable* dataTable, bool isActive);
+        explicit DataTableEditorWindow(DataTable* dataTable);
 
     protected:
         void OnAwake() override;

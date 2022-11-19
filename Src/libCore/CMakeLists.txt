@@ -6,8 +6,12 @@ target_link_libraries(gdb.libCore INTERFACE
 	gdb.libDataSerializer
 	gdb.libDebug
 	gdb.libDI
+	gdb.libEvent
+	gdb.libFileSystem
 	gdb.libFormat
 	gdb.libJson
+	gdb.libKernel
+	gdb.libMath
 	gdb.libMemory
 	gdb.libProject
 )

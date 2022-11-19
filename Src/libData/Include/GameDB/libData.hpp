@@ -4,6 +4,7 @@
 #include "Data/DataColumn.hpp"
 #include "Data/DataId.hpp"
 #include "Data/DataRow.hpp"
+#include "Data/DataSet.hpp"
 #include "Data/DataTable.hpp"
 #include "Data/DataType.hpp"
 #include "Data/DataTypeString.hpp"

@@ -7,8 +7,8 @@
 
 namespace GDB
 {
-    DataTableEditorWindow::DataTableEditorWindow(DataTable* dataTable, const bool isActive)
-        : EditorWindow(dataTable->GetName(), isActive),
+    DataTableEditorWindow::DataTableEditorWindow(DataTable* dataTable)
+        : EditorWindow(dataTable->GetName()),
           _dataTable(dataTable)
     {
         GetEditorMenu()->AddItem("New Row", [dataTable]
@@ -16,12 +16,7 @@ namespace GDB
             dataTable->AddRow();
         });
 
-        GetEditorMenu()->AddGroup("Edit")->AddItem("New Row", [dataTable]
-        {
-            dataTable->AddRow();
-        });
-
-        GetEditorMenu()->AddGroup("A")->AddGroup("C")->AddItem("New Row", [dataTable]
+        GetEditorMenu()->AddItem("Edit Table", [dataTable]
         {
             dataTable->AddRow();
         });

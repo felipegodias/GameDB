@@ -13,7 +13,33 @@ namespace GDB
     class EditorWindow
     {
     public:
-        EditorWindow(String name, bool isActive);
+        /**
+         * \brief 
+         */
+        enum class State
+        {
+            /**
+             * \brief 
+             */
+            None = 0,
+
+            /**
+             * \brief 
+             */
+            WaitingForAwake = 1,
+
+            /**
+             * \brief 
+             */
+            Active = 2,
+
+            /**
+             * \brief 
+             */
+            WaitingForDestroy = 3
+        };
+
+        explicit EditorWindow(String name);
 
         virtual ~EditorWindow() = 0;
 
@@ -27,19 +53,7 @@ namespace GDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] bool IsActive() const;
-
-        /**
-         * \brief 
-         * \param active 
-         */
-        void SetActive(bool active);
-
-        /**
-         * \brief 
-         * \return 
-         */
-        [[nodiscard]] bool IsAwaken() const;
+        [[nodiscard]] State GetState() const;
 
         /**
          * \brief 
@@ -62,15 +76,20 @@ namespace GDB
          */
         void Render();
 
+        /**
+         * \brief 
+         */
+        void Destroy();
+
     protected:
         virtual void OnAwake() = 0;
         virtual void OnUpdate() = 0;
         virtual void OnGUI() = 0;
 
     private:
+        int _instanceId;
         String _name;
-        bool _isActive;
-        bool _isAwaken;
+        State _state;
         UniquePtr<EditorMenu> _editorMenu;
     };
 }

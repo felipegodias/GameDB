@@ -1,0 +1,1 @@
+#include "GameDB/EditorThemeSerializer/PaletteJsonSerializer.hpp"
