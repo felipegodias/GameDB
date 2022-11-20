@@ -11,9 +11,9 @@ namespace GDB
     public:
         Window();
         Window(const Window& other) = delete;
-        Window(Window&& other) noexcept = default;
+        Window(Window&& other) noexcept;
         Window& operator=(const Window& other) = delete;
-        Window& operator=(Window&& other) noexcept = default;
+        Window& operator=(Window&& other) noexcept;
         ~Window();
 
         bool IsOpen();

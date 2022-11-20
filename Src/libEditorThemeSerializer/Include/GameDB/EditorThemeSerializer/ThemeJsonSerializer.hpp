@@ -10,10 +10,10 @@ namespace GDB
 {
     GAME_DB_JSON_DEFINE_TYPE_NON_INTRUSIVE(
         Theme,
-        Name,
-        Font,
-        Style,
-        Palette
+        name,
+        font,
+        style,
+        palette
     );
 }
 

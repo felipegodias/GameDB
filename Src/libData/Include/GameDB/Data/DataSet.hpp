@@ -21,8 +21,8 @@ namespace GDB
          */
         struct OnPropertyChangedData
         {
-            const DataSet* DataSet;
-            std::size_t OldDataTablesSize;
+            const DataSet* dataSet;
+            std::size_t oldDataTablesSize;
         };
 
         /**

@@ -39,20 +39,20 @@ namespace GDB
         StringStream iss(str.data());
         iss >> hashTag >> std::hex >> color;
 
-        R = normalizeColorChannel(static_cast<uint8_t>((color & redChannelMask) >> redChannelShift));
-        G = normalizeColorChannel(static_cast<uint8_t>((color & greenChannelMask) >> greenChannelShift));
-        B = normalizeColorChannel(static_cast<uint8_t>((color & blueChannelMask) >> blueChannelShift));
-        A = normalizeColorChannel(static_cast<uint8_t>((color & alphaChannelMask) >> alphaChannelShift));
+        r = normalizeColorChannel(static_cast<uint8_t>((color & redChannelMask) >> redChannelShift));
+        g = normalizeColorChannel(static_cast<uint8_t>((color & greenChannelMask) >> greenChannelShift));
+        b = normalizeColorChannel(static_cast<uint8_t>((color & blueChannelMask) >> blueChannelShift));
+        a = normalizeColorChannel(static_cast<uint8_t>((color & alphaChannelMask) >> alphaChannelShift));
         return true;
     }
 
     String Color::ToString() const
     {
         const unsigned int color =
-            (static_cast<uint8_t>(R * maxColorValue) << redChannelShift) +
-            (static_cast<uint8_t>(G * maxColorValue) << greenChannelShift) +
-            (static_cast<uint8_t>(B * maxColorValue) << blueChannelShift) +
-            (static_cast<uint8_t>(A * maxColorValue) << alphaChannelShift);
+            (static_cast<uint8_t>(r * maxColorValue) << redChannelShift) +
+            (static_cast<uint8_t>(g * maxColorValue) << greenChannelShift) +
+            (static_cast<uint8_t>(b * maxColorValue) << blueChannelShift) +
+            (static_cast<uint8_t>(a * maxColorValue) << alphaChannelShift);
 
         constexpr int hexLength = 8;
         StringStream strStream;

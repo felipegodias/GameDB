@@ -87,7 +87,7 @@ namespace GDB
         DataTable* dataTable = dataSet.AddDataTable(DataId::Random(), "Pokemons");
         dataTable->GetOnPropertyChanged()->AddListener([](const DataTable::OnPropertyChangedData& data)
         {
-            std::cout << data.OldName << " " << data.OldColumnsSize << " " << data.OldRowsSize << std::endl;
+            std::cout << data.oldName << " " << data.oldColumnsSize << " " << data.oldRowsSize << std::endl;
         });
 
         dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Id", MakeUnique<DataTypeString>()));

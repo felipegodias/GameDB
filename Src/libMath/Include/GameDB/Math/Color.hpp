@@ -10,10 +10,10 @@ namespace GDB
      */
     struct Color final
     {
-        float R = 0.0F; // NOLINT(readability-identifier-length)
-        float G = 0.0F; // NOLINT(readability-identifier-length)
-        float B = 0.0F; // NOLINT(readability-identifier-length)
-        float A = 0.0F; // NOLINT(readability-identifier-length)
+        float r = 0.0F; // NOLINT(readability-identifier-length)
+        float g = 0.0F; // NOLINT(readability-identifier-length)
+        float b = 0.0F; // NOLINT(readability-identifier-length)
+        float a = 0.0F; // NOLINT(readability-identifier-length)
 
         /**
          * \brief

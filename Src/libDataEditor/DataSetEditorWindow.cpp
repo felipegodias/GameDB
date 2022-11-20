@@ -13,7 +13,7 @@ namespace GDB
         : EditorWindow("DataSet"),
           _dataSet(dataSet)
     {
-        GetEditorMenu()->AddItem("New Table", [dataSet]
+        GetEditorMenu()->AddItem("New Table", []
         {
             //dataSet->AddDataTable();
         });

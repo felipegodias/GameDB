@@ -6,7 +6,7 @@ namespace GDB
     {
         const std::filesystem::path root = "/";
         std::filesystem::path current;
-        for (const auto folder : path)
+        for (const auto& folder : path)
         {
             current /= folder;
             auto fileSystemsIt = _fileSystems.find(current);

@@ -12,10 +12,10 @@ namespace GDB
      */
     struct Theme final
     {
-        String Name;
-        String Font;
-        Style Style;
-        Palette Palette;
+        String name;
+        String font;
+        Style style;
+        Palette palette;
 
         static void Apply(const Theme& theme);
     };

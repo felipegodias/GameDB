@@ -8,8 +8,8 @@ namespace GDB
      */
     struct Vector2 final
     {
-        float X = 0.0F; // NOLINT(readability-identifier-length)
-        float Y = 0.0F; // NOLINT(readability-identifier-length)
+        float x = 0.0F; // NOLINT(readability-identifier-length)
+        float y = 0.0F; // NOLINT(readability-identifier-length)
     };
 }
 

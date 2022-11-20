@@ -19,10 +19,10 @@ namespace GDB
     public:
         struct OnPropertyChangedData
         {
-            const DataTable* DataTable;
-            String OldName;
-            std::size_t OldColumnsSize;
-            std::size_t OldRowsSize;
+            const DataTable* dataTable;
+            String oldName;
+            std::size_t oldColumnsSize;
+            std::size_t oldRowsSize;
         };
 
         using OnPropertyChanged = Event<OnPropertyChangedData>;

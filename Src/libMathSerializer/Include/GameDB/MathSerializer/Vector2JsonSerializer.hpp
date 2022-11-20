@@ -8,8 +8,8 @@ namespace GDB
 {
     GAME_DB_JSON_DEFINE_TYPE_NON_INTRUSIVE(
         Vector2,
-        X,
-        Y
+        x,
+        y
     );
 }
 

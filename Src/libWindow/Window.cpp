@@ -85,8 +85,31 @@ namespace GDB
         ImGui_ImplOpenGL3_Init(glsl_version.c_str());
     }
 
+    Window::Window(Window&& other) noexcept
+    {
+        _window = other._window;
+        other._window = nullptr;
+    }
+
+    Window& Window::operator=(Window&& other) noexcept
+    {
+        if (this == &other)
+        {
+            return *this;
+        }
+
+        _window = other._window;
+        other._window = nullptr;
+        return *this;
+    }
+
     Window::~Window()
     {
+        if (_window == nullptr)
+        {
+            return;
+        }
+
         // Cleanup
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();

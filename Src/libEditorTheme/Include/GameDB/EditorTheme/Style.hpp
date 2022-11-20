@@ -10,28 +10,28 @@ namespace GDB
      */
     struct Style final
     {
-        Vector2 WindowPadding;
-        Vector2 FramePadding;
-        Vector2 CellPadding;
-        Vector2 ItemSpacing;
-        Vector2 ItemInnerSpacing;
-        Vector2 TouchExtraPadding;
-        float IndentSpacing = 0.0F;
-        float ScrollbarSize = 0.0F;
-        float GrabMinSize = 0.0F;
-        float WindowBorderSize = 0.0F;
-        float ChildBorderSize = 0.0F;
-        float PopupBorderSize = 0.0F;
-        float FrameBorderSize = 0.0F;
-        float TabBorderSize = 0.0F;
-        float WindowRounding = 0.0F;
-        float ChildRounding = 0.0F;
-        float FrameRounding = 0.0F;
-        float PopupRounding = 0.0F;
-        float ScrollbarRounding = 0.0F;
-        float GrabRounding = 0.0F;
-        float LogSliderDeadZone = 0.0F;
-        float TabRounding = 0.0F;
+        Vector2 windowPadding;
+        Vector2 framePadding;
+        Vector2 cellPadding;
+        Vector2 itemSpacing;
+        Vector2 itemInnerSpacing;
+        Vector2 touchExtraPadding;
+        float indentSpacing = 0.0F;
+        float scrollbarSize = 0.0F;
+        float grabMinSize = 0.0F;
+        float windowBorderSize = 0.0F;
+        float childBorderSize = 0.0F;
+        float popupBorderSize = 0.0F;
+        float frameBorderSize = 0.0F;
+        float tabBorderSize = 0.0F;
+        float windowRounding = 0.0F;
+        float childRounding = 0.0F;
+        float frameRounding = 0.0F;
+        float popupRounding = 0.0F;
+        float scrollbarRounding = 0.0F;
+        float grabRounding = 0.0F;
+        float logSliderDeadZone = 0.0F;
+        float tabRounding = 0.0F;
     };
 }
 
