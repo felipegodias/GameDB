@@ -86,8 +86,8 @@ namespace GDB
     }
 
     Window::Window(Window&& other) noexcept
+        : _window(other._window)
     {
-        _window = other._window;
         other._window = nullptr;
     }
 
@@ -128,6 +128,7 @@ namespace GDB
 
     void Window::BeginFrame()
     {
+        _window;
         glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();

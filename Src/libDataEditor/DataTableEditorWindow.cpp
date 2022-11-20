@@ -52,7 +52,7 @@ namespace GDB
             {
                 ImGui::TableNextColumn();
                 std::optional<DataValue*> value = row->GetValue(*column);
-                const auto stringValue = dynamic_cast<DataValueString*>(value.value());
+                auto* const stringValue = dynamic_cast<DataValueString*>(value.value());
                 auto str = std::string(stringValue->GetValue());
 
                 ImGui::PushID(stringValue->GetDataId().GetValue());

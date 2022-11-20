@@ -12,8 +12,8 @@ namespace GDB
             auto fileSystemsIt = _fileSystems.find(current);
             if (fileSystemsIt != _fileSystems.end())
             {
-                std::filesystem::path p = root / relative(path, current);
-                UniquePtr<File> file = fileSystemsIt->second->GetFile(p);
+                std::filesystem::path innerPath = root / relative(path, current);
+                UniquePtr<File> file = fileSystemsIt->second->GetFile(innerPath);
                 if (file != nullptr)
                 {
                     return file;

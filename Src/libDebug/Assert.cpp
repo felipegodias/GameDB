@@ -15,12 +15,12 @@ namespace GDB
             return;
         }
 
-        std::stringstream ss;
-        ss << "Assertion failed! " << assertionInfo.Message << "\n" << assertionInfo.Expression;
+        std::stringstream stringstream;
+        stringstream << "Assertion failed! " << assertionInfo.Message << "\n" << assertionInfo.Expression;
 
         logger.value()->LogMessage({
             LogType::Critical, assertionInfo.FilePath, assertionInfo.FileLine, assertionInfo.Function,
-            ss.str()
+            stringstream.str()
         });
     }
 }

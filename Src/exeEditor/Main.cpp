@@ -32,7 +32,7 @@ namespace GDB
 
         DIContainer::Global()->RegisterFactory<FileSystem*>([&args](const DIContainer&)
         {
-            auto vfs = SingletonContainer::Global()->GetInstance<VirtualFileSystem>();
+            auto* vfs = SingletonContainer::Global()->GetInstance<VirtualFileSystem>();
             if (vfs != nullptr)
             {
                 return vfs;
@@ -48,7 +48,7 @@ namespace GDB
 
         DIContainer::Global()->RegisterFactory<Window*>([](const DIContainer&)
         {
-            const auto window = SingletonContainer::Global()->GetInstance<Window>();
+            auto* window = SingletonContainer::Global()->GetInstance<Window>();
             if (window != nullptr)
             {
                 return window;
@@ -59,7 +59,7 @@ namespace GDB
 
         DIContainer::Global()->RegisterFactory<Editor*>([](const DIContainer&)
         {
-            const auto editor = SingletonContainer::Global()->GetInstance<Editor>();
+            auto* editor = SingletonContainer::Global()->GetInstance<Editor>();
             if (editor != nullptr)
             {
                 return editor;
@@ -68,13 +68,13 @@ namespace GDB
             return SingletonContainer::Global()->RegisterInstance<Editor>();
         });
 
-        const auto window = DIContainer::Global()->Resolve<Window*>();
-        const auto editor = DIContainer::Global()->Resolve<Editor*>();
+        auto* window = DIContainer::Global()->Resolve<Window*>();
+        auto* editor = DIContainer::Global()->Resolve<Editor*>();
 
         {
-            const auto fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
-            auto themeFile = fileSystem->GetFile("/res/Themes/Default.json");
-            auto themeFileStream = themeFile->Open();
+            auto* fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
+            UniquePtr<File> themeFile = fileSystem->GetFile("/res/Themes/Default.json");
+            UniquePtr<std::iostream> themeFileStream = themeFile->Open();
 
             Json themeJson;
             *themeFileStream >> themeJson;

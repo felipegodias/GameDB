@@ -29,7 +29,7 @@ namespace GDB
 
     void DataSetEditorWindow::OnGUI()
     {
-        const auto editor = DIContainer::Global()->Resolve<Editor*>();
+        auto* const editor = DIContainer::Global()->Resolve<Editor*>();
         for (const auto& table : _dataSet->GetDataTables())
         {
             if (ImGui::Button(table->GetName().c_str(), ImVec2(-1, 0)))

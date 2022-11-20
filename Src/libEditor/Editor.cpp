@@ -13,7 +13,7 @@ namespace GDB
         const float fontSize = 16.0F;
         const float fontScale = 1.25F;
 
-        auto fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
+        auto* fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
         auto file = fileSystem->GetFile("/res/Themes/Default.json");
 
         ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/Roboto-Regular.ttf", fontSize * fontScale);
@@ -23,7 +23,7 @@ namespace GDB
     {
         // Using raw for loop because the awake of one window
         // can instantiate multiple other windows.
-        for (size_t i = 0; i < _toAwakeWindows.size(); ++i)
+        for (size_t i = 0; i < _toAwakeWindows.size(); ++i) // NOLINT(modernize-loop-convert)
         {
             _toAwakeWindows[i]->Awake();
             _activeWindows.push_back(_toAwakeWindows[i]);

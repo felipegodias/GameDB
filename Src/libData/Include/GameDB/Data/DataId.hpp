@@ -11,7 +11,7 @@ namespace GDB
     class DataId final
     {
     public:
-        using ValueType = unsigned int;
+        using ValueType = int;
 
         explicit DataId(ValueType value);
 
