@@ -6,9 +6,9 @@ add_library(gdb.libDebug STATIC
     "LogSinkStdOut.cpp"
     "LogSpool.cpp"
     "LogType.cpp"
-    "ProfileFrameSample.cpp"
     "Profiler.cpp"
-    "ProfileScopeSample.cpp"
+    "ProfileScopeGuard.cpp"
+    "ProfileSectionGuard.cpp"
 )
 
 target_include_directories(gdb.libDebug PUBLIC

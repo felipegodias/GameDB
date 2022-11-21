@@ -104,6 +104,7 @@ namespace GDB
 
         while (window->IsOpen())
         {
+            GDB_PROFILE_SECTION("frame");
             editor->AwakeWindows();
             editor->UpdateWindows();
             window->BeginFrame();
@@ -111,6 +112,9 @@ namespace GDB
             window->EndFrame();
             editor->DestroyWindows();
         }
+
+        [[maybe_unused]] Profiler* profiler = Profiler::Global();
+
 
         return EXIT_SUCCESS;
     }

@@ -8,8 +8,8 @@
 #include "Debug/LogSinkStdOut.hpp"
 #include "Debug/LogSpool.hpp"
 #include "Debug/LogType.hpp"
-#include "Debug/ProfileFrameSample.hpp"
 #include "Debug/Profiler.hpp"
-#include "Debug/ProfileScopeSample.hpp"
+#include "Debug/ProfileScopeGuard.hpp"
+#include "Debug/ProfileSectionGuard.hpp"
 
 #endif // !GDB_LIB_DEBUG_HPP

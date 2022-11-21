@@ -4,6 +4,7 @@
 #include <imgui_stdlib.h>
 
 #include "GameDB/libData.hpp"
+#include "GameDB/libDebug.hpp"
 
 namespace GDB
 {
@@ -24,14 +25,17 @@ namespace GDB
 
     void DataTableEditorWindow::OnAwake()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void DataTableEditorWindow::OnUpdate()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void DataTableEditorWindow::OnGUI()
     {
+        GDB_PROFILE_FUNCTION();
         const int tableColumns = static_cast<int>(_dataTable->GetColumns().size());
         if (tableColumns == 0)
         {

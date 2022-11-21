@@ -5,7 +5,7 @@
 
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/FileSystem/FileSystem.hpp"
-#include "GameDB/Debug/Log.hpp"
+#include "GameDB/libDebug.hpp"
 
 namespace GDB
 {
@@ -22,6 +22,7 @@ namespace GDB
 
     void Editor::AwakeWindows()
     {
+        GDB_PROFILE_FUNCTION();
         // Using raw for loop because the awake of one window
         // can instantiate multiple other windows.
         for (size_t i = 0; i < _toAwakeWindows.size(); ++i) // NOLINT(modernize-loop-convert)
@@ -34,6 +35,7 @@ namespace GDB
 
     void Editor::UpdateWindows() const
     {
+        GDB_PROFILE_FUNCTION();
         for (const auto& window : _activeWindows)
         {
             window->Update();
@@ -42,6 +44,7 @@ namespace GDB
 
     void Editor::RenderWindows() const
     {
+        GDB_PROFILE_FUNCTION();
         ImGui::ShowDemoWindow();
         ImGui::BeginMainMenuBar();
         ImGui::MenuItem("File");
@@ -63,6 +66,7 @@ namespace GDB
 
     void Editor::DestroyWindows()
     {
+        GDB_PROFILE_FUNCTION();
         const auto removeIt
             = std::remove_if(_activeWindows.begin(),
                              _activeWindows.end(),

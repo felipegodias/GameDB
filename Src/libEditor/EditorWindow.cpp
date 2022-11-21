@@ -2,7 +2,8 @@
 
 #include <imgui.h>
 
-#include <GameDB/Format/Format.hpp>
+#include "GameDB/libDebug.hpp"
+#include "GameDB/Format/Format.hpp"
 
 namespace GDB
 {
@@ -10,6 +11,7 @@ namespace GDB
     {
         void DrawMenuItems(const Map<String, UniquePtr<EditorMenuItem>>& items)
         {
+            GDB_PROFILE_FUNCTION();
             for (const auto& [name, item] : items)
             {
                 if (ImGui::MenuItem(name.c_str()))
@@ -21,6 +23,7 @@ namespace GDB
 
         void DrawMenuGroups(const Map<String, UniquePtr<EditorMenuGroup>>& groups)
         {
+            GDB_PROFILE_FUNCTION();
             for (const auto& [name, group] : groups)
             {
                 if (ImGui::BeginMenu(name.c_str()))
@@ -66,6 +69,7 @@ namespace GDB
 
     void EditorWindow::Awake()
     {
+        GDB_PROFILE_FUNCTION();
         if (_state != State::WaitingForAwake)
         {
             return;
@@ -77,6 +81,7 @@ namespace GDB
 
     void EditorWindow::Update()
     {
+        GDB_PROFILE_FUNCTION();
         if (_state != State::Active)
         {
             return;
@@ -87,6 +92,7 @@ namespace GDB
 
     void EditorWindow::Render()
     {
+        GDB_PROFILE_FUNCTION();
         if (_state != State::Active)
         {
             return;
@@ -122,6 +128,7 @@ namespace GDB
 
     void EditorWindow::Destroy()
     {
+        GDB_PROFILE_FUNCTION();
         _state = State::WaitingForDestroy;
     }
 

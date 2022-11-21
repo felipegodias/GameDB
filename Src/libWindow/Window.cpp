@@ -9,6 +9,8 @@
 
 #include "GameDB/libFormat.hpp"
 
+#include "GameDB/libDebug.hpp"
+
 namespace GDB
 {
     namespace 
@@ -128,6 +130,7 @@ namespace GDB
 
     void Window::BeginFrame()
     {
+        GDB_PROFILE_FUNCTION();
         _window;
         glfwPollEvents();
 
@@ -141,6 +144,7 @@ namespace GDB
 
     void Window::EndFrame()
     {
+        GDB_PROFILE_FUNCTION();
         // Rendering
         ImGui::Render();
 

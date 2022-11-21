@@ -3,9 +3,10 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
+#include "GameDB/libDebug.hpp"
+#include "GameDB/DataEditor/DataTableEditorWindow.hpp"
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/Editor.hpp"
-#include "GameDB/DataEditor/DataTableEditorWindow.hpp"
 
 namespace GDB
 {
@@ -21,14 +22,17 @@ namespace GDB
 
     void DataSetEditorWindow::OnAwake()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void DataSetEditorWindow::OnUpdate()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void DataSetEditorWindow::OnGUI()
     {
+        GDB_PROFILE_FUNCTION();
         auto* const editor = DIContainer::Global()->Resolve<Editor*>();
         for (const auto& table : _dataSet->GetDataTables())
         {

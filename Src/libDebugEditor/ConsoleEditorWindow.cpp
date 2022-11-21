@@ -2,6 +2,8 @@
 
 #include <imgui.h>
 
+#include "GameDB/libDebug.hpp"
+
 namespace GDB
 {
     ConsoleEditorWindow::ConsoleEditorWindow(const Log* log)
@@ -25,14 +27,17 @@ namespace GDB
 
     void ConsoleEditorWindow::OnAwake()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void ConsoleEditorWindow::OnUpdate()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void ConsoleEditorWindow::OnGUI()
     {
+        GDB_PROFILE_FUNCTION();
         if (ImGui::BeginTable("Console", 1))
         {
             for (const auto& logEntry : _sinks[0].lock()->GetLogEntries())
