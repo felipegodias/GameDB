@@ -11,7 +11,7 @@
     <a href="https://github.com/felipegodias/GameDB.Client/issues">
         <img src="https://img.shields.io/github/issues/felipegodias/GameDB.Client.svg"/>
     </a>
-    <a href="https://github.com/felipegodias/GameDB.Client/blob/master/LICENSE.txt">
+    <a href="https://github.com/felipegodias/GameDB.Client/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/felipegodias/GameDB.Client.svg"/>
     </a>
     <a href="https://www.linkedin.com/in/felipegodias">
