@@ -9,7 +9,8 @@
       "cacheVariables": {
         "CMAKE_CONFIGURATION_TYPES": "Debug;Profile;Release;",
         "ENABLE_CLANG_TIDY": false,
-        "ENABLE_ALL_WARNINGS_AS_ERROR": true
+        "ENABLE_ALL_WARNINGS_AS_ERROR": true,
+        "ENABLE_DOXYGEN": false
       },
       "environment": {
         "NINJA_STATUS": "[%p] [%f/%t] [elapsed seconds %e] "
