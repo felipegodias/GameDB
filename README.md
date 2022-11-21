@@ -1,24 +1,24 @@
 <p align="center">
-    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_msvc_build.yml">
-        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_msvc_build.yml/badge.svg"/>
+    <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_msvc_build.yml">
+        <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_msvc_build.yml/badge.svg"/>
     </a>
-    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_clang_build.yml">
-        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/windows_clang_build.yml/badge.svg"/>
-    </a>
-</p>
-
-<p align="center">
-    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_gcc_build.yml">
-        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_gcc_build.yml/badge.svg"/>
-    </a>
-    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_clang_build.yml">
-        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/linux_clang_build.yml/badge.svg"/>
+    <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_clang_build.yml">
+        <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_clang_build.yml/badge.svg"/>
     </a>
 </p>
 
 <p align="center">
-    <a href="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/mac_clang_build.yml">
-        <img src="https://github.com/Pluto-Games/GameDB.Client/actions/workflows/mac_clang_build.yml/badge.svg"/>
+    <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/linux_gcc_build.yml">
+        <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/linux_gcc_build.yml/badge.svg"/>
+    </a>
+    <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/linux_clang_build.yml">
+        <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/linux_clang_build.yml/badge.svg"/>
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/mac_clang_build.yml">
+        <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/mac_clang_build.yml/badge.svg"/>
     </a>
 </p>
 
@@ -47,25 +47,43 @@ git clone --recurse-submodules git@github.com:Pluto-Games/GameDB.Client.git
 
 Use one of the following presets along with CMake.
 
-### Presets
+### Configure Presets
 
 -   Windows
-    -   windows-msvc-debug
-    -   windows-msvc-release
-    -   windows-clang-debug
-    -   windows-clang-release
+    -   windows-msvc-x64
+    -   windows-clang-x64
 
 -   Linux
-    -   linux-gcc-debug
-    -   linux-gcc-release
-    -   linux-clang-debug
-    -   linux-clang-release
+    -   linux-gcc-x64
+    -   linux-clang-x64
 
 -   MacOS
-    -   mac-clang-debug
-    -   mac-clang-release
+    -   mac-apple-clang-x64
+
+### Build Presets
+
+-   Windows
+    -   windows-msvc-x64-debug
+    -   windows-msvc-x64-profile
+    -   windows-msvc-x64-release
+    -   windows-clang-x64-debug
+    -   windows-clang-x64-profile
+    -   windows-clang-x64-release
+
+-   Linux
+    -   linux-gcc-x64-debug
+    -   linux-gcc-x64-profile
+    -   linux-gcc-x64-release
+    -   linux-clang-x64-debug
+    -   linux-clang-x64-profile
+    -   linux-clang-x64-release
+
+-   MacOS
+    -   mac-apple-clang-x64-debug",
+    -   mac-apple-clang-x64-profile",
+    -   mac-apple-clang-x64-release",
 
 ```bash
-cmake --preset windows-msvc-debug
-cmake --build --preset windows-msvc-debug --target install
+cmake --preset windows-msvc-x64
+cmake --build --preset windows-msvc-x64-debug
 ```
