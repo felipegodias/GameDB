@@ -20,6 +20,12 @@
 </p>
 
 <p align="center">
+    <a href="https://www.codacy.com/gh/felipegodias/GameDB.Client/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=felipegodias/GameDB.Client&amp;utm_campaign=Badge_Grade">
+    <img src="https://app.codacy.com/project/badge/Grade/c96c6820f01241c794a95c7430a6fef0"/>
+    </a>
+</p>
+
+<p align="center">
     <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_msvc_build.yml">
         <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_msvc_build.yml/badge.svg"/>
     </a>
@@ -113,7 +119,7 @@ cmake --build --preset windows-msvc-x64-debug
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
