@@ -5,6 +5,7 @@
 
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/FileSystem/FileSystem.hpp"
+#include "GameDB/Debug/Log.hpp"
 
 namespace GDB
 {
@@ -47,6 +48,10 @@ namespace GDB
         ImGui::MenuItem("Project");
         ImGui::MenuItem("Window");
         ImGui::MenuItem("Help");
+        if (ImGui::MenuItem("Log"))
+        {
+            GDB_LOG_DEBUG("Main", "Lorem ipsum...");
+        }
         ImGui::EndMainMenuBar();
 
         ImGui::DockSpaceOverViewport();

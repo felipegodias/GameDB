@@ -4,9 +4,9 @@
 #include <memory>
 #include <optional>
 #include <string>
-#include <unordered_map>
+#include <map>
 
-#include "Logger.hpp"
+#include "LogSpool.hpp"
 
 namespace GDB
 {
@@ -16,6 +16,8 @@ namespace GDB
     class Log
     {
     public:
+        using SpoolsMap = std::map<std::string, std::shared_ptr<LogSpool>>;
+
         /**
          * \brief 
          * \return 
@@ -24,27 +26,51 @@ namespace GDB
 
         /**
          * \brief 
-         * \param spool 
          * \return 
          */
-        [[nodiscard]] std::optional<Logger*> GetLogger(const std::string& spool) const;
+        [[nodiscard]] const SpoolsMap& GetSpools() const;
 
         /**
          * \brief 
          * \param spool 
-         * \param logger 
+         * \return 
          */
-        void SetLogger(const std::string& spool, std::unique_ptr<Logger> logger);
+        [[nodiscard]] std::optional<std::weak_ptr<LogSpool>> GetSpool(const std::string& spool) const;
+
+        /**
+         * \brief 
+         * \param logSpool 
+         * \param logSpool 
+         */
+        std::weak_ptr<LogSpool> SetSpool(const std::string& spool, std::shared_ptr<LogSpool> logSpool);
+
+        /**
+         * \brief 
+         * \param spool 
+         */
+        std::weak_ptr<LogSpool> AddSpool(const std::string& spool);
+
+        /**
+         * \brief 
+         * \param spool 
+         * \param logType 
+         * \param filePath 
+         * \param fileLine 
+         * \param function 
+         * \param message 
+         */
+        void LogMessage(const std::string& spool, LogType logType, std::filesystem::path filePath, std::size_t fileLine,
+                        std::string function, std::string message);
 
     private:
-        std::unordered_map<std::string, std::unique_ptr<Logger>> _loggers;
+        SpoolsMap _spools;
     };
 }
 
 #define GDB_LOG(logType, spool, message) \
-GDB::Log::Global()->GetLogger((spool)).value()->LogMessage({(logType), __FILE__, __LINE__, __FUNCSIG__, (message)})
+GDB::Log::Global()->LogMessage((spool), (logType), __FILE__, __LINE__, __FUNCSIG__, (message));
 
-#define GDB_LOG_VERBOSE(spool, message) GDB_LOG(GDB::LogType::Verbose, spool, message);
-#define GDB_LOG_DEBUG(spool, message) GDB_LOG(GDB::LogType::Debug, spool, message);
+#define GDB_LOG_VERBOSE(spool, message) GDB_LOG(GDB::LogType::Verbose, spool, message)
+#define GDB_LOG_DEBUG(spool, message) GDB_LOG(GDB::LogType::Debug, spool, message)
 
-#endif // !GDB_LIBLET_DEBUG_LOG_HPP
+#endif // !GDB_LIB_DEBUG_LOG_HPP

@@ -18,11 +18,11 @@ namespace GDB
          */
         struct AssertionInfo
         {
-            std::string Expression;
-            std::filesystem::path FilePath;
-            size_t FileLine;
-            std::string Function;
-            std::string Message;
+            std::string expression;
+            std::filesystem::path filePath;
+            std::size_t fileLine;
+            std::string function;
+            std::string message;
         };
 
         /**
@@ -43,4 +43,4 @@ if (static_cast<bool>((expression))) { \
 #define GDB_ASSERT(expression, message) void(0)
 #endif
 
-#endif // !GDB_LIBLET_DEBUG_ASSERT_HPP
+#endif // !GDB_LIB_DEBUG_ASSERT_HPP

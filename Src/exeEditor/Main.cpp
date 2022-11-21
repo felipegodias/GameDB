@@ -13,6 +13,8 @@
 #include "GameDB/libKernel.hpp"
 #include "GameDB/libEditorTheme.hpp"
 #include "GameDB/libEditorThemeSerializer.hpp"
+#include "GameDB/libDebug.hpp"
+#include "GameDB/libDebugEditor.hpp"
 
 namespace GDB
 {
@@ -29,6 +31,9 @@ namespace GDB
             std::cout << argumentParser << std::endl;
             return EXIT_FAILURE;
         }
+
+        auto spool = Log::Global()->AddSpool("Main");
+        spool.lock()->AddSink<LoggerSinkConsole>();
 
         DIContainer::Global()->RegisterFactory<FileSystem*>([&args](const DIContainer&)
         {
@@ -95,6 +100,7 @@ namespace GDB
 
         editor->AddWindow<DataTableEditorWindow>(dataTable);
         editor->AddWindow<DataSetEditorWindow>(&dataSet);
+        editor->AddWindow<ConsoleEditorWindow>(Log::Global());
 
         while (window->IsOpen())
         {
