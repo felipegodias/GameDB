@@ -1,4 +1,25 @@
 <p align="center">
+    <a href="https://github.com/felipegodias/GameDB.Client/graphs/contributors">
+        <img src="https://img.shields.io/github/contributors/felipegodias/GameDB.Client.svg"/>
+    </a>
+    <a href="https://github.com/felipegodias/GameDB.Client/network/members">
+        <img src="https://img.shields.io/github/forks/felipegodias/GameDB.Client.svg"/>
+    </a>
+    <a href="https://github.com/felipegodias/GameDB.Client/stargazers">
+        <img src="https://img.shields.io/github/stars/felipegodias/GameDB.Client.svg"/>
+    </a>
+    <a href="https://github.com/felipegodias/GameDB.Client/issues">
+        <img src="https://img.shields.io/github/issues/felipegodias/GameDB.Client.svg"/>
+    </a>
+    <a href="https://github.com/felipegodias/GameDB.Client/blob/master/LICENSE.txt">
+        <img src="https://img.shields.io/github/license/felipegodias/GameDB.Client.svg"/>
+    </a>
+    <a href="https://www.linkedin.com/in/felipegodias">
+        <img src="https://img.shields.io/badge/-LinkedIn-black.svg?logo=linkedin&colorB=1182c3"/>
+    </a>
+</p>
+
+<p align="center">
     <a href="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_msvc_build.yml">
         <img src="https://github.com/felipegodias/GameDB.Client/actions/workflows/windows_msvc_build.yml/badge.svg"/>
     </a>
@@ -87,3 +108,17 @@ Use one of the following presets along with CMake.
 cmake --preset windows-msvc-x64
 cmake --build --preset windows-msvc-x64-debug
 ```
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<!-- CONTACT -->
+
+## Contact
+
+Felipe Dias - [@felipegodias](https://twitter.com/felipegodias) - felipe.g.o.dias@outlook.com
+
+Project Link: <https://github.com/felipegodias/GameDB.Client>
