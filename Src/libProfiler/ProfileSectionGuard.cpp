@@ -6,7 +6,7 @@ namespace GDB
 {
     ProfileSectionGuard* current = nullptr;
 
-    ProfileSectionGuard::ProfileSectionGuard(std::string name, Profiler* profiler)
+    ProfileSectionGuard::ProfileSectionGuard(String name, Profiler* profiler)
         : _profiler(profiler), _currentScopeEntry(nullptr), _sectionEntry({})
     {
         _sectionEntry.name = std::move(name);
@@ -25,7 +25,7 @@ namespace GDB
         return current;
     }
 
-    void ProfileSectionGuard::PushScope(std::string name)
+    void ProfileSectionGuard::PushScope(String name)
     {
         Profiler::ScopeEntry scopeEntry{
             _currentScopeEntry,

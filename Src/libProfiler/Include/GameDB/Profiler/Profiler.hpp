@@ -2,8 +2,9 @@
 #define GDB_LIB_PROFILER_PROFILER_HPP
 
 #include <chrono>
-#include <string>
-#include <vector>
+
+#include "GameDB/Container/String.hpp"
+#include "GameDB/Container/Vector.hpp"
 
 namespace GDB
 {
@@ -15,18 +16,18 @@ namespace GDB
         struct ScopeEntry
         {
             ScopeEntry* parent;
-            std::string name;
+            String name;
             TimePoint start;
             TimePoint end;
-            std::vector<ScopeEntry> children;
+            Vector<ScopeEntry> children;
         };
 
         struct SectionEntry
         {
-            std::string name;
+            String name;
             TimePoint start;
             TimePoint end;
-            std::vector<ScopeEntry> scopeEntries;
+            Vector<ScopeEntry> scopeEntries;
         };
 
         static Profiler* Global();
@@ -35,7 +36,7 @@ namespace GDB
 
     private:
         // TODO: Use a ring buffer.
-        std::vector<SectionEntry> _sections;
+        Vector<SectionEntry> _sections;
     };
 }
 

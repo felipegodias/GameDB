@@ -2,7 +2,7 @@
 
 namespace GDB
 {
-    ProfileScopeGuard::ProfileScopeGuard(std::string name, ProfileSectionGuard* section)
+    ProfileScopeGuard::ProfileScopeGuard(String name, ProfileSectionGuard* section)
         : _section(section)
     {
         section->PushScope(std::move(name));

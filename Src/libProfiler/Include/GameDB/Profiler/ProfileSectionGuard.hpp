@@ -1,16 +1,15 @@
 #ifndef GDB_LIB_PROFILER_PROFILE_SECTION_GUARD_HPP
 #define GDB_LIB_PROFILER_PROFILE_SECTION_GUARD_HPP
 
-#include <string>
-
 #include "Profiler.hpp"
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
     class ProfileSectionGuard
     {
     public:
-        explicit ProfileSectionGuard(std::string name, Profiler* profiler);
+        explicit ProfileSectionGuard(String name, Profiler* profiler);
 
         ProfileSectionGuard(const ProfileSectionGuard& other) = delete;
         ProfileSectionGuard(ProfileSectionGuard&& other) noexcept = delete;
@@ -21,7 +20,7 @@ namespace GDB
 
         static ProfileSectionGuard* GetCurrent();
 
-        void PushScope(std::string name);
+        void PushScope(String name);
         void PopScope();
 
     private:

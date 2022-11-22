@@ -1,16 +1,15 @@
 #ifndef GDB_LIB_PROFILER_PROFILE_SCOPE_GUARD_HPP
 #define GDB_LIB_PROFILER_PROFILE_SCOPE_GUARD_HPP
 
-#include <string>
-
 #include "ProfileSectionGuard.hpp"
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
     class ProfileScopeGuard
     {
     public:
-        ProfileScopeGuard(std::string name, ProfileSectionGuard* section);
+        ProfileScopeGuard(String name, ProfileSectionGuard* section);
 
         ProfileScopeGuard(const ProfileScopeGuard& other) = delete;
         ProfileScopeGuard(ProfileScopeGuard&& other) noexcept = delete;
