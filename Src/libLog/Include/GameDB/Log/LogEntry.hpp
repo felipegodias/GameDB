@@ -4,6 +4,7 @@
 #include <filesystem>
 
 #include "LogType.hpp"
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
@@ -17,9 +18,9 @@ namespace GDB
         TimePoint timePoint;
         std::filesystem::path filePath;
         std::size_t fileLine;
-        std::string function;
-        std::string message;
-        std::string formatterMessage;
+        String function;
+        String message;
+        String formatterMessage;
     };
 }
 

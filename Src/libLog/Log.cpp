@@ -1,6 +1,6 @@
 #include "GameDB/Log/Log.hpp"
 
-#include <sstream>
+#include "GameDB/Container/StringStream.hpp"
 
 namespace GDB
 {
@@ -15,7 +15,7 @@ namespace GDB
         return _spools;
     }
 
-    std::optional<std::weak_ptr<LogSpool>> Log::GetSpool(const std::string& spool) const
+    std::optional<WeakPtr<LogSpool>> Log::GetSpool(const String& spool) const
     {
         const auto spoolsIt = _spools.find(spool);
         if (spoolsIt == _spools.end())
@@ -26,19 +26,19 @@ namespace GDB
         return spoolsIt->second;
     }
 
-    std::weak_ptr<LogSpool> Log::SetSpool(const std::string& spool, std::shared_ptr<LogSpool> logSpool)
+    WeakPtr<LogSpool> Log::SetSpool(const String& spool, SharedPtr<LogSpool> logSpool)
     {
         _spools.emplace(spool, std::move(logSpool));
         return _spools[spool];
     }
 
-    std::weak_ptr<LogSpool> Log::AddSpool(const std::string& spool)
+    WeakPtr<LogSpool> Log::AddSpool(const String& spool)
     {
         return SetSpool(spool, std::make_shared<LogSpool>());
     }
 
-    void Log::LogMessage(const std::string& spool, LogType logType, std::filesystem::path filePath,
-                         std::size_t fileLine, std::string function, std::string message)
+    void Log::LogMessage(const String& spool, LogType logType, std::filesystem::path filePath,
+                         std::size_t fileLine, String function, String message)
     {
         auto spoolsIt = _spools.find(spool);
         if (spoolsIt == _spools.end())
@@ -46,6 +46,7 @@ namespace GDB
             return;
         }
 
+        // TODO: Abstract time point logic somewhere else.
         LogEntry::TimePoint timePoint = std::chrono::system_clock::now();
         std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
         tm tm{};
@@ -54,7 +55,7 @@ namespace GDB
             return;
         }
 
-        std::stringstream formattedMessage;
+        StringStream formattedMessage;
         formattedMessage << std::put_time(&tm, "%FT%T");
         formattedMessage << " [" << ToString(logType) << "]: ";
         formattedMessage << message << "\n";

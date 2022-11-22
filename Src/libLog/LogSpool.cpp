@@ -15,7 +15,7 @@ namespace GDB
         return _sinks;
     }
 
-    std::weak_ptr<LogSink> LogSpool::AddSink(std::shared_ptr<LogSink> sink)
+    WeakPtr<LogSink> LogSpool::AddSink(SharedPtr<LogSink> sink)
     {
         _sinks.push_back(std::move(sink));
         return _sinks[_sinks.size() - 1];

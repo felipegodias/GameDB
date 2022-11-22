@@ -4,7 +4,7 @@
 
 namespace GDB
 {
-    const std::array<std::string, static_cast<size_t>(LogType::Critical) + 1> logTypeStr = {
+    const std::array<String, static_cast<size_t>(LogType::Critical) + 1> logTypeStr = {
         "Verbose",
         "Debug",
         "Info",
@@ -13,7 +13,7 @@ namespace GDB
         "Critical"
     };
 
-    const std::string& ToString(LogType logType)
+    const String& ToString(LogType logType)
     {
         return logTypeStr[static_cast<size_t>(logType)];
     }

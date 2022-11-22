@@ -3,7 +3,8 @@
 
 #include <cstdlib>
 #include <filesystem>
-#include <string>
+
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
@@ -18,11 +19,11 @@ namespace GDB
          */
         struct AssertionInfo
         {
-            std::string expression;
+            String expression;
             std::filesystem::path filePath;
             std::size_t fileLine;
-            std::string function;
-            std::string message;
+            String function;
+            String message;
         };
 
         /**

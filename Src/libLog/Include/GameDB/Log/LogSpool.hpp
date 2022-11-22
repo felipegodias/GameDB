@@ -2,13 +2,13 @@
 #define GDB_LIB_LOG_LOG_SPOOL_HPP
 
 #include <filesystem>
-#include <memory>
 #include <optional>
 #include <type_traits>
-#include <vector>
 
 #include "LogSink.hpp"
 #include "LogEntry.hpp"
+#include "GameDB/Container/Vector.hpp"
+#include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
 {
@@ -18,7 +18,7 @@ namespace GDB
     class LogSpool
     {
     public:
-        using LogSinks = std::vector<std::shared_ptr<LogSink>>;
+        using LogSinks = Vector<SharedPtr<LogSink>>;
 
         /**
          * \brief 
@@ -38,7 +38,7 @@ namespace GDB
          * \return 
          */
         template <typename Ty, std::enable_if_t<std::is_base_of_v<LogSink, Ty>, bool>  = true>
-        std::optional<std::weak_ptr<Ty>> GetSink() const
+        std::optional<WeakPtr<Ty>> GetSink() const
         {
             for (const auto& loggerSink : _sinks)
             {
@@ -56,7 +56,7 @@ namespace GDB
          * \param sink 
          * \return 
          */
-        std::weak_ptr<LogSink> AddSink(std::shared_ptr<LogSink> sink);
+        WeakPtr<LogSink> AddSink(SharedPtr<LogSink> sink);
 
         /**
          * \brief 
@@ -68,9 +68,9 @@ namespace GDB
         template <typename Ty, typename ... ArgsTy,
                   std::enable_if_t<std::is_constructible_v<Ty, ArgsTy...>, bool>  = true,
                   std::enable_if_t<std::is_base_of_v<LogSink, Ty>, bool>  = true>
-        std::weak_ptr<Ty> AddSink(ArgsTy&& ... args)
+        WeakPtr<Ty> AddSink(ArgsTy&& ... args)
         {
-            auto sink = std::make_shared<Ty>(std::forward<ArgsTy>(args)...);
+            auto sink = MakeShared<Ty>(std::forward<ArgsTy>(args)...);
             AddSink(sink);
             return sink;
         }

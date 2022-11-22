@@ -1,12 +1,12 @@
 #ifndef GDB_LIB_LOG_LOG_HPP
 #define GDB_LIB_LOG_LOG_HPP
 
-#include <memory>
 #include <optional>
-#include <string>
-#include <map>
 
 #include "LogSpool.hpp"
+#include "GameDB/Container/Map.hpp"
+#include "GameDB/Container/String.hpp"
+#include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
 {
@@ -16,7 +16,7 @@ namespace GDB
     class Log
     {
     public:
-        using SpoolsMap = std::map<std::string, std::shared_ptr<LogSpool>>;
+        using SpoolsMap = Map<String, SharedPtr<LogSpool>>;
 
         /**
          * \brief 
@@ -35,20 +35,20 @@ namespace GDB
          * \param spool 
          * \return 
          */
-        [[nodiscard]] std::optional<std::weak_ptr<LogSpool>> GetSpool(const std::string& spool) const;
+        [[nodiscard]] std::optional<std::weak_ptr<LogSpool>> GetSpool(const String& spool) const;
 
         /**
          * \brief 
          * \param logSpool 
          * \param logSpool 
          */
-        std::weak_ptr<LogSpool> SetSpool(const std::string& spool, std::shared_ptr<LogSpool> logSpool);
+        std::weak_ptr<LogSpool> SetSpool(const String& spool, SharedPtr<LogSpool> logSpool);
 
         /**
          * \brief 
          * \param spool 
          */
-        std::weak_ptr<LogSpool> AddSpool(const std::string& spool);
+        std::weak_ptr<LogSpool> AddSpool(const String& spool);
 
         /**
          * \brief 
@@ -59,8 +59,8 @@ namespace GDB
          * \param function 
          * \param message 
          */
-        void LogMessage(const std::string& spool, LogType logType, std::filesystem::path filePath, std::size_t fileLine,
-                        std::string function, std::string message);
+        void LogMessage(const String& spool, LogType logType, std::filesystem::path filePath, std::size_t fileLine,
+                        String function, String message);
 
     private:
         SpoolsMap _spools;

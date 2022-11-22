@@ -1,6 +1,7 @@
 #ifndef GDB_LIB_LOG_LOG_TYPE_HPP
 #define GDB_LIB_LOG_LOG_TYPE_HPP
-#include <string>
+
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
@@ -17,7 +18,12 @@ namespace GDB
         Critical = 5
     };
 
-    const std::string& ToString(LogType logType);
+    /**
+     * \brief 
+     * \param logType 
+     * \return 
+     */
+    const String& ToString(LogType logType);
 }
 
 #endif // !GDB_LIB_LOG_LOG_TYPE_HPP
