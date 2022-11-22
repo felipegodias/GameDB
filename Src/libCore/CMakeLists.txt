@@ -11,7 +11,9 @@ target_link_libraries(gdb.libCore INTERFACE
 	gdb.libFormat
 	gdb.libJson
 	gdb.libKernel
+	gdb.libLog
 	gdb.libMath
 	gdb.libMemory
+	gdb.libProfiler
 	gdb.libProject
 )
