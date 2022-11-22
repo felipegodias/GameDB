@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_LOG_SINK_HPP
-#define GDB_LIB_DEBUG_LOG_SINK_HPP
+#ifndef GDB_LIB_LOG_LOG_SINK_HPP
+#define GDB_LIB_LOG_LOG_SINK_HPP
 
 #include "LogEntry.hpp"
 
@@ -22,4 +22,4 @@ namespace GDB
     };
 }
 
-#endif // !GDB_LIB_DEBUG_LOG_SINK_HPP
+#endif // !GDB_LIB_LOG_LOG_SINK_HPP

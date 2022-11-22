@@ -1,4 +1,4 @@
-#include "GameDB/Debug/Profiler.hpp"
+#include "GameDB/Profiler/Profiler.hpp"
 
 namespace GDB
 {

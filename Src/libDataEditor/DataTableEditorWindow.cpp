@@ -5,6 +5,7 @@
 
 #include "GameDB/libData.hpp"
 #include "GameDB/libDebug.hpp"
+#include "GameDB/libProfiler.hpp"
 
 namespace GDB
 {

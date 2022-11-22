@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_LOG_SINK_STD_OUT_HPP
-#define GDB_LIB_DEBUG_LOG_SINK_STD_OUT_HPP
+#ifndef GDB_LIB_LOG_LOG_SINK_STD_OUT_HPP
+#define GDB_LIB_LOG_LOG_SINK_STD_OUT_HPP
 
 #include "LogSink.hpp"
 
@@ -15,4 +15,4 @@ namespace GDB
     };
 }
 
-#endif // !GDB_LIB_DEBUG_LOG_SINK_STD_OUT_HPP
+#endif // !GDB_LIB_LOG_LOG_SINK_STD_OUT_HPP

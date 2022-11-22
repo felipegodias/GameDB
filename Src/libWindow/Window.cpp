@@ -7,9 +7,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h> // Will drag system OpenGL headers
 
-#include "GameDB/libFormat.hpp"
-
 #include "GameDB/libDebug.hpp"
+#include "GameDB/libFormat.hpp"
+#include "GameDB/libProfiler.hpp"
 
 namespace GDB
 {

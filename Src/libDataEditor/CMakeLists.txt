@@ -10,4 +10,5 @@ target_include_directories(gdb.libDataEditor PUBLIC
 target_link_libraries(gdb.libDataEditor PUBLIC
 	gdb.libData
 	gdb.libEditor
+	gdb.libProfiler
 )

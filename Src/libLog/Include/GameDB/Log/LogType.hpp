@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_LOG_TYPE_HPP
-#define GDB_LIB_DEBUG_LOG_TYPE_HPP
+#ifndef GDB_LIB_LOG_LOG_TYPE_HPP
+#define GDB_LIB_LOG_LOG_TYPE_HPP
 #include <string>
 
 namespace GDB
@@ -20,4 +20,4 @@ namespace GDB
     const std::string& ToString(LogType logType);
 }
 
-#endif // !GDB_LIB_DEBUG_LOG_TYPE_HPP
+#endif // !GDB_LIB_LOG_LOG_TYPE_HPP

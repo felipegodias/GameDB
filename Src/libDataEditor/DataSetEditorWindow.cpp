@@ -4,6 +4,7 @@
 #include <imgui_stdlib.h>
 
 #include "GameDB/libDebug.hpp"
+#include "GameDB/libProfiler.hpp"
 #include "GameDB/DataEditor/DataTableEditorWindow.hpp"
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/Editor.hpp"

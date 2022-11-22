@@ -12,5 +12,7 @@ target_include_directories(gdb.libEditor PUBLIC
 
 target_link_libraries(gdb.libEditor PUBLIC
 	gdb.libCore
+	gdb.libLog
+	gdb.libProfiler
 	imgui::imgui
 )

@@ -1,4 +1,4 @@
-#include "GameDB/Debug/LogSinkStdOut.hpp"
+#include "GameDB/Log/LogSinkStdOut.hpp"
 
 #include <iostream>
 

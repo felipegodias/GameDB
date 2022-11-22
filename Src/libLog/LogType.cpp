@@ -1,4 +1,4 @@
-#include "GameDB/Debug/LogType.hpp"
+#include "GameDB/Log/LogType.hpp"
 
 #include <array>
 

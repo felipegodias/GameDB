@@ -2,7 +2,7 @@
 #define GDB_LIB_DEBUG_EDITOR_CONSOLE_EDITOR_WINDOW_HPP
 
 #include "LoggerSinkConsole.hpp"
-#include "GameDB/Debug/Log.hpp"
+#include "GameDB/Log/Log.hpp"
 #include "GameDB/Editor/EditorWindow.hpp"
 #include <GameDB/Container/Vector.hpp>
 

@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_LOG_SPOOL_HPP
-#define GDB_LIB_DEBUG_LOG_SPOOL_HPP
+#ifndef GDB_LIB_LOG_LOG_SPOOL_HPP
+#define GDB_LIB_LOG_LOG_SPOOL_HPP
 
 #include <filesystem>
 #include <memory>
@@ -81,4 +81,4 @@ namespace GDB
     };
 }
 
-#endif // !GDB_LIB_DEBUG_LOG_SPOOL_HPP
+#endif // !GDB_LIB_LOG_LOG_SPOOL_HPP

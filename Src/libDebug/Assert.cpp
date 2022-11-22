@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "GameDB/Debug/Log.hpp"
+#include "GameDB/Log/Log.hpp"
 
 
 namespace GDB

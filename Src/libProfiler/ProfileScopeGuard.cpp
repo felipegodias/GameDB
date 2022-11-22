@@ -1,4 +1,4 @@
-#include "GameDB/Debug/ProfileScopeGuard.hpp"
+#include "GameDB/Profiler/ProfileScopeGuard.hpp"
 
 namespace GDB
 {

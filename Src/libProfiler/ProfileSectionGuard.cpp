@@ -1,4 +1,4 @@
-#include "GameDB/Debug/ProfileSectionGuard.hpp"
+#include "GameDB/Profiler/ProfileSectionGuard.hpp"
 
 #include "GameDB/Debug/Assert.hpp"
 

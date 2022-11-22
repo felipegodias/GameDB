@@ -4,17 +4,18 @@
 #include <gsl/span>
 
 #include "GameDB/Config.hpp"
-#include "GameDB/libWindow.hpp"
-#include "GameDB/libEditor.hpp"
-#include "GameDB/libDataEditor.hpp"
 #include "GameDB/libData.hpp"
-#include "GameDB/libDI.hpp"
-#include "GameDB/libFileSystem.hpp"
-#include "GameDB/libKernel.hpp"
-#include "GameDB/libEditorTheme.hpp"
-#include "GameDB/libEditorThemeSerializer.hpp"
+#include "GameDB/libDataEditor.hpp"
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libDebugEditor.hpp"
+#include "GameDB/libDI.hpp"
+#include "GameDB/libEditor.hpp"
+#include "GameDB/libEditorTheme.hpp"
+#include "GameDB/libEditorThemeSerializer.hpp"
+#include "GameDB/libFileSystem.hpp"
+#include "GameDB/libKernel.hpp"
+#include "GameDB/libProfiler.hpp"
+#include "GameDB/libWindow.hpp"
 
 namespace GDB
 {

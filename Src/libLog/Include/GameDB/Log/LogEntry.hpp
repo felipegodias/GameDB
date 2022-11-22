@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_LOG_ENTRY_HPP
-#define GDB_LIB_DEBUG_LOG_ENTRY_HPP
+#ifndef GDB_LIB_LOG_LOG_ENTRY_HPP
+#define GDB_LIB_LOG_LOG_ENTRY_HPP
 
 #include <filesystem>
 
@@ -23,4 +23,4 @@ namespace GDB
     };
 }
 
-#endif // !GDB_LIB_DEBUG_LOG_ENTRY_HPP
+#endif // !GDB_LIB_LOG_LOG_ENTRY_HPP

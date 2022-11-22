@@ -1,4 +1,4 @@
-#include "GameDB/Debug/LogSpool.hpp"
+#include "GameDB/Log/LogSpool.hpp"
 
 namespace GDB
 {

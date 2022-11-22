@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_LOG_HPP
-#define GDB_LIB_DEBUG_LOG_HPP
+#ifndef GDB_LIB_LOG_LOG_HPP
+#define GDB_LIB_LOG_LOG_HPP
 
 #include <memory>
 #include <optional>
@@ -73,4 +73,4 @@ GDB::Log::Global()->LogMessage((spool), (logType), __FILE__, __LINE__, __FUNCSIG
 #define GDB_LOG_VERBOSE(spool, message) GDB_LOG(GDB::LogType::Verbose, spool, message)
 #define GDB_LOG_DEBUG(spool, message) GDB_LOG(GDB::LogType::Debug, spool, message)
 
-#endif // !GDB_LIB_DEBUG_LOG_HPP
+#endif // !GDB_LIB_LOG_LOG_HPP

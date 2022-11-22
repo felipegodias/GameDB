@@ -3,9 +3,11 @@
 #include <algorithm>
 #include <imgui.h>
 
+#include "GameDB/libDebug.hpp"
+#include "GameDB/libLog.hpp"
+#include "GameDB/libProfiler.hpp"
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/FileSystem/FileSystem.hpp"
-#include "GameDB/libDebug.hpp"
 
 namespace GDB
 {

@@ -1,5 +1,5 @@
-#ifndef GDB_LIB_DEBUG_PROFILER_HPP
-#define GDB_LIB_DEBUG_PROFILER_HPP
+#ifndef GDB_LIB_PROFILER_PROFILER_HPP
+#define GDB_LIB_PROFILER_PROFILER_HPP
 
 #include <chrono>
 #include <string>
@@ -34,8 +34,9 @@ namespace GDB
         void PushSection(SectionEntry sectionEntry);
 
     private:
+        // TODO: Use a ring buffer.
         std::vector<SectionEntry> _sections;
     };
 }
 
-#endif // !GDB_LIB_DEBUG_PROFILER_HPP
+#endif // !GDB_LIB_PROFILER_PROFILER_HPP

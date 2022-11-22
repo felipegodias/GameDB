@@ -8,6 +8,7 @@ target_link_libraries(gdb.exeEditor PRIVATE
     gdb.libEditorThemeSerializer
     gdb.libDataEditor
     gdb.libDebugEditor
+    gdb.libProfiler
     argparse::argparse
 )
 

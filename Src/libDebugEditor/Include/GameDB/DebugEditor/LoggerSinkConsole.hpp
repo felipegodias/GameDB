@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "GameDB/Debug/LogSink.hpp"
+#include "GameDB/Log/LogSink.hpp"
 
 namespace GDB
 {

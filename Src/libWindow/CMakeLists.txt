@@ -8,6 +8,7 @@ target_include_directories(gdb.libWindow PUBLIC
 
 target_link_libraries(gdb.libWindow PUBLIC
     gdb.libCore
+    gdb.libProfiler
     GLEW::GLEW
     glfw
     imgui::imgui
