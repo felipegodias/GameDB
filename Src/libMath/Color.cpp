@@ -12,10 +12,10 @@ namespace GDB
         constexpr float maxColorValue = 255.0F;
         constexpr unsigned int redChannelMask = 0xff000000;
         constexpr unsigned int redChannelShift = 24;
-        constexpr unsigned int blueChannelMask = 0x00ff0000;
-        constexpr unsigned int blueChannelShift = 16;
-        constexpr unsigned int greenChannelMask = 0x0000ff00;
-        constexpr unsigned int greenChannelShift = 8;
+        constexpr unsigned int greenChannelMask = 0x00ff0000;
+        constexpr unsigned int greenChannelShift = 16;
+        constexpr unsigned int blueChannelMask = 0x0000ff00;
+        constexpr unsigned int blueChannelShift = 8;
         constexpr unsigned int alphaChannelMask = 0x000000ff;
         constexpr unsigned int alphaChannelShift = 0;
 
