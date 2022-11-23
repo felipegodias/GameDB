@@ -79,14 +79,7 @@ namespace GDB
         auto* editor = DIContainer::Global()->Resolve<Editor*>();
 
         {
-            auto* fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
-            UniquePtr<File> themeFile = fileSystem->GetFile("/res/Themes/Default.json");
-            UniquePtr<std::iostream> themeFileStream = themeFile->Open();
 
-            Json themeJson;
-            *themeFileStream >> themeJson;
-            Theme theme = themeJson;
-            Theme::Apply(theme);
         }
 
         DataSet dataSet;
@@ -104,11 +97,9 @@ namespace GDB
         editor->AddWindow<DataSetEditorWindow>(&dataSet);
         editor->AddWindow<ConsoleEditorWindow>(Log::Global());
 
-        int frame = 0;
         while (window->IsOpen())
         {
             GDB_PROFILE_SECTION("frame");
-            std::cout << frame++ << std::endl;
             editor->AwakeWindows();
             editor->UpdateWindows();
             window->BeginFrame();

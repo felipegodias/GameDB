@@ -8,19 +8,40 @@
 #include "GameDB/libProfiler.hpp"
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/FileSystem/FileSystem.hpp"
+#include "GameDB/libEditorTheme.hpp"
+#include "GameDB/libEditorThemeSerializer.hpp"
 
 namespace GDB
 {
+    namespace 
+    {
+        bool reloadThemeNeeded = true;
+
+        void ReloadTheme()
+        {
+            auto* fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
+            UniquePtr<File> themeFile = fileSystem->GetFile("/res/Themes/Default.json");
+            UniquePtr<std::iostream> themeFileStream = themeFile->Open();
+
+            Json themeJson;
+            *themeFileStream >> themeJson;
+            Theme theme = themeJson;
+            Theme::Apply(theme);
+        }
+    }
+
     Editor::Editor()
     {
         const float fontSize = 16.0F;
         const float fontScale = 1.25F;
 
-        auto* fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
-        auto file = fileSystem->GetFile("/res/Themes/Default.json");
+        //std::filesystem::path fontPath = "/res/Fonts";
+        //fontPath /= theme.Font;
+        //auto fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
+        //auto file = fileSystem->GetFile("/res/Themes/Default.json");
 
         ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/Roboto-Regular.ttf", fontSize * fontScale);
-    }
+    };
 
     void Editor::AwakeWindows()
     {
@@ -37,6 +58,12 @@ namespace GDB
 
     void Editor::UpdateWindows() const
     {
+        if (reloadThemeNeeded)
+        {
+            ReloadTheme();
+            reloadThemeNeeded = false;
+        }
+
         GDB_PROFILE_FUNCTION();
         for (const auto& window : _activeWindows)
         {
@@ -53,9 +80,9 @@ namespace GDB
         ImGui::MenuItem("Project");
         ImGui::MenuItem("Window");
         ImGui::MenuItem("Help");
-        if (ImGui::MenuItem("Log"))
+        if (ImGui::MenuItem("Reload Theme"))
         {
-            GDB_LOG_DEBUG("Main", "Lorem ipsum...");
+            reloadThemeNeeded = true;
         }
         ImGui::EndMainMenuBar();
 

@@ -23,16 +23,6 @@ namespace GDB
 
     void Theme::Apply(const Theme& theme)
     {
-        const float fontSize = 16.0F;
-        const float fontScale = 1.25F;
-
-        //std::filesystem::path fontPath = "/res/Fonts";
-        //fontPath /= theme.Font;
-        //auto fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
-        //auto file = fileSystem->GetFile("/res/Themes/Default.json");
-
-        ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/Roboto-Regular.ttf", fontSize * fontScale);
-
         ImGuiStyle& style = ImGui::GetStyle();
         style.WindowPadding = ToImVec2(theme.style.windowPadding);
         style.FramePadding = ToImVec2(theme.style.framePadding);

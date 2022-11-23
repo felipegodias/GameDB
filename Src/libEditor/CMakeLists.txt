@@ -14,5 +14,7 @@ target_link_libraries(gdb.libEditor PUBLIC
 	gdb.libCore
 	gdb.libLog
 	gdb.libProfiler
+	gdb.libEditorTheme
+	gdb.libEditorThemeSerializer
 	imgui::imgui
 )
