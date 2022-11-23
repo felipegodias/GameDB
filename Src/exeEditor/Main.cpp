@@ -16,6 +16,7 @@
 #include "GameDB/libKernel.hpp"
 #include "GameDB/libProfiler.hpp"
 #include "GameDB/libWindow.hpp"
+#include "GameDB/libContainer.hpp"
 
 namespace GDB
 {
@@ -103,9 +104,11 @@ namespace GDB
         editor->AddWindow<DataSetEditorWindow>(&dataSet);
         editor->AddWindow<ConsoleEditorWindow>(Log::Global());
 
+        int frame = 0;
         while (window->IsOpen())
         {
             GDB_PROFILE_SECTION("frame");
+            std::cout << frame++ << std::endl;
             editor->AwakeWindows();
             editor->UpdateWindows();
             window->BeginFrame();

@@ -10,6 +10,6 @@ namespace GDB
 
     void Profiler::PushSection(SectionEntry sectionEntry)
     {
-        _sections.push_back(std::move(sectionEntry));
+        _sections.PushBack(std::move(sectionEntry));
     }
 }

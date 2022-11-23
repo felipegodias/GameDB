@@ -5,6 +5,7 @@
 
 #include "GameDB/Container/String.hpp"
 #include "GameDB/Container/Vector.hpp"
+#include "GameDB/Container/RingBuffer.hpp"
 
 namespace GDB
 {
@@ -35,8 +36,9 @@ namespace GDB
         void PushSection(SectionEntry sectionEntry);
 
     private:
-        // TODO: Use a ring buffer.
-        Vector<SectionEntry> _sections;
+        // 3600 = 60 frames per second multiplied by 60 seconds.
+        // So we keep track from the last minute.
+        RingBuffer<SectionEntry, 3600> _sections;
     };
 }
 
