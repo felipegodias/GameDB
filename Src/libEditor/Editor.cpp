@@ -10,6 +10,7 @@
 #include "GameDB/FileSystem/FileSystem.hpp"
 #include "GameDB/libEditorTheme.hpp"
 #include "GameDB/libEditorThemeSerializer.hpp"
+#include "GameDB/Editor/FontAwesomeIcons.hpp"
 
 namespace GDB
 {
@@ -32,16 +33,20 @@ namespace GDB
 
     Editor::Editor()
     {
-        const float fontSize = 16.0F;
         const float fontScale = 1.25F;
+        const float robotoFontSize = 16.0F;
 
-        //std::filesystem::path fontPath = "/res/Fonts";
-        //fontPath /= theme.Font;
-        //auto fileSystem = DIContainer::Global()->Resolve<FileSystem*>();
-        //auto file = fileSystem->GetFile("/res/Themes/Default.json");
+        ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/Roboto-Regular.ttf", robotoFontSize * fontScale);
 
-        ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/Roboto-Regular.ttf", fontSize * fontScale);
-    };
+        const float fontAwesomeFontSize = 13.0F;
+        ImFontConfig config;
+        config.MergeMode = true;
+        config.GlyphMinAdvanceX = fontAwesomeFontSize * fontScale; // Use if you want to make the icon monospaced
+        static const ImWchar icon_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
+
+        ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/" FONT_ICON_FILE_NAME_FAR, fontAwesomeFontSize * fontScale, &config, icon_ranges);
+        ImGui::GetIO().Fonts->AddFontFromFileTTF("Resources/Fonts/" FONT_ICON_FILE_NAME_FAS, fontAwesomeFontSize * fontScale, &config, icon_ranges);
+    }
 
     void Editor::AwakeWindows()
     {

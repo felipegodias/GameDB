@@ -6,11 +6,12 @@
 #include "GameDB/libData.hpp"
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/Editor/FontAwesomeIcons.hpp"
 
 namespace GDB
 {
     DataTableEditorWindow::DataTableEditorWindow(DataTable* dataTable)
-        : EditorWindow(dataTable->GetName()),
+        : EditorWindow(ICON_FA_TABLE " " + dataTable->GetName()),
           _dataTable(dataTable)
     {
         GetEditorMenu()->AddItem("New Row", [dataTable]

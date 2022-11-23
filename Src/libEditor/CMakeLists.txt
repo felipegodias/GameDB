@@ -4,6 +4,7 @@ add_library(gdb.libEditor STATIC
 	"EditorMenuGroup.cpp"
 	"EditorMenuItem.cpp"
 	"EditorWindow.cpp"
+	"FontAwesomeIcons.cpp"
 )
 
 target_include_directories(gdb.libEditor PUBLIC

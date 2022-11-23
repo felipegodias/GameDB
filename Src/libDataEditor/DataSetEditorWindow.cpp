@@ -8,11 +8,12 @@
 #include "GameDB/DataEditor/DataTableEditorWindow.hpp"
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/Editor.hpp"
+#include "GameDB/Editor/FontAwesomeIcons.hpp"
 
 namespace GDB
 {
     DataSetEditorWindow::DataSetEditorWindow(DataSet* dataSet)
-        : EditorWindow("DataSet"),
+        : EditorWindow(ICON_FA_DATABASE " DataSet"),
           _dataSet(dataSet)
     {
         GetEditorMenu()->AddItem("New Table", []

@@ -4,11 +4,12 @@
 
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/Editor/FontAwesomeIcons.hpp"
 
 namespace GDB
 {
     ConsoleEditorWindow::ConsoleEditorWindow(const Log* log)
-        : EditorWindow("Console")
+        : EditorWindow(ICON_FA_TERMINAL " Console")
     {
         for (const auto& [spool, logSpool] : log->GetSpools())
         {
