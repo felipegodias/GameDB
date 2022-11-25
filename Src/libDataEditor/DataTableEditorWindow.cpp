@@ -14,12 +14,7 @@ namespace GDB
         : EditorWindow(ICON_FA_TABLE " " + dataTable->GetName()),
           _dataTable(dataTable)
     {
-        GetEditorMenu()->AddItem("New Row", [dataTable]
-        {
-            dataTable->AddRow();
-        });
-
-        GetEditorMenu()->AddItem("Edit Table", [dataTable]
+        GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Row", [dataTable]
         {
             dataTable->AddRow();
         });
@@ -44,7 +39,9 @@ namespace GDB
             return;
         }
 
-        ImGui::BeginTable("Table", tableColumns);
+        const ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable;
+        ImGui::BeginTable("Table", tableColumns, flags);
+        ImGui::TableSetupScrollFreeze(1, 1);
         for (const auto& column : _dataTable->GetColumns())
         {
             ImGui::TableSetupColumn(column->GetName().c_str());

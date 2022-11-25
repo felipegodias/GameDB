@@ -22,6 +22,8 @@ namespace GDB
 {
     int Main(const std::vector<std::string>& args)
     {
+        auto loadingProfilerSection = MakeUnique<ProfileSectionGuard>("Loading", GDB::Profiler::Global());
+
         argparse::ArgumentParser argumentParser(PROJECT_NAME, PROJECT_VER);
         try
         {
@@ -78,24 +80,11 @@ namespace GDB
         auto* window = DIContainer::Global()->Resolve<Window*>();
         auto* editor = DIContainer::Global()->Resolve<Editor*>();
 
-        {
-
-        }
-
-        DataSet dataSet;
-
-        DataTable* dataTable = dataSet.AddDataTable(DataId::Random(), "Pokemons");
-        dataTable->GetOnPropertyChanged()->AddListener([](const DataTable::OnPropertyChangedData& data)
-        {
-            std::cout << data.oldName << " " << data.oldColumnsSize << " " << data.oldRowsSize << std::endl;
-        });
-
-        dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Id", MakeUnique<DataTypeString>()));
-        dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), "Name", MakeUnique<DataTypeString>()));
-
-        editor->AddWindow<DataTableEditorWindow>(dataTable);
-        editor->AddWindow<DataSetEditorWindow>(&dataSet);
+        SharedPtr<DataSet> dataSet = MakeShared<DataSet>();
+        editor->AddWindow<DataSetEditorWindow>(dataSet);
         editor->AddWindow<ConsoleEditorWindow>(Log::Global());
+
+        loadingProfilerSection.reset();
 
         while (window->IsOpen())
         {
@@ -109,7 +98,6 @@ namespace GDB
         }
 
         [[maybe_unused]] Profiler* profiler = Profiler::Global();
-
 
         return EXIT_SUCCESS;
     }

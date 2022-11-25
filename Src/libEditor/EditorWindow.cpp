@@ -43,15 +43,21 @@ namespace GDB
         }
     }
 
-    EditorWindow::EditorWindow(String name)
+    EditorWindow::EditorWindow(String name, const Type type)
         : _instanceId(NextInstanceId()),
           _name(std::move(name)),
+          _type(type),
           _state(State::WaitingForAwake),
           _editorMenu(MakeUnique<EditorMenu>())
     {
     }
 
     EditorWindow::~EditorWindow() = default;
+
+    int EditorWindow::GetInstanceId() const
+    {
+        return _instanceId;
+    }
 
     const String& EditorWindow::GetName() const
     {
@@ -107,7 +113,18 @@ namespace GDB
         }
 
         bool open = true;
-        if (ImGui::Begin(Format("{0}###{1}", _name, _instanceId).c_str(), &open, windowFlags))
+        const String windowId = Format("{0}###{1}", _name, _instanceId);
+        bool render = false;
+        if (_type == Type::Regular)
+        {
+            render = ImGui::Begin(windowId.c_str(), &open, windowFlags);
+        }
+        else if (_type == Type::Modal)
+        {
+            render = ImGui::BeginPopupModal(windowId.c_str(), &open, windowFlags);
+        }
+
+        if (render)
         {
             if (showMenu)
             {
@@ -119,7 +136,23 @@ namespace GDB
 
             OnGUI();
         }
-        ImGui::End();
+
+        if (_type == Type::Regular)
+        {
+            ImGui::End();
+        }
+        else if (_type == Type::Modal)
+        {
+            if (render)
+            {
+                ImGui::EndPopup();
+            }
+
+            if (!ImGui::IsPopupOpen(windowId.c_str()) && open)
+            {
+                ImGui::OpenPopup(windowId.c_str());
+            }
+        }
 
         if (!open)
         {

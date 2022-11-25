@@ -1,4 +1,5 @@
 add_library(gdb.libDataEditor STATIC 
+	"CreateDataTableEditorWindow.cpp"
 	"DataSetEditorWindow.cpp"
 	"DataTableEditorWindow.cpp"
 )

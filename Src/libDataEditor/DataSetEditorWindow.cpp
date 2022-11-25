@@ -5,20 +5,20 @@
 
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/DataEditor/CreateDataTableEditorWindow.hpp"
 #include "GameDB/DataEditor/DataTableEditorWindow.hpp"
-#include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Editor/FontAwesomeIcons.hpp"
 
 namespace GDB
 {
-    DataSetEditorWindow::DataSetEditorWindow(DataSet* dataSet)
+    DataSetEditorWindow::DataSetEditorWindow(const SharedPtr<DataSet>& dataSet)
         : EditorWindow(ICON_FA_DATABASE " DataSet"),
           _dataSet(dataSet)
     {
-        GetEditorMenu()->AddItem("New Table", []
+        GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Table", [this]
         {
-            //dataSet->AddDataTable();
+            Editor::CreateWindow<CreateDataTableEditorWindow>(_dataSet.lock());
         });
     }
 
@@ -36,7 +36,8 @@ namespace GDB
     {
         GDB_PROFILE_FUNCTION();
         auto* const editor = DIContainer::Global()->Resolve<Editor*>();
-        for (const auto& table : _dataSet->GetDataTables())
+        const SharedPtr<DataSet> dataSet = _dataSet.lock();
+        for (const auto& table : dataSet->GetDataTables())
         {
             if (ImGui::Button(table->GetName().c_str(), ImVec2(-1, 0)))
             {

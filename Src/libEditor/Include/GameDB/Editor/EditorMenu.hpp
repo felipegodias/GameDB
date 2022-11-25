@@ -1,6 +1,8 @@
 #ifndef GDB_LIB_EDITOR_EDITOR_MENU_HPP
 #define GDB_LIB_EDITOR_EDITOR_MENU_HPP
 
+#include <type_traits>
+
 #include "EditorMenuGroup.hpp"
 #include "EditorMenuItem.hpp"
 #include "GameDB/Container/Map.hpp"
@@ -32,7 +34,8 @@ namespace GDB
          * \param args
          * \return
          */
-        template <typename ... ArgsTy>
+        template <typename ... ArgsTy,
+                  std::enable_if_t<std::is_constructible_v<EditorMenuItem, ArgsTy...>, bool>  = true>
         EditorMenuItem* AddItem(ArgsTy&& ... args)
         {
             return AddItem(MakeUnique<EditorMenuItem>(std::forward<ArgsTy>(args)...));

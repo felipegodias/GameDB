@@ -39,9 +39,36 @@ namespace GDB
             WaitingForDestroy = 3
         };
 
-        explicit EditorWindow(String name);
+        /**
+         * \brief 
+         */
+        enum class Type
+        {
+            /**
+             * \brief 
+             */
+            None = 0,
+
+            /**
+             * \brief 
+             */
+            Regular = 1,
+
+            /**
+             * \brief 
+             */
+            Modal = 2
+        };
+
+        EditorWindow(String name, Type type = Type::Regular);
 
         virtual ~EditorWindow() = 0;
+
+        /**
+         * \brief 
+         * \return 
+         */
+        [[nodiscard]] int GetInstanceId() const;
 
         /**
          * \brief 
@@ -89,6 +116,7 @@ namespace GDB
     private:
         int _instanceId;
         String _name;
+        Type _type;
         State _state;
         UniquePtr<EditorMenu> _editorMenu;
     };

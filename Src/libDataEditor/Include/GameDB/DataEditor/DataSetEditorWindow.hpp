@@ -3,13 +3,14 @@
 
 #include "GameDB/Data/DataSet.hpp"
 #include "GameDB/Editor/EditorWindow.hpp"
+#include "GameDB/Memory/Pointers.hpp"
 
 namespace GDB
 {
     class DataSetEditorWindow final : public EditorWindow
     {
     public:
-        explicit DataSetEditorWindow(DataSet* dataSet);
+        explicit DataSetEditorWindow(const SharedPtr<DataSet>& dataSet);
 
     protected:
         void OnAwake() override;
@@ -17,7 +18,7 @@ namespace GDB
         void OnGUI() override;
 
     private:
-        DataSet* _dataSet;
+        WeakPtr<DataSet> _dataSet;
     };
 }
 
