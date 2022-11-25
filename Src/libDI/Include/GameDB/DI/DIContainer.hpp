@@ -111,6 +111,38 @@ namespace GDB
         DIContainer* _parent;
         UnorderedMap<std::type_index, std::any> _factories;
     };
+
+    /**
+     * \brief
+     * \tparam Ty
+     * \return
+     */
+    template <typename Ty>
+    [[nodiscard]] Ty Resolve()
+    {
+        return DIContainer::Global()->Resolve<Ty>();
+    }
+
+    /**
+     * \brief
+     * \tparam Ty
+     * \tparam ArgTy
+     * \param arg
+     * \return
+     */
+    template <typename Ty, typename ArgTy>
+    [[nodiscard]] Ty Resolve(const ArgTy& arg)
+    {
+        return DIContainer::Global()->Resolve<Ty, ArgTy>(arg);
+    }
 }
+
+#define GDB_DI_INSTALLER() \
+class DIInstaller final \
+{ \
+    public: \
+        explicit DIInstaller(GDB::DIContainer* diContainer); \
+}; \
+inline static DIInstaller _gdbInstaller = DIInstaller(GDB::DIContainer::Global())
 
 #endif // !GDB_LIB_DI_DI_CONTAINER_HPP

@@ -2,6 +2,7 @@
 #define GDB_LIB_DATA_EDITOR_DATA_SET_EDITOR_WINDOW_HPP
 
 #include "GameDB/Data/DataSet.hpp"
+#include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/EditorWindow.hpp"
 #include "GameDB/Memory/Pointers.hpp"
 
@@ -19,6 +20,8 @@ namespace GDB
 
     private:
         WeakPtr<DataSet> _dataSet;
+
+        GDB_DI_INSTALLER();
     };
 }
 

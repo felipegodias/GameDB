@@ -3,28 +3,52 @@
 #include <imgui.h>
 #include <imgui_stdlib.h>
 
+#include "GameDB/libDI.hpp"
+#include "GameDB/libProfiler.hpp"
 #include "GameDB/Data/DataTypeString.hpp"
+#include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Editor/FontAwesomeIcons.hpp"
 #include "GameDB/Format/Format.hpp"
 
 namespace GDB
 {
+    namespace
+    {
+        CreateDataTableEditorWindow* CreateDataTableEditorWindowFactory(
+            const DIContainer& di, const CreateDataTableEditorWindow::ResolveData& data)
+        {
+            auto* editor = di.Resolve<Editor*>();
+            SharedPtr<CreateDataTableEditorWindow> window = editor->GetWindow<CreateDataTableEditorWindow>();
+            if (window != nullptr)
+            {
+                return window.get();
+            }
+
+            window = editor->AddWindow<CreateDataTableEditorWindow>(data.dataSet);
+            return window.get();
+        }
+    }
+
     CreateDataTableEditorWindow::CreateDataTableEditorWindow(const SharedPtr<DataSet>& dataSet)
         : EditorWindow(ICON_FA_CIRCLE_PLUS " Create Table", Type::Modal),
           _dataSet(dataSet)
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void CreateDataTableEditorWindow::OnAwake()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void CreateDataTableEditorWindow::OnUpdate()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void CreateDataTableEditorWindow::OnGUI()
     {
+        GDB_PROFILE_FUNCTION();
         const String tableNameId = Format("{0}_{1}", GetInstanceId(), "TableName");
         auto tableName = std::string(_tableName);
         ImGui::PushID(tableNameId.c_str());
@@ -70,12 +94,17 @@ namespace GDB
         if (ImGui::Button("Create", ImVec2(-1, 0)))
         {
             const SharedPtr<DataSet> dataSet = _dataSet.lock();
-            DataTable* dataTable = dataSet->AddDataTable(DataId::Random(), _tableName);
+            const SharedPtr<DataTable> dataTable = dataSet->AddDataTable(DataId::Random(), _tableName);
             for (const auto& column : _tableColumns)
             {
                 dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), column, MakeUnique<DataTypeString>()));
             }
             Destroy();
         }
+    }
+
+    CreateDataTableEditorWindow::DIInstaller::DIInstaller(DIContainer* diContainer)
+    {
+        diContainer->RegisterFactory<CreateDataTableEditorWindow*, ResolveData>(CreateDataTableEditorWindowFactory);
     }
 }

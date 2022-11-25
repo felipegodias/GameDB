@@ -22,7 +22,7 @@ namespace GDB
 {
     int Main(const std::vector<std::string>& args)
     {
-        auto loadingProfilerSection = MakeUnique<ProfileSectionGuard>("Loading", GDB::Profiler::Global());
+        auto loadingProfilerSection = MakeUnique<ProfileSectionGuard>("Loading", Profiler::Global());
 
         argparse::ArgumentParser argumentParser(PROJECT_NAME, PROJECT_VER);
         try
@@ -80,8 +80,8 @@ namespace GDB
         auto* window = DIContainer::Global()->Resolve<Window*>();
         auto* editor = DIContainer::Global()->Resolve<Editor*>();
 
-        SharedPtr<DataSet> dataSet = MakeShared<DataSet>();
-        editor->AddWindow<DataSetEditorWindow>(dataSet);
+        [[maybe_unused]] auto* dataSetEditorWindow = Resolve<DataSetEditorWindow*>();
+
         editor->AddWindow<ConsoleEditorWindow>(Log::Global());
 
         loadingProfilerSection.reset();

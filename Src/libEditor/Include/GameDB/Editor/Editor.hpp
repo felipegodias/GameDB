@@ -31,13 +31,39 @@ namespace GDB
             return ptr;
         }
 
-        template <typename Ty, typename ... ArgsTy,
-                  std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true,
-                  std::enable_if_t<std::is_constructible_v<Ty, ArgsTy...>, bool>  = true>
-        static SharedPtr<Ty> CreateWindow(ArgsTy&& ... args)
+        [[nodiscard]] const EditorWindowList& GetWindows() const;
+
+        template <typename Ty, std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true>
+        [[nodiscard]] SharedPtr<Ty> GetWindow() const
         {
-            auto* editor = DIContainer::Global()->Resolve<Editor*>();
-            return editor->AddWindow<Ty>(std::forward<ArgsTy>(args)...);
+            for (const auto& editorWindow : _windows)
+            {
+                auto window = std::dynamic_pointer_cast<Ty>(editorWindow);
+                if (window != nullptr)
+                {
+                    return window;
+                }
+            }
+
+            return nullptr;
+        }
+
+        template <typename Ty, std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true>
+        void ForEachWindow(std::function<bool(const SharedPtr<Ty>&)> callback) const
+        {
+            for (const auto& editorWindow : _windows)
+            {
+                auto window = std::dynamic_pointer_cast<Ty>(editorWindow);
+                if (window == nullptr)
+                {
+                    continue;
+                }
+
+                if (!callback(window))
+                {
+                    break;
+                }
+            }
         }
 
     private:

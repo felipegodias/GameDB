@@ -12,13 +12,32 @@
 
 namespace GDB
 {
+    namespace
+    {
+        DataSetEditorWindow* DataSetEditorWindowFactory(const DIContainer& diContainer)
+        {
+            auto* editor = diContainer.Resolve<Editor*>();
+            SharedPtr<DataSetEditorWindow> window = editor->GetWindow<DataSetEditorWindow>();
+            if (window != nullptr)
+            {
+                return window.get();
+            }
+
+            auto dataSet = diContainer.Resolve<SharedPtr<DataSet>>();
+            window = editor->AddWindow<DataSetEditorWindow>(dataSet);
+            return window.get();
+        }
+    }
+
     DataSetEditorWindow::DataSetEditorWindow(const SharedPtr<DataSet>& dataSet)
         : EditorWindow(ICON_FA_DATABASE " DataSet"),
           _dataSet(dataSet)
     {
+        GDB_PROFILE_FUNCTION();
         GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Table", [this]
         {
-            Editor::CreateWindow<CreateDataTableEditorWindow>(_dataSet.lock());
+            [[maybe_unused]] auto* window = DIContainer::Global()->Resolve<
+                CreateDataTableEditorWindow*, CreateDataTableEditorWindow::ResolveData>({_dataSet.lock()});
         });
     }
 
@@ -35,14 +54,19 @@ namespace GDB
     void DataSetEditorWindow::OnGUI()
     {
         GDB_PROFILE_FUNCTION();
-        auto* const editor = DIContainer::Global()->Resolve<Editor*>();
         const SharedPtr<DataSet> dataSet = _dataSet.lock();
         for (const auto& table : dataSet->GetDataTables())
         {
             if (ImGui::Button(table->GetName().c_str(), ImVec2(-1, 0)))
             {
-                editor->AddWindow<DataTableEditorWindow>(table.get());
+                [[maybe_unused]] auto* dataTableEditorWindow = Resolve<
+                    DataTableEditorWindow*, DataTableEditorWindow::ResolveData>({table});
             }
         }
+    }
+
+    DataSetEditorWindow::DIInstaller::DIInstaller(DIContainer* diContainer)
+    {
+        diContainer->RegisterFactory<DataSetEditorWindow*>(DataSetEditorWindowFactory);
     }
 }

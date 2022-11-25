@@ -16,6 +16,7 @@ target_include_directories(gdb.libData PUBLIC
 
 target_link_libraries(gdb.libData PUBLIC
 	gdb.libContainer
+    gdb.libDI
     gdb.libEvent
     gdb.libMemory
 )

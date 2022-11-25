@@ -6,18 +6,53 @@
 #include "GameDB/libData.hpp"
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Editor/FontAwesomeIcons.hpp"
 
 namespace GDB
 {
-    DataTableEditorWindow::DataTableEditorWindow(DataTable* dataTable)
+    namespace
+    {
+        DataTableEditorWindow* DataTableEditorWindowFactory(const DIContainer& di,
+                                                            const DataTableEditorWindow::ResolveData& resolveData)
+        {
+            SharedPtr<DataTableEditorWindow> window = nullptr;
+            auto* editor = di.Resolve<Editor*>();
+            editor->ForEachWindow<DataTableEditorWindow>([&](const SharedPtr<DataTableEditorWindow>& it)
+            {
+                if (it->GetDataTable().lock() == resolveData.dataTable)
+                {
+                    window = it;
+                    return false;
+                }
+
+                return true;
+            });
+
+            if (window != nullptr)
+            {
+                return window.get();
+            }
+
+            window = editor->AddWindow<DataTableEditorWindow>(resolveData.dataTable);
+            return window.get();
+        }
+    }
+
+    DataTableEditorWindow::DataTableEditorWindow(const SharedPtr<DataTable>& dataTable)
         : EditorWindow(ICON_FA_TABLE " " + dataTable->GetName()),
           _dataTable(dataTable)
     {
+        GDB_PROFILE_FUNCTION();
         GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Row", [dataTable]
         {
             dataTable->AddRow();
         });
+    }
+
+    WeakPtr<DataTable> DataTableEditorWindow::GetDataTable() const
+    {
+        return _dataTable;
     }
 
     void DataTableEditorWindow::OnAwake()
@@ -33,25 +68,27 @@ namespace GDB
     void DataTableEditorWindow::OnGUI()
     {
         GDB_PROFILE_FUNCTION();
-        const int tableColumns = static_cast<int>(_dataTable->GetColumns().size());
+        const SharedPtr<DataTable> dataTable = _dataTable.lock();
+        const int tableColumns = static_cast<int>(dataTable->GetColumns().size());
         if (tableColumns == 0)
         {
             return;
         }
 
-        const ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable;
+        constexpr ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg |
+            ImGuiTableFlags_Resizable;
         ImGui::BeginTable("Table", tableColumns, flags);
         ImGui::TableSetupScrollFreeze(1, 1);
-        for (const auto& column : _dataTable->GetColumns())
+        for (const auto& column : dataTable->GetColumns())
         {
             ImGui::TableSetupColumn(column->GetName().c_str());
         }
         ImGui::TableHeadersRow();
 
-        for (const auto& row : _dataTable->GetRows())
+        for (const auto& row : dataTable->GetRows())
         {
             ImGui::TableNextRow();
-            for (const auto& column : _dataTable->GetColumns())
+            for (const auto& column : dataTable->GetColumns())
             {
                 ImGui::TableNextColumn();
                 std::optional<DataValue*> value = row->GetValue(*column);
@@ -67,5 +104,10 @@ namespace GDB
         }
 
         ImGui::EndTable();
+    }
+
+    DataTableEditorWindow::DIInstaller::DIInstaller(DIContainer* diContainer)
+    {
+        diContainer->RegisterFactory<DataTableEditorWindow*, ResolveData>(DataTableEditorWindowFactory);
     }
 }

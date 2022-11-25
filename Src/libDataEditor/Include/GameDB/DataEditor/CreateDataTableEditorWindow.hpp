@@ -6,6 +6,7 @@
 #include "GameDB/Data/DataSet.hpp"
 #include "GameDB/Editor/EditorWindow.hpp"
 #include "GameDB/Memory/Pointers.hpp"
+#include "GameDB/DI/DIContainer.hpp"
 
 namespace GDB
 {
@@ -15,6 +16,14 @@ namespace GDB
     class CreateDataTableEditorWindow final : public EditorWindow
     {
     public:
+        /**
+         * \brief 
+         */
+        struct ResolveData
+        {
+            SharedPtr<DataSet> dataSet;
+        };
+
         explicit CreateDataTableEditorWindow(const SharedPtr<DataSet>& dataSet);
 
     protected:
@@ -26,6 +35,8 @@ namespace GDB
         WeakPtr<DataSet> _dataSet;
         String _tableName;
         Vector<String> _tableColumns;
+
+        GDB_DI_INSTALLER();
     };
 }
 

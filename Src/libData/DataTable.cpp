@@ -25,12 +25,12 @@ namespace GDB
         _onPropertyChanged(data);
     }
 
-    const Vector<UniquePtr<DataColumn>>& DataTable::GetColumns() const
+    const Vector<SharedPtr<DataColumn>>& DataTable::GetColumns() const
     {
         return _columns;
     }
 
-    void DataTable::AddColumn(UniquePtr<DataColumn> column)
+    void DataTable::AddColumn(SharedPtr<DataColumn> column)
     {
         const OnPropertyChangedData data = {this, _name, _columns.size(), _rows.size()};
 
@@ -43,16 +43,16 @@ namespace GDB
         _onPropertyChanged(data);
     }
 
-    const Vector<UniquePtr<DataRow>>& DataTable::GetRows() const
+    const Vector<SharedPtr<DataRow>>& DataTable::GetRows() const
     {
         return _rows;
     }
 
-    DataRow* DataTable::AddRow()
+    SharedPtr<DataRow> DataTable::AddRow()
     {
         const OnPropertyChangedData data = {this, _name, _columns.size(), _rows.size()};
-        _rows.push_back(MakeUnique<DataRow>(DataId::Random()));
-        DataRow* row = _rows[_rows.size() - 1].get();
+        auto row = MakeShared<DataRow>(DataId::Random());
+        _rows.push_back(row);
         for (const auto& column : _columns)
         {
             row->SetValue(*column, column->GetDataType()->Instantiate());

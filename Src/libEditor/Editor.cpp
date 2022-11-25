@@ -65,6 +65,11 @@ namespace GDB
         ImGui::GetStyle().WindowMenuButtonPosition = ImGuiDir_None;
     }
 
+    const Editor::EditorWindowList& Editor::GetWindows() const
+    {
+        return _windows;
+    }
+
     void Editor::AwakeWindows() const
     {
         GDB_PROFILE_FUNCTION();

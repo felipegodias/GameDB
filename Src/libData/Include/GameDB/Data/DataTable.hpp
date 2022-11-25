@@ -51,25 +51,25 @@ namespace GDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] const Vector<UniquePtr<DataColumn>>& GetColumns() const;
+        [[nodiscard]] const Vector<SharedPtr<DataColumn>>& GetColumns() const;
 
         /**
          * \brief 
          * \param column 
          */
-        void AddColumn(UniquePtr<DataColumn> column);
+        void AddColumn(SharedPtr<DataColumn> column);
 
         /**
          * \brief 
          * \return 
          */
-        [[nodiscard]] const Vector<UniquePtr<DataRow>>& GetRows() const;
+        [[nodiscard]] const Vector<SharedPtr<DataRow>>& GetRows() const;
 
         /**
          * \brief 
-         * \param dataRow 
+         * \return 
          */
-        DataRow* AddRow();
+        SharedPtr<DataRow> AddRow();
 
         /**
          * \brief 
@@ -80,8 +80,8 @@ namespace GDB
     private:
         DataId _dataId;
         String _name;
-        Vector<UniquePtr<DataColumn>> _columns;
-        Vector<UniquePtr<DataRow>> _rows;
+        Vector<SharedPtr<DataColumn>> _columns;
+        Vector<SharedPtr<DataRow>> _rows;
         OnPropertyChanged _onPropertyChanged;
     };
 }

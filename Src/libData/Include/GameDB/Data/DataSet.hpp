@@ -6,6 +6,7 @@
 #include "DataId.hpp"
 #include "DataTable.hpp"
 #include "GameDB/Container/Vector.hpp"
+#include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Event/Event.hpp"
 
 namespace GDB
@@ -34,14 +35,14 @@ namespace GDB
          * \brief 
          * \return 
          */
-        [[nodiscard]] const Vector<UniquePtr<DataTable>>& GetDataTables() const;
+        [[nodiscard]] const Vector<SharedPtr<DataTable>>& GetDataTables() const;
 
         /**
          * \brief 
          * \param dataTable 
          * \return 
          */
-        DataTable* AddDataTable(UniquePtr<DataTable> dataTable);
+        void AddDataTable(SharedPtr<DataTable> dataTable);
 
         /**
          * \brief 
@@ -50,9 +51,11 @@ namespace GDB
          * \return 
          */
         template <typename ... ArgsTy, std::enable_if_t<std::is_constructible_v<DataTable, ArgsTy...>, bool>  = true>
-        DataTable* AddDataTable(ArgsTy&& ... args)
+        SharedPtr<DataTable> AddDataTable(ArgsTy&& ... args)
         {
-            return AddDataTable(MakeUnique<DataTable>(std::forward<ArgsTy>(args)...));
+            auto dataTable = MakeShared<DataTable>(std::forward<ArgsTy>(args)...);
+            AddDataTable(dataTable);
+            return dataTable;
         }
 
         /**
@@ -62,8 +65,10 @@ namespace GDB
         [[nodiscard]] OnPropertyChanged* GetOnPropertyChanged();
 
     private:
-        Vector<UniquePtr<DataTable>> _dataTables;
+        Vector<SharedPtr<DataTable>> _dataTables;
         OnPropertyChanged _onPropertyChanged;
+
+        GDB_DI_INSTALLER();
     };
 }
 
