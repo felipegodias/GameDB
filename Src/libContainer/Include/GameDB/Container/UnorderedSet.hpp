@@ -9,7 +9,7 @@
 namespace GDB
 {
     template <typename KTy, typename AllocatorTy = GeneralAllocator>
-    using UnorderedSet = std::unordered_set<KTy, std::hash<KTy>, std::equal_to<KTy>, StlContainerAllocator<const KTy, AllocatorTy>>;
+    using UnorderedSet = std::unordered_set<KTy, std::hash<KTy>, std::equal_to<KTy>, StlContainerAllocator<KTy, AllocatorTy>>;
 }
 
 #endif // !GDB_LIB_CONTAINER_UNORDERED_SET_HPP
