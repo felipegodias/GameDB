@@ -7,10 +7,11 @@
       "binaryDir": "${sourceDir}/out/${presetName}",
       "generator": "Ninja Multi-Config",
       "cacheVariables": {
-        "CMAKE_CONFIGURATION_TYPES": "Debug;Profile;Release;",
+        "CMAKE_CONFIGURATION_TYPES": "Debug;RelWithDebInfo;Release;",
         "ENABLE_CLANG_TIDY": false,
         "ENABLE_ALL_WARNINGS_AS_ERROR": true,
-        "ENABLE_DOXYGEN": false
+        "ENABLE_DOXYGEN": false,
+        "ENABLE_PROFILING": true
       },
       "environment": {
         "NINJA_STATUS": "[%p] [%f/%t] [elapsed seconds %e] "
@@ -156,10 +157,10 @@
       "configuration": "Debug"
     },
     {
-      "name": "windows-msvc-x64-profile",
-      "displayName": "2 - Profile",
+      "name": "windows-msvc-x64-relwithdebinfo",
+      "displayName": "2 - RelWithDebInfo",
       "configurePreset": "windows-msvc-x64",
-      "configuration": "Profile"
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "windows-msvc-x64-release",
@@ -174,10 +175,10 @@
       "configuration": "Debug"
     },
     {
-      "name": "windows-clang-x64-profile",
-      "displayName": "2 - Profile",
+      "name": "windows-clang-x64-relwithdebinfo",
+      "displayName": "2 - RelWithDebInfo",
       "configurePreset": "windows-clang-x64",
-      "configuration": "Profile"
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "windows-clang-x64-release",
@@ -192,10 +193,10 @@
       "configuration": "Debug"
     },
     {
-      "name": "linux-gcc-x64-profile",
-      "displayName": "2 - Profile",
+      "name": "linux-gcc-x64-relwithdebinfo",
+      "displayName": "2 - RelWithDebInfo",
       "configurePreset": "linux-gcc-x64",
-      "configuration": "Profile"
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "linux-gcc-x64-release",
@@ -210,10 +211,10 @@
       "configuration": "Debug"
     },
     {
-      "name": "linux-clang-x64-profile",
-      "displayName": "2 - Profile",
+      "name": "linux-clang-x64-relwithdebinfo",
+      "displayName": "2 - RelWithDebInfo",
       "configurePreset": "linux-clang-x64",
-      "configuration": "Profile"
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "linux-clang-x64-release",
@@ -228,10 +229,10 @@
       "configuration": "Debug"
     },
     {
-      "name": "mac-apple-clang-x64-profile",
-      "displayName": "2 - Profile",
+      "name": "mac-apple-clang-x64-relwithdebinfo",
+      "displayName": "2 - RelWithDebInfo",
       "configurePreset": "mac-apple-clang-x64",
-      "configuration": "Profile"
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "mac-apple-clang-x64-release",
