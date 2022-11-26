@@ -22,7 +22,7 @@ jobs:
       - name: Cmake Build Debug
         run: cmake --build --preset windows-msvc-x64-debug
       - name: Cmake Build Profile
-        run: cmake --build --preset windows-msvc-x64-profile
+        run: cmake --build --preset windows-msvc-x64-relwithdebinfo
       - name: Cmake Build Release
         run: cmake --build --preset windows-msvc-x64-release
       - name: Upload Artifacts

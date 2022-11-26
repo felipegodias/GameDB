@@ -20,7 +20,7 @@ jobs:
       - name: Cmake Build Debug
         run: cmake --build --preset mac-apple-clang-x64-debug
       - name: Cmake Build Profile
-        run: cmake --build --preset mac-apple-clang-x64-profile
+        run: cmake --build --preset mac-apple-clang-x64-relwithdebinfo
       - name: Cmake Build Release
         run: cmake --build --preset mac-apple-clang-x64-release
       - name: Upload Artifacts
