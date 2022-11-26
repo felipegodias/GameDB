@@ -9,8 +9,7 @@
 namespace
 {
     using SizesMap = std::unordered_map<uintptr_t, size_t, std::hash<uintptr_t>, std::equal_to<>,
-                                        GDB::StlContainerAllocator<
-                                            std::pair<const uintptr_t, size_t>, GDB::GeneralAllocator>>;
+                                        GDB::StlContainerAllocator<std::pair<const uintptr_t, size_t>, GDB::GeneralAllocator>>;
     SizesMap* GetSizesMap()
     {
         static SizesMap* sizesMap = nullptr;
