@@ -5,7 +5,7 @@
 
 #include "GameDB/libDI.hpp"
 #include "GameDB/libProfiler.hpp"
-#include "GameDB/Container/UnorderedSet.hpp"
+#include "GameDB/Container/Set.hpp"
 #include "GameDB/Data/DataTypeString.hpp"
 #include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Editor/FontAwesomeIcons.hpp"
@@ -131,7 +131,7 @@ namespace GDB
             return false;
         }
 
-        UnorderedSet<String> columns;
+        Set<String> columns;
         for (const auto& tableColumn : _tableColumns)
         {
             if (tableColumn.empty())

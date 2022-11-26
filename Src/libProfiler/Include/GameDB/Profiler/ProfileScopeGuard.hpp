@@ -23,9 +23,17 @@ namespace GDB
     };
 }
 
+#if defined(__clang__)
+#define GDB_PROFILE_FUNCSIG __PRETTY_FUNCTION__
+#elif defined(__GNUC__) || defined(__GNUG__)
+#define GDB_PROFILE_FUNCSIG __PRETTY_FUNCTION__
+#elif defined(_MSC_VER)
+#define GDB_PROFILE_FUNCSIG __FUNCSIG__
+#endif
+
 #define GDB_PROFILE_SCOPE_COMBINE1(X,Y) X##Y
 #define GDB_PROFILE_SCOPE_COMBINE(X,Y) GDB_PROFILE_SCOPE_COMBINE1(X,Y)
 #define GDB_PROFILE_SCOPE(name) ProfileScopeGuard GDB_PROFILE_SCOPE_COMBINE(profileScopeGuard, __LINE__) ((name), GDB::ProfileSectionGuard::GetCurrent() )
-#define GDB_PROFILE_FUNCTION() GDB_PROFILE_SCOPE(__FUNCSIG__)
+#define GDB_PROFILE_FUNCTION() GDB_PROFILE_SCOPE(GDB_PROFILE_FUNCSIG)
 
 #endif // !GDB_LIB_PROFILER_PROFILE_SCOPE_GUARD_HPP

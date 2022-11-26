@@ -53,9 +53,6 @@ namespace GDB
         {
             return Allocator16::Deallocate(ptr, size);
         }
-
-    private:
-        GeneralAllocator() = default;
     };
 }
 

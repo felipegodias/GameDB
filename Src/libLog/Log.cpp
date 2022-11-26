@@ -1,6 +1,7 @@
 #include "GameDB/Log/Log.hpp"
 
 #include "GameDB/Container/StringStream.hpp"
+#include "GameDB/Kernel/Kernel.hpp"
 
 namespace GDB
 {
@@ -49,14 +50,10 @@ namespace GDB
         // TODO: Abstract time point logic somewhere else.
         LogEntry::TimePoint timePoint = std::chrono::system_clock::now();
         std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
-        tm tm{};
-        if (gmtime_s(&tm, &time) != 0)
-        {
-            return;
-        }
+
 
         StringStream formattedMessage;
-        formattedMessage << std::put_time(&tm, "%FT%T");
+        formattedMessage << Kernel::ToTimeStr(time, "%FT%T");
         formattedMessage << " [" << ToString(logType) << "]: ";
         formattedMessage << message << "\n";
         formattedMessage << function << " at " << filePath.generic_string() << ":" << fileLine;

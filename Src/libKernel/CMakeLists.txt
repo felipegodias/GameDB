@@ -4,6 +4,10 @@ target_include_directories(gdb.libKernel PUBLIC
     "Include"
 )
 
+target_link_libraries(gdb.libKernel PUBLIC
+	gdb.libContainer
+)
+
 if(WIN32)
 add_subdirectory(Windows)
 elseif(APPLE)

@@ -131,7 +131,6 @@ namespace GDB
     void Window::BeginFrame()
     {
         GDB_PROFILE_FUNCTION();
-        _window;
         glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();

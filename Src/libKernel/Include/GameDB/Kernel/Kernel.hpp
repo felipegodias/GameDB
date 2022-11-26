@@ -2,6 +2,9 @@
 #define GDB_LIB_KERNEL_KERNEL_HPP
 
 #include <filesystem>
+#include <chrono>
+
+#include "GameDB/Container/String.hpp"
 
 namespace GDB
 {
@@ -9,6 +12,8 @@ namespace GDB
     {
     public:
         static std::filesystem::path GetAppDataPath();
+
+        static String ToTimeStr(std::time_t time, std::string_view fmt);
     };
 }
 

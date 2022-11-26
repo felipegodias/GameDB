@@ -3,6 +3,8 @@
 #include <shlobj_core.h>
 #include <stdexcept>
 
+#include "GameDB/Container/StringStream.hpp"
+
 namespace GDB
 {
     std::filesystem::path Kernel::GetAppDataPath()
@@ -18,5 +20,18 @@ namespace GDB
         CoTaskMemFree(path);
         appData /= "GameDB";
         return appData;
+    }
+
+    String Kernel::ToTimeStr(const std::time_t time, const std::string_view fmt)
+    {
+        tm tmBlock = {};
+        if (localtime_s(&tmBlock, &time) != 0)
+        {
+            throw std::runtime_error("");
+        }
+
+        StringStream stringstream;
+        stringstream << std::put_time(&tmBlock, fmt.data());
+        return stringstream.str();
     }
 }

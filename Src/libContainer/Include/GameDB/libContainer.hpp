@@ -3,6 +3,7 @@
 
 #include "Container/Map.hpp"
 #include "Container/RingBuffer.hpp"
+#include "Container/Set.hpp"
 #include "Container/String.hpp"
 #include "Container/StringStream.hpp"
 #include "Container/UnorderedMap.hpp"

@@ -35,9 +35,17 @@ namespace GDB
 }
 
 #ifndef NDEBUG
+#if defined(__clang__)
+#define GDB_ASSERT_FUNCSIG __PRETTY_FUNCTION__
+#elif defined(__GNUC__) || defined(__GNUG__)
+#define GDB_ASSERT_FUNCSIG __PRETTY_FUNCTION__
+#elif defined(_MSC_VER)
+#define GDB_ASSERT_FUNCSIG __FUNCSIG__
+#endif
+
 #define GDB_ASSERT(expression, message) \
 if (static_cast<bool>((expression))) { \
-    GDB::Assert::OnAssertionFailed({#expression, __FILE__, __LINE__, __FUNCSIG__, message}); \
+    GDB::Assert::OnAssertionFailed({#expression, __FILE__, __LINE__, GDB_ASSERT_FUNCSIG, message}); \
     abort(); \
 } void(0)
 #else
