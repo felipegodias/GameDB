@@ -33,11 +33,20 @@ namespace GDB
     bool InputText(const char* label, String* str, ImGuiInputTextFlags flags, const ImGuiInputTextCallback callback,
                    void* userData)
     {
-        IM_ASSERT((flags & ImGuiInputTextFlags_CallbackResize) == 0);
         flags |= ImGuiInputTextFlags_CallbackResize;
 
         InputTextCallbackUserData cbUserData{str, callback, userData};
         return ImGui::InputText(label, str->data(), str->capacity() + 1, flags, InputTextCallback,
                                 &cbUserData);
+    }
+
+    bool InputTextMultiline(const char* label, String* str, const ImVec2& size, ImGuiInputTextFlags flags,
+                            const ImGuiInputTextCallback callback, void* userData)
+    {
+        flags |= ImGuiInputTextFlags_CallbackResize;
+
+        InputTextCallbackUserData cbUserData{str, callback, userData};
+        return ImGui::InputTextMultiline(label, str->data(), str->capacity() + 1, size, flags, InputTextCallback,
+                                         &cbUserData);
     }
 }
