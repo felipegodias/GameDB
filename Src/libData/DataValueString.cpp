@@ -12,6 +12,11 @@ namespace GDB
         return _value;
     }
 
+    String& DataValueString::GetValue()
+    {
+        return _value;
+    }
+
     void DataValueString::SetValue(String value)
     {
         _value = std::move(value);

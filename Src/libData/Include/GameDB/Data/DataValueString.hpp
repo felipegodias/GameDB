@@ -21,6 +21,12 @@ namespace GDB
         [[nodiscard]] const String& GetValue() const;
 
         /**
+         * \brief
+         * \return
+         */
+        [[nodiscard]] String& GetValue();
+
+        /**
          * \brief 
          * \param value 
          */
