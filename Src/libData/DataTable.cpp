@@ -2,10 +2,16 @@
 
 namespace GDB
 {
-    DataTable::DataTable(const DataId dataId, String name)
-        : _dataId(dataId),
+    DataTable::DataTable(DataSet* dataSet, const DataId dataId, String name)
+        : _dataSet(dataSet),
+          _dataId(dataId),
           _name(std::move(name))
     {
+    }
+
+    DataSet* DataTable::GetDataSet() const
+    {
+        return _dataSet;
     }
 
     DataId DataTable::GetDataId() const

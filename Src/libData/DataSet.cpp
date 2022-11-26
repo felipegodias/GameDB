@@ -24,6 +24,15 @@ namespace GDB
         _onPropertyChanged(data);
     }
 
+    void DataSet::RemoveDataTable(const DataTable& dataTable)
+    {
+        _dataTables.erase(std::remove_if(_dataTables.begin(), _dataTables.end(),
+                                         [&dataTable](const SharedPtr<DataTable>& it)
+                                         {
+                                             return it.get() == &dataTable;
+                                         }), _dataTables.end());
+    }
+
     DataSet::OnPropertyChanged* DataSet::GetOnPropertyChanged()
     {
         return &_onPropertyChanged;

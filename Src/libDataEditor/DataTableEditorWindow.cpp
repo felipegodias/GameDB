@@ -44,9 +44,15 @@ namespace GDB
           _dataTable(dataTable)
     {
         GDB_PROFILE_FUNCTION();
-        GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Row", [dataTable]
+        GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Row", [this]
         {
-            dataTable->AddRow();
+            _dataTable.lock()->AddRow();
+        });
+
+        GetEditorMenu()->AddItem(ICON_FA_TRASH " Delete Table", [this]
+        {
+            const SharedPtr<DataTable> dataTable = _dataTable.lock();
+            dataTable->GetDataSet()->RemoveDataTable(*dataTable);
         });
     }
 
@@ -63,11 +69,20 @@ namespace GDB
     void DataTableEditorWindow::OnUpdate()
     {
         GDB_PROFILE_FUNCTION();
+        if (_dataTable.expired())
+        {
+            Destroy();
+        }
     }
 
     void DataTableEditorWindow::OnGUI()
     {
         GDB_PROFILE_FUNCTION();
+        if (_dataTable.expired())
+        {
+            return;
+        }
+
         const SharedPtr<DataTable> dataTable = _dataTable.lock();
         const int tableColumns = static_cast<int>(dataTable->GetColumns().size());
         if (tableColumns == 0)

@@ -11,6 +11,8 @@
 
 namespace GDB
 {
+    class DataSet;
+
     /**
      * \brief 
      */
@@ -27,7 +29,13 @@ namespace GDB
 
         using OnPropertyChanged = Event<OnPropertyChangedData>;
 
-        DataTable(DataId dataId, String name);
+        DataTable(DataSet* dataSet, DataId dataId, String name);
+
+        /**
+         * \brief 
+         * \return 
+         */
+        [[nodiscard]] DataSet* GetDataSet() const;
 
         /**
          * \brief 
@@ -78,6 +86,7 @@ namespace GDB
         OnPropertyChanged* GetOnPropertyChanged();
 
     private:
+        DataSet* _dataSet;
         DataId _dataId;
         String _name;
         Vector<SharedPtr<DataColumn>> _columns;

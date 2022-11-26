@@ -50,13 +50,16 @@ namespace GDB
          * \param args 
          * \return 
          */
-        template <typename ... ArgsTy, std::enable_if_t<std::is_constructible_v<DataTable, ArgsTy...>, bool>  = true>
+        template <typename ... ArgsTy, std::enable_if_t<std::is_constructible_v<DataTable, DataSet*, ArgsTy...>, bool> 
+                      = true>
         SharedPtr<DataTable> AddDataTable(ArgsTy&& ... args)
         {
-            auto dataTable = MakeShared<DataTable>(std::forward<ArgsTy>(args)...);
+            auto dataTable = MakeShared<DataTable>(this, std::forward<ArgsTy>(args)...);
             AddDataTable(dataTable);
             return dataTable;
         }
+
+        void RemoveDataTable(const DataTable& dataTable);
 
         /**
          * \brief 

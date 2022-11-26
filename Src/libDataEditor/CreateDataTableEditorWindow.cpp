@@ -5,6 +5,7 @@
 
 #include "GameDB/libDI.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/Container/UnorderedSet.hpp"
 #include "GameDB/Data/DataTypeString.hpp"
 #include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Editor/FontAwesomeIcons.hpp"
@@ -85,12 +86,12 @@ namespace GDB
 
         ImGui::Spacing();
 
-
         if (ImGui::Button("New Column", ImVec2(-1, 0)))
         {
             _tableColumns.push_back("");
         }
 
+        ImGui::BeginDisabled(!IsInputValid());
         if (ImGui::Button("Create", ImVec2(-1, 0)))
         {
             const SharedPtr<DataSet> dataSet = _dataSet.lock();
@@ -101,10 +102,51 @@ namespace GDB
             }
             Destroy();
         }
+        ImGui::EndDisabled();
     }
 
     CreateDataTableEditorWindow::DIInstaller::DIInstaller(DIContainer* diContainer)
     {
         diContainer->RegisterFactory<CreateDataTableEditorWindow*, ResolveData>(CreateDataTableEditorWindowFactory);
+    }
+
+    bool CreateDataTableEditorWindow::IsInputValid() const
+    {
+        if (_tableName.empty())
+        {
+            return false;
+        }
+
+        const SharedPtr<DataSet> dataSet = _dataSet.lock();
+        for (const auto& dataTable : dataSet->GetDataTables())
+        {
+            if (dataTable->GetName() == _tableName)
+            {
+                return false;
+            }
+        }
+
+        if (_tableColumns.empty())
+        {
+            return false;
+        }
+
+        UnorderedSet<String> columns;
+        for (const auto& tableColumn : _tableColumns)
+        {
+            if (tableColumn.empty())
+            {
+                return false;
+            }
+
+            if (columns.find(tableColumn) != columns.end())
+            {
+                return false;
+            }
+
+            columns.emplace(tableColumn);
+        }
+
+        return true;
     }
 }

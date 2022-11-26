@@ -36,7 +36,7 @@ namespace GDB
         GDB_PROFILE_FUNCTION();
         GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Table", [this]
         {
-            [[maybe_unused]] auto* window = DIContainer::Global()->Resolve<
+            [[maybe_unused]] auto* window = Resolve<
                 CreateDataTableEditorWindow*, CreateDataTableEditorWindow::ResolveData>({_dataSet.lock()});
         });
     }

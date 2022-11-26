@@ -37,6 +37,8 @@ namespace GDB
         Vector<String> _tableColumns;
 
         GDB_DI_INSTALLER();
+
+        [[nodiscard]] bool IsInputValid() const;
     };
 }
 
