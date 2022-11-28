@@ -136,9 +136,6 @@ namespace GDB
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
-        ImGui::SetNextWindowPos(ImVec2(0.0F, 0.0F));
-        ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     }
 
     void Window::EndFrame()

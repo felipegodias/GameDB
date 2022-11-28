@@ -50,6 +50,9 @@ namespace GDB
     void CreateDataTableEditorWindow::OnGUI()
     {
         GDB_PROFILE_FUNCTION();
+
+        ImGui::SetWindowSize(ImVec2(300, 0));
+
         const String tableNameId = Format("{0}_{1}", GetInstanceId(), "TableName");
 
         ImGui::PushID(tableNameId.c_str());

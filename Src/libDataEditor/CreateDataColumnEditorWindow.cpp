@@ -47,6 +47,8 @@ namespace GDB
     {
         GDB_PROFILE_FUNCTION();
 
+        ImGui::SetWindowSize(ImVec2(300, 0));
+
         const String columnNameId = Format("{0}_{1}", GetInstanceId(), "ColumnName");
 
         ImGui::PushID(columnNameId.c_str());
