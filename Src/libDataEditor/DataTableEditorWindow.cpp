@@ -5,7 +5,9 @@
 #include "GameDB/libData.hpp"
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/DataEditor/CreateDataColumnEditorWindow.hpp"
 #include "GameDB/DataEditor/DataEditorWidgets.hpp"
+#include "GameDB/DataEditor/EditDataColumnEditorWindow.hpp"
 #include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Editor/FontAwesomeIcons.hpp"
 
@@ -47,6 +49,12 @@ namespace GDB
         GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Row", [this]
         {
             _dataTable.lock()->AddRow();
+        });
+
+        GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Column", [this]
+        {
+            [[maybe_unused]] auto* window = Resolve<
+                CreateDataColumnEditorWindow*, CreateDataColumnEditorWindow::ResolveData>({_dataTable.lock()});
         });
 
         GetEditorMenu()->AddItem(ICON_FA_TRASH " Delete Table", [this]
@@ -93,7 +101,7 @@ namespace GDB
         constexpr ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg |
             ImGuiTableFlags_Resizable;
         ImGui::BeginTable("Table", tableColumns, flags);
-        ImGui::TableSetupScrollFreeze(1, 1);
+
         for (const auto& column : dataTable->GetColumns())
         {
             ImGui::TableSetupColumn(column->GetName().c_str());
@@ -111,7 +119,54 @@ namespace GDB
             }
         }
 
+        SharedPtr<DataColumn> columnToDelete = nullptr;
+        int hoveredColumn = -1;
+        for (size_t i = 0; i < dataTable->GetColumns().size(); ++i)
+        {
+            const int column = static_cast<int>(i);
+            const int id = column;
+
+            ImGui::PushID(id);
+            if (ImGui::TableGetColumnFlags(column) & ImGuiTableColumnFlags_IsHovered)
+            {
+                hoveredColumn = column;
+            }
+
+            constexpr std::string_view popupId = "ColumnPopup";
+            if (hoveredColumn == column && ImGui::IsMouseReleased(1))
+            {
+                ImGui::OpenPopup(popupId.data());
+            }
+
+            ImGui::SetNextWindowSize(ImVec2(200, 0));
+            if (ImGui::BeginPopup(popupId.data()))
+            {
+                ImGui::BeginDisabled(column == 0);
+                if (ImGui::Button(ICON_FA_PEN_TO_SQUARE " Edit Column", ImVec2(-1, 0)))
+                {
+                    [[maybe_unused]] auto* window = Resolve<
+                        EditDataColumnEditorWindow*, EditDataColumnEditorWindow::ResolveData>({
+                        dataTable->GetColumns()[i]
+                    });
+                    ImGui::CloseCurrentPopup();
+                }
+
+                if (ImGui::Button(ICON_FA_TRASH " Delete Column", ImVec2(-1, 0)))
+                {
+                    columnToDelete = dataTable->GetColumns()[i];
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndDisabled();
+                ImGui::EndPopup();
+            }
+            ImGui::PopID();
+        }
         ImGui::EndTable();
+
+        if (columnToDelete != nullptr)
+        {
+            dataTable->DeleteColumn(columnToDelete);
+        }
     }
 
     DataTableEditorWindow::DIInstaller::DIInstaller(DIContainer* diContainer)

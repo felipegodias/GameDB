@@ -69,6 +69,12 @@ namespace GDB
 
         /**
          * \brief 
+         * \param column 
+         */
+        void DeleteColumn(SharedPtr<DataColumn> column);
+
+        /**
+         * \brief 
          * \return 
          */
         [[nodiscard]] const Vector<SharedPtr<DataRow>>& GetRows() const;

@@ -49,6 +49,16 @@ namespace GDB
         _onPropertyChanged(data);
     }
 
+    void DataTable::DeleteColumn(SharedPtr<DataColumn> column)
+    {
+        auto removeIfPredicate = [&column](const SharedPtr<DataColumn>& it)
+        {
+            return column == it;
+        };
+
+        _columns.erase(std::remove_if(_columns.begin(), _columns.end(), removeIfPredicate), _columns.end());
+    }
+
     const Vector<SharedPtr<DataRow>>& DataTable::GetRows() const
     {
         return _rows;

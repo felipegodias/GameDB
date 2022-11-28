@@ -1,8 +1,8 @@
-#ifndef GDB_LIB_DATA_EDITOR_CREATE_DATA_TABLE_EDITOR_WINDOW_HPP
-#define GDB_LIB_DATA_EDITOR_CREATE_DATA_TABLE_EDITOR_WINDOW_HPP
+#ifndef GDB_LIB_DATA_EDITOR_CREATE_DATA_COLUMN_EDITOR_WINDOW_HPP
+#define GDB_LIB_DATA_EDITOR_CREATE_DATA_COLUMN_EDITOR_WINDOW_HPP
 
 #include "GameDB/Container/String.hpp"
-#include "GameDB/Data/DataSet.hpp"
+#include "GameDB/Data/DataTable.hpp"
 #include "GameDB/DI/DIContainer.hpp"
 #include "GameDB/Editor/EditorWindow.hpp"
 #include "GameDB/Memory/Pointers.hpp"
@@ -12,7 +12,7 @@ namespace GDB
     /**
      * \brief
      */
-    class CreateDataTableEditorWindow final : public EditorWindow
+    class CreateDataColumnEditorWindow final : public EditorWindow
     {
     public:
         /**
@@ -20,10 +20,10 @@ namespace GDB
          */
         struct ResolveData
         {
-            SharedPtr<DataSet> dataSet;
+            SharedPtr<DataTable> dataTable;
         };
 
-        explicit CreateDataTableEditorWindow(const SharedPtr<DataSet>& dataSet);
+        explicit CreateDataColumnEditorWindow(const SharedPtr<DataTable>& dataTable);
 
     protected:
         void OnAwake() override;
@@ -31,8 +31,8 @@ namespace GDB
         void OnGUI() override;
 
     private:
-        WeakPtr<DataSet> _dataSet;
-        String _tableName;
+        WeakPtr<DataTable> _dataTable;
+        String _columnName;
 
         [[nodiscard]] bool IsInputValid() const;
 
@@ -40,4 +40,4 @@ namespace GDB
     };
 }
 
-#endif // !GDB_LIB_DATA_EDITOR_CREATE_DATA_TABLE_EDITOR_WINDOW_HPP
+#endif // !GDB_LIB_DATA_EDITOR_CREATE_DATA_COLUMN_EDITOR_WINDOW_HPP

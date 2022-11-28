@@ -8,13 +8,15 @@
 
 namespace GDB
 {
+    class DataTable;
+
     /**
      * \brief 
      */
     class DataColumn
     {
     public:
-        DataColumn(DataId dataId, String name, UniquePtr<DataType> dataType);
+        DataColumn(DataId dataId, String name, DataTable* dataTable, UniquePtr<DataType> dataType);
 
         /**
          * \brief 
@@ -35,6 +37,12 @@ namespace GDB
         void SetName(String name);
 
         /**
+         * \brief 
+         * \return 
+         */
+        [[nodiscard]] DataTable* GetDataTable() const;
+
+        /**
          * \brief
          * \return
          */
@@ -43,6 +51,7 @@ namespace GDB
     private:
         DataId _dataId;
         String _name;
+        DataTable* _dataTable;
         UniquePtr<DataType> _dataType;
     };
 }
