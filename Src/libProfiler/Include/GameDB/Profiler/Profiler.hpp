@@ -36,9 +36,19 @@ namespace GDB
         void PushSection(SectionEntry sectionEntry);
 
     private:
+#ifdef GDB_PROFILER_ENABLED
+
         // 3600 = 60 frames per second multiplied by 60 seconds.
         // So we keep track from the last minute.
-        RingBuffer<SectionEntry, 3600> _sections;
+        constexpr static inline size_t _framesToTrack = 3600;
+
+#else // GDB_PROFILER_ENABLED
+
+        constexpr static inline size_t _framesToTrack = 1;
+
+#endif // GDB_PROFILER_ENABLED
+
+        RingBuffer<SectionEntry, _framesToTrack> _sections;
     };
 }
 

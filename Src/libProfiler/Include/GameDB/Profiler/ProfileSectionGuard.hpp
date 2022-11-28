@@ -30,8 +30,16 @@ namespace GDB
     };
 }
 
+#ifdef GDB_PROFILER_ENABLED
+
 #define GDB_PROFILE_SECTION_COMBINE1(X,Y) X##Y
 #define GDB_PROFILE_SECTION_COMBINE(X,Y) GDB_PROFILE_SECTION_COMBINE(X,Y)
 #define GDB_PROFILE_SECTION(name) ProfileSectionGuard GDB_PROFILE_SCOPE_COMBINE(profileSectionGuard, __LINE__) ((name), GDB::Profiler::Global() )
+
+#else // GDB_PROFILER_ENABLED
+
+#define GDB_PROFILE_SECTION(name) void(0)
+
+#endif // GDB_PROFILER_ENABLED
 
 #endif // !GDB_LIB_PROFILER_PROFILE_SECTION_GUARD_HPP
