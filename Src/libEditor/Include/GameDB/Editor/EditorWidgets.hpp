@@ -32,6 +32,9 @@ namespace GDB
     bool InputTextMultiline(const char* label, String* str, const ImVec2& size = ImVec2(0, 0),
                             ImGuiInputTextFlags flags = 0, ImGuiInputTextCallback callback = nullptr,
                             void* userData = nullptr);
+
+    bool InputTextWithLabelOnLeft(const char* label, String* str, ImGuiInputTextFlags flags = 0,
+                                  ImGuiInputTextCallback callback = nullptr, void* userData = nullptr);
 }
 
 #endif // !GDB_LIB_EDITOR_EDITOR_WIDGETS_HPP

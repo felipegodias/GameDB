@@ -49,4 +49,37 @@ namespace GDB
         return ImGui::InputTextMultiline(label, str->data(), str->capacity() + 1, size, flags, InputTextCallback,
                                          &cbUserData);
     }
+
+    bool InputTextWithLabelOnLeft(const char* label, String* str, const ImGuiInputTextFlags flags,
+                                  const ImGuiInputTextCallback callback, void* userData)
+    {
+        bool result = false;
+        ImGui::PushID(label);
+        if (ImGui::BeginTable("T", 2, ImGuiTableFlags_SizingStretchSame))
+        {
+            ImGui::TableSetupColumn("L", ImGuiTableColumnFlags_None, 0.4F);
+            ImGui::TableSetupColumn("I", ImGuiTableColumnFlags_None, 0.6F);
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+
+            const ImVec2 sz = ImGui::CalcTextSize(label);
+            const float cursorY = ImGui::GetCursorPosY();
+            ImGui::InvisibleButton("##IB", ImVec2(sz.x, sz.y + ImGui::GetStyle().ItemInnerSpacing.y * 2));
+            const float finalCursorPosY = ImGui::GetCursorPosY();
+            ImGui::SetCursorPosY(cursorY + ImGui::GetStyle().ItemInnerSpacing.y);
+            ImGui::Text(label);
+            ImGui::SetCursorPosY(finalCursorPosY);
+
+            ImGui::TableNextColumn();
+            ImGui::PushItemWidth(-FLT_MIN);
+            result = InputText("##V", str, flags, callback, userData);
+
+            ImGui::EndTable();
+        }
+        ImGui::PopID();
+        float y = ImGui::GetCursorPosY();
+        ImGui::SetCursorPosY(y - ImGui::GetStyle().ItemInnerSpacing.y);
+
+        return result;
+    }
 }

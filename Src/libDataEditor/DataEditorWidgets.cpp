@@ -14,15 +14,11 @@ namespace GDB
         ImGui::PushID(stringValue->GetDataId().GetValue());
         ImGui::PushItemWidth(-FLT_MIN);
 
-        const ImVec4 oldFrameBg = ImGui::GetStyle().Colors[ImGuiCol_FrameBg];
-        const ImVec4 oldChildBorder = ImGui::GetStyle().Colors[ImGuiCol_Border];
-        ImGui::GetStyle().Colors[ImGuiCol_FrameBg] = ImVec4(0, 0, 0, 0);
-        ImGui::GetStyle().Colors[ImGuiCol_Border] = ImVec4(0, 0, 0, 0);
-
+        ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0, 0, 0, 0));
+        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
         const bool result = InputText("##v", &stringValue->GetValue());
-
-        ImGui::GetStyle().Colors[ImGuiCol_FrameBg] = oldFrameBg;
-        ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = oldChildBorder;
+        ImGui::PopStyleColor();
+        ImGui::PopStyleColor();
 
         ImGui::PopID();
 

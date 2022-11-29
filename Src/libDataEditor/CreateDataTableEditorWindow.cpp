@@ -25,6 +25,8 @@ namespace GDB
                 return window.get();
             }
 
+            
+
             window = editor->AddWindow<CreateDataTableEditorWindow>(data.dataSet);
             return window.get();
         }
@@ -53,14 +55,7 @@ namespace GDB
 
         ImGui::SetWindowSize(ImVec2(300, 0));
 
-        const String tableNameId = Format("{0}_{1}", GetInstanceId(), "TableName");
-
-        ImGui::PushID(tableNameId.c_str());
-        ImGui::PushItemWidth(-FLT_MIN);
-        ImGui::Text("Name:");
-        ImGui::SameLine();
-        InputText("###v", &_tableName);
-        ImGui::PopID();
+        InputTextWithLabelOnLeft("Table Name:", &_tableName);
 
         ImGui::BeginDisabled(!IsInputValid());
         if (ImGui::Button("Create", ImVec2(-1, 0)))

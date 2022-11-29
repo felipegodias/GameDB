@@ -113,15 +113,14 @@ namespace GDB
         }
 
         bool open = true;
-        const String windowId = Format("{0}###{1}", _name, _instanceId);
         bool render = false;
         if (_type == Type::Regular)
         {
-            render = ImGui::Begin(windowId.c_str(), &open, windowFlags);
+            render = ImGui::Begin(_name.c_str(), &open, windowFlags);
         }
         else if (_type == Type::Modal)
         {
-            render = ImGui::BeginPopupModal(windowId.c_str(), &open, windowFlags);
+            render = ImGui::BeginPopupModal(_name.c_str(), &open, windowFlags);
         }
 
         if (render)
@@ -148,9 +147,9 @@ namespace GDB
                 ImGui::EndPopup();
             }
 
-            if (!ImGui::IsPopupOpen(windowId.c_str()) && open)
+            if (!ImGui::IsPopupOpen(_name.c_str()) && open)
             {
-                ImGui::OpenPopup(windowId.c_str());
+                ImGui::OpenPopup(_name.c_str());
             }
         }
 

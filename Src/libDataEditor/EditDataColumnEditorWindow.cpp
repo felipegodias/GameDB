@@ -46,14 +46,7 @@ namespace GDB
 
         ImGui::SetWindowSize(ImVec2(300, 0));
 
-        const String columnNameId = Format("{0}_{1}", GetInstanceId(), "ColumnName");
-
-        ImGui::PushID(columnNameId.c_str());
-        ImGui::PushItemWidth(-FLT_MIN);
-        ImGui::Text("Name:");
-        ImGui::SameLine();
-        InputText("###v", &_columnName);
-        ImGui::PopID();
+        InputTextWithLabelOnLeft("Column Name:", &_columnName);
 
         ImGui::BeginDisabled(!IsInputValid());
         if (ImGui::Button("Save", ImVec2(-1, 0)))
