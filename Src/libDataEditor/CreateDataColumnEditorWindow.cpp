@@ -15,25 +15,30 @@ namespace GDB
             const DIContainer& di, const CreateDataColumnEditorWindow::ResolveData& data)
         {
             auto* editor = di.Resolve<Editor*>();
-            SharedPtr<CreateDataColumnEditorWindow> window = editor->GetWindow<CreateDataColumnEditorWindow>();
+            auto* window = editor->GetWindow<CreateDataColumnEditorWindow>();
             if (window != nullptr)
             {
-                return window.get();
+                return window;
             }
 
             window = editor->AddWindow<CreateDataColumnEditorWindow>(data.dataTable);
-            return window.get();
+            return window;
         }
     }
 
-    CreateDataColumnEditorWindow::CreateDataColumnEditorWindow(const SharedPtr<DataTable>& dataTable)
-        : EditorWindow(ICON_FA_CIRCLE_PLUS " Create Column", Type::Modal),
+    CreateDataColumnEditorWindow::CreateDataColumnEditorWindow(Editor* editor, const SharedPtr<DataTable>& dataTable)
+        : EditorWindow(editor, ICON_FA_CIRCLE_PLUS " Create Column", Type::Modal),
           _dataTable(dataTable)
     {
         GDB_PROFILE_FUNCTION();
     }
 
-    void CreateDataColumnEditorWindow::OnAwake()
+    void CreateDataColumnEditorWindow::OnEnabled()
+    {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void CreateDataColumnEditorWindow::OnDisabled()
     {
         GDB_PROFILE_FUNCTION();
     }
@@ -43,7 +48,7 @@ namespace GDB
         GDB_PROFILE_FUNCTION();
     }
 
-    void CreateDataColumnEditorWindow::OnGUI()
+    void CreateDataColumnEditorWindow::OnRender()
     {
         GDB_PROFILE_FUNCTION();
 
@@ -57,7 +62,7 @@ namespace GDB
             const SharedPtr<DataTable> dataTable = _dataTable.lock();
             dataTable->AddColumn(MakeUnique<DataColumn>(DataId::Random(), _columnName, dataTable.get(),
                                                         MakeUnique<DataTypeString>()));
-            Destroy();
+            Hide();
         }
         ImGui::EndDisabled();
     }

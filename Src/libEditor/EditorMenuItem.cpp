@@ -13,8 +13,8 @@ namespace GDB
         return _name;
     }
 
-    void EditorMenuItem::InvokeCallback() const
+    const EditorMenuItem::Callback& EditorMenuItem::GetCallback() const
     {
-        _callback();
+        return _callback;
     }
 }

@@ -23,12 +23,13 @@ namespace GDB
             SharedPtr<DataColumn> dataColumn;
         };
 
-        explicit EditDataColumnEditorWindow(const SharedPtr<DataColumn>& dataColumn);
+        EditDataColumnEditorWindow(Editor* editor, const SharedPtr<DataColumn>& dataColumn);
 
     protected:
-        void OnAwake() override;
+        void OnEnabled() override;
+        void OnDisabled() override;
         void OnUpdate() override;
-        void OnGUI() override;
+        void OnRender() override;
 
     private:
         WeakPtr<DataColumn> _dataColumn;

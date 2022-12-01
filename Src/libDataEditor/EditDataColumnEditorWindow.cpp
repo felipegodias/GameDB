@@ -12,25 +12,30 @@ namespace GDB
             const DIContainer& di, const EditDataColumnEditorWindow::ResolveData& data)
         {
             auto* editor = di.Resolve<Editor*>();
-            SharedPtr<EditDataColumnEditorWindow> window = editor->GetWindow<EditDataColumnEditorWindow>();
+            auto* window = editor->GetWindow<EditDataColumnEditorWindow>();
             if (window != nullptr)
             {
-                return window.get();
+                return window;
             }
 
             window = editor->AddWindow<EditDataColumnEditorWindow>(data.dataColumn);
-            return window.get();
+            return window;
         }
     }
 
-    EditDataColumnEditorWindow::EditDataColumnEditorWindow(const SharedPtr<DataColumn>& dataColumn)
-        : EditorWindow(ICON_FA_PEN_TO_SQUARE " Edit Column", Type::Modal),
+    EditDataColumnEditorWindow::EditDataColumnEditorWindow(Editor* editor, const SharedPtr<DataColumn>& dataColumn)
+        : EditorWindow(editor, ICON_FA_PEN_TO_SQUARE " Edit Column", Type::Modal),
           _dataColumn(dataColumn)
     {
         GDB_PROFILE_FUNCTION();
     }
 
-    void EditDataColumnEditorWindow::OnAwake()
+    void EditDataColumnEditorWindow::OnEnabled()
+    {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void EditDataColumnEditorWindow::OnDisabled()
     {
         GDB_PROFILE_FUNCTION();
     }
@@ -40,7 +45,7 @@ namespace GDB
         GDB_PROFILE_FUNCTION();
     }
 
-    void EditDataColumnEditorWindow::OnGUI()
+    void EditDataColumnEditorWindow::OnRender()
     {
         GDB_PROFILE_FUNCTION();
 
@@ -53,7 +58,7 @@ namespace GDB
         {
             const SharedPtr<DataColumn> dataColumn = _dataColumn.lock();
             dataColumn->SetName(_columnName);
-            Destroy();
+            Hide();
         }
         ImGui::EndDisabled();
     }

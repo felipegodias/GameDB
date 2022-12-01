@@ -18,9 +18,9 @@ namespace GDB
         DataTableEditorWindow* DataTableEditorWindowFactory(const DIContainer& di,
                                                             const DataTableEditorWindow::ResolveData& resolveData)
         {
-            SharedPtr<DataTableEditorWindow> window = nullptr;
+            DataTableEditorWindow* window = nullptr;
             auto* editor = di.Resolve<Editor*>();
-            editor->ForEachWindow<DataTableEditorWindow>([&](const SharedPtr<DataTableEditorWindow>& it)
+            editor->ForEachWindow<DataTableEditorWindow>([&](DataTableEditorWindow* it)
             {
                 if (it->GetDataTable().lock() == resolveData.dataTable)
                 {
@@ -33,16 +33,16 @@ namespace GDB
 
             if (window != nullptr)
             {
-                return window.get();
+                return window;
             }
 
             window = editor->AddWindow<DataTableEditorWindow>(resolveData.dataTable);
-            return window.get();
+            return window;
         }
     }
 
-    DataTableEditorWindow::DataTableEditorWindow(const SharedPtr<DataTable>& dataTable)
-        : EditorWindow(ICON_FA_TABLE " " + dataTable->GetName()),
+    DataTableEditorWindow::DataTableEditorWindow(Editor* editor, const SharedPtr<DataTable>& dataTable)
+        : EditorWindow(editor, ICON_FA_TABLE " " + dataTable->GetName()),
           _dataTable(dataTable)
     {
         GDB_PROFILE_FUNCTION();
@@ -53,8 +53,8 @@ namespace GDB
 
         GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Column", [this]
         {
-            [[maybe_unused]] auto* window = Resolve<
-                CreateDataColumnEditorWindow*, CreateDataColumnEditorWindow::ResolveData>({_dataTable.lock()});
+            auto* window = Resolve<CreateDataColumnEditorWindow*, CreateDataColumnEditorWindow::ResolveData>({_dataTable.lock()});
+            window->Show();
         });
 
         GetEditorMenu()->AddItem(ICON_FA_TRASH " Delete Table", [this]
@@ -69,7 +69,12 @@ namespace GDB
         return _dataTable;
     }
 
-    void DataTableEditorWindow::OnAwake()
+    void DataTableEditorWindow::OnEnabled()
+    {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void DataTableEditorWindow::OnDisabled()
     {
         GDB_PROFILE_FUNCTION();
     }
@@ -79,11 +84,11 @@ namespace GDB
         GDB_PROFILE_FUNCTION();
         if (_dataTable.expired())
         {
-            Destroy();
+            Hide();
         }
     }
 
-    void DataTableEditorWindow::OnGUI()
+    void DataTableEditorWindow::OnRender()
     {
         GDB_PROFILE_FUNCTION();
         if (_dataTable.expired())
@@ -98,8 +103,7 @@ namespace GDB
             return;
         }
 
-        constexpr ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg |
-            ImGuiTableFlags_Resizable;
+        constexpr ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable;
         ImGui::BeginTable("Table", tableColumns, flags);
 
         for (const auto& column : dataTable->GetColumns())
@@ -144,10 +148,10 @@ namespace GDB
                 ImGui::BeginDisabled(column == 0);
                 if (ImGui::Button(ICON_FA_PEN_TO_SQUARE " Edit Column", ImVec2(-1, 0)))
                 {
-                    [[maybe_unused]] auto* window = Resolve<
-                        EditDataColumnEditorWindow*, EditDataColumnEditorWindow::ResolveData>({
+                    auto* window = Resolve<EditDataColumnEditorWindow*, EditDataColumnEditorWindow::ResolveData>({
                         dataTable->GetColumns()[i]
                     });
+                    window->Show();
                     ImGui::CloseCurrentPopup();
                 }
 

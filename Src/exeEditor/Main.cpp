@@ -80,21 +80,22 @@ namespace GDB
         auto* window = DIContainer::Global()->Resolve<Window*>();
         auto* editor = DIContainer::Global()->Resolve<Editor*>();
 
-        [[maybe_unused]] auto* dataSetEditorWindow = Resolve<DataSetEditorWindow*>();
+        auto* dataSetEditorWindow = Resolve<DataSetEditorWindow*>();
+        dataSetEditorWindow->Show();
 
-        editor->AddWindow<ConsoleEditorWindow>(Log::Global());
+        const auto consoleEditorWindow = editor->AddWindow<ConsoleEditorWindow>(Log::Global());
+        consoleEditorWindow->Show();
 
         loadingProfilerSection.reset();
 
         while (window->IsOpen())
         {
             GDB_PROFILE_SECTION("frame");
-            editor->AwakeWindows();
+            editor->ConsumeActions();
             editor->UpdateWindows();
             window->BeginFrame();
             editor->RenderWindows();
             window->EndFrame();
-            editor->DestroyWindows();
         }
 
         [[maybe_unused]] Profiler* profiler = Profiler::Global();

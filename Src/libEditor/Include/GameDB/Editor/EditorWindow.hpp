@@ -7,6 +7,8 @@
 
 namespace GDB
 {
+    class Editor;
+
     /**
      * \brief 
      */
@@ -26,17 +28,22 @@ namespace GDB
             /**
              * \brief 
              */
-            WaitingForAwake = 1,
+            WaitingForEnable = 1,
 
             /**
              * \brief 
              */
-            Active = 2,
+            Enabled = 2,
 
             /**
              * \brief 
              */
-            WaitingForDestroy = 3
+            WaitingForDisable = 3,
+
+            /**
+             * \brief 
+             */
+            Disabled = 4,
         };
 
         /**
@@ -60,15 +67,9 @@ namespace GDB
             Modal = 2
         };
 
-        EditorWindow(String name, Type type = Type::Regular);
+        EditorWindow(Editor* editor, String name, Type type = Type::Regular);
 
         virtual ~EditorWindow() = 0;
-
-        /**
-         * \brief 
-         * \return 
-         */
-        [[nodiscard]] int GetInstanceId() const;
 
         /**
          * \brief 
@@ -91,11 +92,6 @@ namespace GDB
         /**
          * \brief 
          */
-        void Awake();
-
-        /**
-         * \brief 
-         */
         void Update();
 
         /**
@@ -106,15 +102,21 @@ namespace GDB
         /**
          * \brief 
          */
-        void Destroy();
+        void Show();
+
+        /**
+         * \brief 
+         */
+        void Hide();
 
     protected:
-        virtual void OnAwake() = 0;
+        virtual void OnEnabled() = 0;
+        virtual void OnDisabled() = 0;
         virtual void OnUpdate() = 0;
-        virtual void OnGUI() = 0;
+        virtual void OnRender() = 0;
 
     private:
-        int _instanceId;
+        Editor* _editor;
         String _name;
         Type _type;
         State _state;

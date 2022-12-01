@@ -26,7 +26,7 @@ namespace GDB
         /**
          * \brief 
          */
-        void InvokeCallback() const;
+        [[nodiscard]] const Callback& GetCallback() const;
 
     private:
         String _name;

@@ -11,34 +11,69 @@ namespace GDB
     class Editor
     {
     public:
-        using EditorWindowList = Vector<SharedPtr<EditorWindow>>;
+        using EditorWindowList = Vector<UniquePtr<EditorWindow>>;
+        using ActionCallback = std::function<void()>;
+        using ActionsList = Vector<ActionCallback>;
 
         Editor();
-        void AwakeWindows() const;
-        void UpdateWindows() const;
+
+        /**
+         * \brief 
+         */
+        void ConsumeActions();
+
+        /**
+         * \brief 
+         */
+        void UpdateWindows();
+
+        /**
+         * \brief 
+         */
         void RenderWindows() const;
-        void DestroyWindows();
 
-        void AddWindow(SharedPtr<EditorWindow> window);
+        /**
+         * \brief 
+         * \param window 
+         */
+        void AddWindow(UniquePtr<EditorWindow> window);
 
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \tparam ArgsTy 
+         * \param args 
+         * \return 
+         */
         template <typename Ty, typename ... ArgsTy,
                   std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true,
-                  std::enable_if_t<std::is_constructible_v<Ty, ArgsTy...>, bool>  = true>
-        SharedPtr<Ty> AddWindow(ArgsTy&& ... args)
+                  std::enable_if_t<std::is_constructible_v<Ty, Editor*, ArgsTy...>, bool>  = true>
+        Ty* AddWindow(ArgsTy&& ... args)
         {
-            auto ptr = MakeShared<Ty>(std::forward<ArgsTy>(args)...);
-            AddWindow(ptr);
+            auto uniquePtr = MakeUnique<Ty>(this, std::forward<ArgsTy>(args)...);
+            Ty* ptr = uniquePtr.get();
+            AddWindow(std::move(uniquePtr));
             return ptr;
         }
 
+        /**
+         * \brief 
+         * \return 
+         */
         [[nodiscard]] const EditorWindowList& GetWindows() const;
 
-        template <typename Ty, std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true>
-        [[nodiscard]] SharedPtr<Ty> GetWindow() const
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \return 
+         */
+        template <typename Ty,
+                  std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true>
+        [[nodiscard]] Ty* GetWindow() const
         {
             for (const auto& editorWindow : _windows)
             {
-                auto window = std::dynamic_pointer_cast<Ty>(editorWindow);
+                auto* window = dynamic_cast<Ty*>(editorWindow.get());
                 if (window != nullptr)
                 {
                     return window;
@@ -48,12 +83,18 @@ namespace GDB
             return nullptr;
         }
 
-        template <typename Ty, std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true>
-        void ForEachWindow(std::function<bool(const SharedPtr<Ty>&)> callback) const
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \param callback 
+         */
+        template <typename Ty,
+                  std::enable_if_t<std::is_base_of_v<EditorWindow, Ty>, bool>  = true>
+        void ForEachWindow(std::function<bool(Ty*)> callback) const
         {
             for (const auto& editorWindow : _windows)
             {
-                auto window = std::dynamic_pointer_cast<Ty>(editorWindow);
+                auto* window = dynamic_cast<Ty*>(editorWindow.get());
                 if (window == nullptr)
                 {
                     continue;
@@ -66,8 +107,15 @@ namespace GDB
             }
         }
 
+        /**
+         * \brief 
+         * \param actionCallback 
+         */
+        void PushAction(ActionCallback actionCallback);
+
     private:
         EditorWindowList _windows;
+        ActionsList _actions;
     };
 }
 

@@ -11,12 +11,13 @@ namespace GDB
     class DataSetEditorWindow final : public EditorWindow
     {
     public:
-        explicit DataSetEditorWindow(const SharedPtr<DataSet>& dataSet);
+        DataSetEditorWindow(Editor* editor, const SharedPtr<DataSet>& dataSet);
 
     protected:
-        void OnAwake() override;
+        void OnEnabled() override;
+        void OnDisabled() override;
         void OnUpdate() override;
-        void OnGUI() override;
+        void OnRender() override;
 
     private:
         WeakPtr<DataSet> _dataSet;

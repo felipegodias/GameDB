@@ -30,17 +30,6 @@ namespace GDB
             Theme theme = themeJson;
             Theme::Apply(theme);
         }
-
-        void IndexedForEach(const Editor::EditorWindowList& windows,
-                            const std::function<void(EditorWindow*)>& callback)
-        {
-            GDB_PROFILE_FUNCTION();
-            // Not using a foreach here because the callback can change the state of the container.
-            for (size_t i = 0; i < windows.size(); ++i) // NOLINT
-            {
-                callback(windows[i].get());
-            }
-        }
     }
 
     Editor::Editor()
@@ -70,19 +59,41 @@ namespace GDB
         return _windows;
     }
 
-    void Editor::AwakeWindows() const
+    void Editor::ConsumeActions()
     {
         GDB_PROFILE_FUNCTION();
-        IndexedForEach(_windows, [](EditorWindow* window)
+        for (size_t i = 0; i < _actions.size(); ++i)
         {
-            if (window->GetState() == EditorWindow::State::WaitingForAwake)
-            {
-                window->Awake();
-            }
-        });
+            _actions[i]();
+        }
+
+        _actions.clear();
     }
 
-    void Editor::UpdateWindows() const
+    void Editor::UpdateWindows()
+    {
+        GDB_PROFILE_FUNCTION();
+
+        Vector<size_t> idxToRemove;
+        for (size_t i = 0; i < _windows.size(); ++i)
+        {
+            if (_windows[i]->GetState() == EditorWindow::State::Disabled)
+            {
+                idxToRemove.push_back(i);
+                continue;
+            }
+
+            _windows[i]->Update();
+        }
+
+        // TODO: Optimize this if needed... Can just swap elements to the back since order ain't required.
+        for (const size_t i : idxToRemove)
+        {
+            _windows.erase(_windows.begin() + static_cast<EditorWindowList::difference_type>(i));
+        }
+    }
+
+    void Editor::RenderWindows() const
     {
         GDB_PROFILE_FUNCTION();
         if (reloadThemeNeeded)
@@ -91,19 +102,6 @@ namespace GDB
             reloadThemeNeeded = false;
         }
 
-
-        IndexedForEach(_windows, [](EditorWindow* window)
-        {
-            if (window->GetState() == EditorWindow::State::Active)
-            {
-                window->Update();
-            }
-        });
-    }
-
-    void Editor::RenderWindows() const
-    {
-        GDB_PROFILE_FUNCTION();
         ImGui::ShowDemoWindow();
         ImGui::BeginMainMenuBar();
         ImGui::MenuItem("File");
@@ -118,31 +116,22 @@ namespace GDB
 
         ImGui::DockSpaceOverViewport();
 
-        IndexedForEach(_windows, [](EditorWindow* window)
+        const size_t windowsSize = _windows.size();
+        for (size_t i = 0; i < windowsSize; ++i)
         {
-            if (window->GetState() == EditorWindow::State::Active)
-            {
-                window->Render();
-            }
-        });
+            _windows[i]->Render();
+        }
     }
 
-    void Editor::DestroyWindows()
-    {
-        GDB_PROFILE_FUNCTION();
-        const auto removeIt
-            = std::remove_if(_windows.begin(),
-                             _windows.end(),
-                             [](const SharedPtr<EditorWindow>& window)
-                             {
-                                 return window->GetState() == EditorWindow::State::WaitingForDestroy;
-                             });
-        _windows.erase(removeIt, _windows.end());
-    }
-
-    void Editor::AddWindow(SharedPtr<EditorWindow> window)
+    void Editor::AddWindow(UniquePtr<EditorWindow> window)
     {
         GDB_PROFILE_FUNCTION();
         _windows.push_back(std::move(window));
+    }
+
+    void Editor::PushAction(ActionCallback actionCallback)
+    {
+        GDB_PROFILE_FUNCTION();
+        _actions.push_back(std::move(actionCallback));
     }
 }

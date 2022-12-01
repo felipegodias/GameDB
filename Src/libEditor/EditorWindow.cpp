@@ -4,103 +4,97 @@
 
 #include "GameDB/libDebug.hpp"
 #include "GameDB/libProfiler.hpp"
+#include "GameDB/Editor/Editor.hpp"
 #include "GameDB/Format/Format.hpp"
 
 namespace GDB
 {
     namespace
     {
-        void DrawMenuItems(const Map<String, UniquePtr<EditorMenuItem>>& items)
+        void DrawMenuItems(Editor* editor, const Map<String, UniquePtr<EditorMenuItem>>& items)
         {
             GDB_PROFILE_FUNCTION();
             for (const auto& [name, item] : items)
             {
                 if (ImGui::MenuItem(name.c_str()))
                 {
-                    item->InvokeCallback();
+                    editor->PushAction(item->GetCallback());
                 }
             }
         }
 
-        void DrawMenuGroups(const Map<String, UniquePtr<EditorMenuGroup>>& groups)
+        void DrawMenuGroups(Editor* editor, const Map<String, UniquePtr<EditorMenuGroup>>& groups)
         {
             GDB_PROFILE_FUNCTION();
             for (const auto& [name, group] : groups)
             {
                 if (ImGui::BeginMenu(name.c_str()))
                 {
-                    DrawMenuGroups(group->GetGroups());
-                    DrawMenuItems(group->GetItems());
+                    DrawMenuGroups(editor, group->GetGroups());
+                    DrawMenuItems(editor, group->GetItems());
                     ImGui::EndMenu();
                 }
             }
         }
-
-        int NextInstanceId()
-        {
-            static int instanceId = 0;
-            return instanceId++;
-        }
     }
 
-    EditorWindow::EditorWindow(String name, const Type type)
-        : _instanceId(NextInstanceId()),
+    EditorWindow::EditorWindow(Editor* editor, String name, const Type type)
+        : _editor(editor),
           _name(std::move(name)),
           _type(type),
-          _state(State::WaitingForAwake),
+          _state(State::Disabled),
           _editorMenu(MakeUnique<EditorMenu>())
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     EditorWindow::~EditorWindow() = default;
 
-    int EditorWindow::GetInstanceId() const
-    {
-        return _instanceId;
-    }
-
     const String& EditorWindow::GetName() const
     {
+        GDB_PROFILE_FUNCTION();
         return _name;
     }
 
     EditorWindow::State EditorWindow::GetState() const
     {
+        GDB_PROFILE_FUNCTION();
         return _state;
     }
 
     EditorMenu* EditorWindow::GetEditorMenu() const
     {
-        return _editorMenu.get();
-    }
-
-    void EditorWindow::Awake()
-    {
         GDB_PROFILE_FUNCTION();
-        if (_state != State::WaitingForAwake)
-        {
-            return;
-        }
-
-        _state = State::Active;
-        OnAwake();
+        return _editorMenu.get();
     }
 
     void EditorWindow::Update()
     {
         GDB_PROFILE_FUNCTION();
-        if (_state != State::Active)
-        {
-            return;
-        }
 
-        OnUpdate();
+        switch (_state)
+        {
+        case State::WaitingForEnable:
+            OnEnabled();
+            _state = State::Enabled;
+            break;
+        case State::Enabled:
+            OnUpdate();
+            break;
+        case State::WaitingForDisable:
+            OnDisabled();
+            _state = State::Disabled;
+            break;
+        case State::None:
+        case State::Disabled:
+            break;
+        }
     }
 
     void EditorWindow::Render()
     {
         GDB_PROFILE_FUNCTION();
-        if (_state != State::Active)
+        if (_state != State::Enabled)
         {
             return;
         }
@@ -128,12 +122,12 @@ namespace GDB
             if (showMenu)
             {
                 ImGui::BeginMenuBar();
-                DrawMenuGroups(_editorMenu->GetGroups());
-                DrawMenuItems(_editorMenu->GetItems());
+                DrawMenuGroups(_editor, _editorMenu->GetGroups());
+                DrawMenuItems(_editor, _editorMenu->GetItems());
                 ImGui::EndMenuBar();
             }
 
-            OnGUI();
+            OnRender();
         }
 
         if (_type == Type::Regular)
@@ -155,17 +149,34 @@ namespace GDB
 
         if (!open)
         {
-            Destroy();
+            Hide();
         }
     }
 
-    void EditorWindow::Destroy()
+    void EditorWindow::Show()
     {
         GDB_PROFILE_FUNCTION();
-        _state = State::WaitingForDestroy;
+
+        if (_state != State::Enabled)
+        {
+            _state = State::WaitingForEnable;
+        }
     }
 
-    void EditorWindow::OnAwake()
+    void EditorWindow::Hide()
+    {
+        GDB_PROFILE_FUNCTION();
+        if (_state != State::Disabled)
+        {
+            _state = State::WaitingForDisable;
+        }
+    }
+
+    void EditorWindow::OnEnabled()
+    {
+    }
+
+    void EditorWindow::OnDisabled()
     {
     }
 
@@ -173,7 +184,7 @@ namespace GDB
     {
     }
 
-    void EditorWindow::OnGUI()
+    void EditorWindow::OnRender()
     {
     }
 }

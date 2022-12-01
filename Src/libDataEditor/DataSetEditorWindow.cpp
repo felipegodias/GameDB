@@ -17,31 +17,38 @@ namespace GDB
         DataSetEditorWindow* DataSetEditorWindowFactory(const DIContainer& diContainer)
         {
             auto* editor = diContainer.Resolve<Editor*>();
-            SharedPtr<DataSetEditorWindow> window = editor->GetWindow<DataSetEditorWindow>();
+            auto* window = editor->GetWindow<DataSetEditorWindow>();
             if (window != nullptr)
             {
-                return window.get();
+                return window;
             }
 
             auto dataSet = diContainer.Resolve<SharedPtr<DataSet>>();
             window = editor->AddWindow<DataSetEditorWindow>(dataSet);
-            return window.get();
+            return window;
         }
     }
 
-    DataSetEditorWindow::DataSetEditorWindow(const SharedPtr<DataSet>& dataSet)
-        : EditorWindow(ICON_FA_DATABASE " DataSet"),
+    DataSetEditorWindow::DataSetEditorWindow(Editor* editor, const SharedPtr<DataSet>& dataSet)
+        : EditorWindow(editor, ICON_FA_DATABASE " DataSet"),
           _dataSet(dataSet)
     {
         GDB_PROFILE_FUNCTION();
         GetEditorMenu()->AddItem(ICON_FA_CIRCLE_PLUS " New Table", [this]
         {
-            [[maybe_unused]] auto* window = Resolve<
-                CreateDataTableEditorWindow*, CreateDataTableEditorWindow::ResolveData>({_dataSet.lock()});
+            auto* window = Resolve<CreateDataTableEditorWindow*, CreateDataTableEditorWindow::ResolveData>({
+                _dataSet.lock()
+            });
+            window->Show();
         });
     }
 
-    void DataSetEditorWindow::OnAwake()
+    void DataSetEditorWindow::OnEnabled()
+    {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void DataSetEditorWindow::OnDisabled()
     {
         GDB_PROFILE_FUNCTION();
     }
@@ -51,7 +58,7 @@ namespace GDB
         GDB_PROFILE_FUNCTION();
     }
 
-    void DataSetEditorWindow::OnGUI()
+    void DataSetEditorWindow::OnRender()
     {
         GDB_PROFILE_FUNCTION();
         const SharedPtr<DataSet> dataSet = _dataSet.lock();
@@ -59,8 +66,10 @@ namespace GDB
         {
             if (ImGui::Button(table->GetName().c_str(), ImVec2(-1, 0)))
             {
-                [[maybe_unused]] auto* dataTableEditorWindow = Resolve<
-                    DataTableEditorWindow*, DataTableEditorWindow::ResolveData>({table});
+                auto* dataTableEditorWindow = Resolve<DataTableEditorWindow*, DataTableEditorWindow::ResolveData>({
+                    table
+                });
+                dataTableEditorWindow->Show();
             }
         }
     }

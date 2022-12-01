@@ -18,7 +18,7 @@ namespace GDB
             SharedPtr<DataTable> dataTable;
         };
 
-        explicit DataTableEditorWindow(const SharedPtr<DataTable>& dataTable);
+        DataTableEditorWindow(Editor* editor, const SharedPtr<DataTable>& dataTable);
 
         /**
          * \brief 
@@ -27,9 +27,10 @@ namespace GDB
         WeakPtr<DataTable> GetDataTable() const;
 
     protected:
-        void OnAwake() override;
+        void OnEnabled() override;
+        void OnDisabled() override;
         void OnUpdate() override;
-        void OnGUI() override;
+        void OnRender() override;
 
     private:
         WeakPtr<DataTable> _dataTable;

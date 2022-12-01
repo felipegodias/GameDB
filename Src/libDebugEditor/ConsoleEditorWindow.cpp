@@ -8,8 +8,8 @@
 
 namespace GDB
 {
-    ConsoleEditorWindow::ConsoleEditorWindow(const Log* log)
-        : EditorWindow(ICON_FA_TERMINAL " Console")
+    ConsoleEditorWindow::ConsoleEditorWindow(Editor* editor, const Log* log)
+        : EditorWindow(editor, ICON_FA_TERMINAL " Console")
     {
         for (const auto& [spool, logSpool] : log->GetSpools())
         {
@@ -27,7 +27,12 @@ namespace GDB
         });
     }
 
-    void ConsoleEditorWindow::OnAwake()
+    void ConsoleEditorWindow::OnEnabled()
+    {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void ConsoleEditorWindow::OnDisabled()
     {
         GDB_PROFILE_FUNCTION();
     }
@@ -37,7 +42,7 @@ namespace GDB
         GDB_PROFILE_FUNCTION();
     }
 
-    void ConsoleEditorWindow::OnGUI()
+    void ConsoleEditorWindow::OnRender()
     {
         GDB_PROFILE_FUNCTION();
         if (ImGui::BeginTable("Console", 1))

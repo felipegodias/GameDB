@@ -11,12 +11,13 @@ namespace GDB
     class ConsoleEditorWindow final : public EditorWindow
     {
     public:
-        explicit ConsoleEditorWindow(const Log* log);
+        ConsoleEditorWindow(Editor* editor, const Log* log);
 
     protected:
-        void OnAwake() override;
+        void OnEnabled() override;
+        void OnDisabled() override;
         void OnUpdate() override;
-        void OnGUI() override;
+        void OnRender() override;
 
     private:
         Vector<WeakPtr<LoggerSinkConsole>> _sinks;
