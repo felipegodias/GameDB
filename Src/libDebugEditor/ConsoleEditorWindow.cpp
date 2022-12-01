@@ -61,7 +61,7 @@ namespace GDB
                 ImGui::SetCursorPos({
                     cursor.x + ImGui::GetStyle().ItemInnerSpacing.x, cursor.y + ImGui::GetStyle().ItemInnerSpacing.y
                 });
-                ImGui::Text(logEntry.formatterMessage.c_str());
+                ImGui::Text("%s", logEntry.formatterMessage.c_str());
                 ImGui::SetCursorPos(finalCursorPos);
             }
             ImGui::EndTable();

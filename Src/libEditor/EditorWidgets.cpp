@@ -67,7 +67,7 @@ namespace GDB
             ImGui::InvisibleButton("##IB", ImVec2(sz.x, sz.y + ImGui::GetStyle().ItemInnerSpacing.y * 2));
             const float finalCursorPosY = ImGui::GetCursorPosY();
             ImGui::SetCursorPosY(cursorY + ImGui::GetStyle().ItemInnerSpacing.y);
-            ImGui::Text(label);
+            ImGui::Text("%s", label);
             ImGui::SetCursorPosY(finalCursorPosY);
 
             ImGui::TableNextColumn();
