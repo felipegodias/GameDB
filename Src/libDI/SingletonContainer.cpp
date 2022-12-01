@@ -7,4 +7,9 @@ namespace GDB
         static SingletonContainer singletonContainer;
         return &singletonContainer;
     }
+
+    void SingletonContainer::Clear()
+    {
+        _instances.clear();
+    }
 }

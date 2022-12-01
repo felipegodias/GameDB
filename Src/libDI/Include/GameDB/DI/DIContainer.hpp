@@ -103,6 +103,11 @@ namespace GDB
             RemoveFactory(typeid(FactoryWithArg<Ty, ArgTy>));
         }
 
+        /**
+         * \brief 
+         */
+        void Clear();
+
     private:
         [[nodiscard]] std::any FindFactory(std::type_index factoryType) const;
         void RegisterFactory(std::type_index factoryType, std::any factory);

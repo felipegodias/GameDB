@@ -100,6 +100,9 @@ namespace GDB
 
         [[maybe_unused]] Profiler* profiler = Profiler::Global();
 
+        DIContainer::Global()->Clear();
+        SingletonContainer::Global()->Clear();
+
         return EXIT_SUCCESS;
     }
 }

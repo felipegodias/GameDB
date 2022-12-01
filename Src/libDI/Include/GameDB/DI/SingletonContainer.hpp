@@ -9,11 +9,23 @@
 
 namespace GDB
 {
+    /**
+     * \brief 
+     */
     class SingletonContainer
     {
     public:
+        /**
+         * \brief 
+         * \return 
+         */
         static SingletonContainer* Global();
 
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \return 
+         */
         template <typename Ty>
         Ty* GetInstance() const
         {
@@ -27,6 +39,13 @@ namespace GDB
             return instance;
         }
 
+        /**
+         * \brief 
+         * \tparam Ty 
+         * \tparam ArgsTy 
+         * \param args 
+         * \return 
+         */
         template <typename Ty, typename ... ArgsTy,
                   std::enable_if_t<std::is_constructible_v<Ty, ArgsTy...>, bool>  = true>
         Ty* RegisterInstance(ArgsTy&& ... args)
@@ -37,12 +56,21 @@ namespace GDB
             return instancePtr;
         }
 
+        /**
+         * \brief 
+         * \tparam Ty 
+         */
         template <typename Ty>
         void RemoveInstance()
         {
             const auto instancesIt = _instances.find(typeid(Ty));
             _instances.erase(instancesIt);
         }
+
+        /**
+         * \brief 
+         */
+        void Clear();
 
     private:
         UnorderedMap<std::type_index, UniquePtr<void>> _instances;

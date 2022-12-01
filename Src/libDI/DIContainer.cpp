@@ -52,4 +52,9 @@ namespace GDB
 
         _factories.erase(factoriesIt);
     }
+
+    void DIContainer::Clear()
+    {
+        _factories.clear();
+    }
 }
