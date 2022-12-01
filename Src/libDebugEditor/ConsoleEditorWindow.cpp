@@ -22,38 +22,55 @@ namespace GDB
             _sinks.push_back(sink.value());
         }
 
-        GetEditorMenu()->AddItem("Clear", []
+        GetEditorMenu()->AddItem("Clear", [this]
         {
+            _sinks[0].lock()->Clear();
         });
-    }
-
-    void ConsoleEditorWindow::OnEnabled()
-    {
-        GDB_PROFILE_FUNCTION();
-    }
-
-    void ConsoleEditorWindow::OnDisabled()
-    {
-        GDB_PROFILE_FUNCTION();
     }
 
     void ConsoleEditorWindow::OnUpdate()
     {
         GDB_PROFILE_FUNCTION();
+        if (_sinks[0].expired())
+        {
+            Hide();
+        }
+    }
+
+    void ConsoleEditorWindow::OnPreRender()
+    {
+        GDB_PROFILE_FUNCTION();
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     }
 
     void ConsoleEditorWindow::OnRender()
     {
         GDB_PROFILE_FUNCTION();
-        if (ImGui::BeginTable("Console", 1))
+        if (ImGui::BeginTable("Table", 1, ImGuiTableFlags_RowBg))
         {
             for (const auto& logEntry : _sinks[0].lock()->GetLogEntries())
             {
                 ImGui::TableNextRow();
                 ImGui::TableNextColumn();
-                ImGui::Text("%s", logEntry.formatterMessage.c_str());
+
+                const ImVec2 sz = ImGui::CalcTextSize(logEntry.formatterMessage.c_str());
+                const ImVec2 cursor = ImGui::GetCursorPos();
+                ImGui::InvisibleButton("##IB", ImVec2(sz.x + ImGui::GetStyle().ItemInnerSpacing.x * 2,
+                                                      sz.y + ImGui::GetStyle().ItemInnerSpacing.y * 2));
+                const ImVec2 finalCursorPos = ImGui::GetCursorPos();
+                ImGui::SetCursorPos({
+                    cursor.x + ImGui::GetStyle().ItemInnerSpacing.x, cursor.y + ImGui::GetStyle().ItemInnerSpacing.y
+                });
+                ImGui::Text(logEntry.formatterMessage.c_str());
+                ImGui::SetCursorPos(finalCursorPos);
             }
             ImGui::EndTable();
         }
+    }
+
+    void ConsoleEditorWindow::OnPostRender()
+    {
+        GDB_PROFILE_FUNCTION();
+        ImGui::PopStyleVar();
     }
 }

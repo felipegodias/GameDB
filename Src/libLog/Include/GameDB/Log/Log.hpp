@@ -7,6 +7,7 @@
 #include "GameDB/Container/Map.hpp"
 #include "GameDB/Container/String.hpp"
 #include "GameDB/Memory/Pointers.hpp"
+#include "GameDB/Format/Format.hpp"
 
 namespace GDB
 {
@@ -67,10 +68,10 @@ namespace GDB
     };
 }
 
-#define GDB_LOG(logType, spool, message) \
-GDB::Log::Global()->LogMessage((spool), (logType), __FILE__, __LINE__, __FUNCSIG__, (message));
+#define GDB_LOG(logType, spool, fmt, ...) \
+GDB::Log::Global()->LogMessage((spool), (logType), __FILE__, __LINE__, __FUNCSIG__, GDB::Format((fmt), __VA_ARGS__))
 
-#define GDB_LOG_VERBOSE(spool, message) GDB_LOG(GDB::LogType::Verbose, spool, message)
-#define GDB_LOG_DEBUG(spool, message) GDB_LOG(GDB::LogType::Debug, spool, message)
+#define GDB_LOG_VERBOSE(spool, fmt, ...) GDB_LOG(GDB::LogType::Verbose, spool, fmt, __VA_ARGS__)
+#define GDB_LOG_DEBUG(spool, fmt, ...) GDB_LOG(GDB::LogType::Debug, spool, fmt, __VA_ARGS__)
 
 #endif // !GDB_LIB_LOG_LOG_HPP

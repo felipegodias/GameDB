@@ -18,5 +18,7 @@ target_link_libraries(gdb.libData PUBLIC
 	gdb.libContainer
     gdb.libDI
     gdb.libEvent
+    gdb.libLog
     gdb.libMemory
+    gdb.libProfiler
 )

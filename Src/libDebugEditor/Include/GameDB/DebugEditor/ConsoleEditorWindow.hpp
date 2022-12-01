@@ -14,10 +14,10 @@ namespace GDB
         ConsoleEditorWindow(Editor* editor, const Log* log);
 
     protected:
-        void OnEnabled() override;
-        void OnDisabled() override;
         void OnUpdate() override;
+        void OnPreRender() override;
         void OnRender() override;
+        void OnPostRender() override;
 
     private:
         Vector<WeakPtr<LoggerSinkConsole>> _sinks;

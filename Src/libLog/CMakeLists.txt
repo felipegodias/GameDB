@@ -13,5 +13,6 @@ target_include_directories(gdb.libLog PUBLIC
 
 target_link_libraries(gdb.libLog PUBLIC
 	gdb.libContainer
+    gdb.libFormat
     gdb.libKernel
 )

@@ -110,10 +110,12 @@ namespace GDB
         void Hide();
 
     protected:
-        virtual void OnEnabled() = 0;
-        virtual void OnDisabled() = 0;
-        virtual void OnUpdate() = 0;
-        virtual void OnRender() = 0;
+        virtual void OnEnabled();
+        virtual void OnDisabled();
+        virtual void OnUpdate();
+        virtual void OnPreRender();
+        virtual void OnRender();
+        virtual void OnPostRender();
 
     private:
         Editor* _editor;

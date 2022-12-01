@@ -99,6 +99,8 @@ namespace GDB
             return;
         }
 
+        OnPreRender();
+
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags_None;
         const bool showMenu = !_editorMenu->GetItems().empty() || !_editorMenu->GetGroups().empty();
         if (showMenu)
@@ -147,6 +149,8 @@ namespace GDB
             }
         }
 
+        OnPostRender();
+
         if (!open)
         {
             Hide();
@@ -174,17 +178,31 @@ namespace GDB
 
     void EditorWindow::OnEnabled()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void EditorWindow::OnDisabled()
     {
+        GDB_PROFILE_FUNCTION();
     }
 
     void EditorWindow::OnUpdate()
     {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void EditorWindow::OnPreRender()
+    {
+        GDB_PROFILE_FUNCTION();
     }
 
     void EditorWindow::OnRender()
     {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void EditorWindow::OnPostRender()
+    {
+        GDB_PROFILE_FUNCTION();
     }
 }
