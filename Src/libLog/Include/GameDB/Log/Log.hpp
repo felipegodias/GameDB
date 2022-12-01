@@ -68,8 +68,17 @@ namespace GDB
     };
 }
 
+#if defined(__clang__)
+#define GDB_LOG_FUNCSIG __PRETTY_FUNCTION__
+#elif defined(__GNUC__) || defined(__GNUG__)
+#define GDB_LOG_FUNCSIG __PRETTY_FUNCTION__
+#elif defined(_MSC_VER)
+#define GDB_LOG_FUNCSIG __FUNCSIG__
+#endif
+
+
 #define GDB_LOG(logType, spool, fmt, ...) \
-GDB::Log::Global()->LogMessage((spool), (logType), __FILE__, __LINE__, __FUNCSIG__, GDB::Format((fmt), __VA_ARGS__))
+GDB::Log::Global()->LogMessage((spool), (logType), __FILE__, __LINE__, GDB_LOG_FUNCSIG, GDB::Format((fmt), __VA_ARGS__))
 
 #define GDB_LOG_VERBOSE(spool, fmt, ...) GDB_LOG(GDB::LogType::Verbose, spool, fmt, __VA_ARGS__)
 #define GDB_LOG_DEBUG(spool, fmt, ...) GDB_LOG(GDB::LogType::Debug, spool, fmt, __VA_ARGS__)
