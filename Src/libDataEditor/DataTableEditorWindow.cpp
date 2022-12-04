@@ -69,16 +69,6 @@ namespace GDB
         return _dataTable;
     }
 
-    void DataTableEditorWindow::OnEnabled()
-    {
-        GDB_PROFILE_FUNCTION();
-    }
-
-    void DataTableEditorWindow::OnDisabled()
-    {
-        GDB_PROFILE_FUNCTION();
-    }
-
     void DataTableEditorWindow::OnUpdate()
     {
         GDB_PROFILE_FUNCTION();
@@ -86,6 +76,12 @@ namespace GDB
         {
             Hide();
         }
+    }
+
+    void DataTableEditorWindow::OnPreRender()
+    {
+        GDB_PROFILE_FUNCTION();
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     }
 
     void DataTableEditorWindow::OnRender()
@@ -103,7 +99,7 @@ namespace GDB
             return;
         }
 
-        constexpr ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable;
+        constexpr ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY;
         ImGui::BeginTable("Table", tableColumns, flags);
 
         for (const auto& column : dataTable->GetColumns())
@@ -171,6 +167,12 @@ namespace GDB
         {
             dataTable->DeleteColumn(columnToDelete);
         }
+    }
+
+    void DataTableEditorWindow::OnPostRender()
+    {
+        GDB_PROFILE_FUNCTION();
+        ImGui::PopStyleVar();
     }
 
     DataTableEditorWindow::DIInstaller::DIInstaller(DIContainer* diContainer)

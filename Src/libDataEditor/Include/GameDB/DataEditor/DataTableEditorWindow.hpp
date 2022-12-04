@@ -27,10 +27,10 @@ namespace GDB
         WeakPtr<DataTable> GetDataTable() const;
 
     protected:
-        void OnEnabled() override;
-        void OnDisabled() override;
         void OnUpdate() override;
+        void OnPreRender() override;
         void OnRender() override;
+        void OnPostRender() override;
 
     private:
         WeakPtr<DataTable> _dataTable;
