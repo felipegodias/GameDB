@@ -17,11 +17,16 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.3
       - name: Setup MSVC development tools
         uses: ilammy/msvc-dev-cmd@v1
+      - name: Restore VCPKG Cache
+        uses: actions/cache@v2
+        with:
+          path: out/windows-msvc-x64/vcpkg_installed
+          key: windows-msvc-x64-vcpkg-${{ hashFiles('vcpkg.json') }}
       - name: CMake Configure
         run: cmake --preset windows-msvc-x64
       - name: Cmake Build Debug
         run: cmake --build --preset windows-msvc-x64-debug
-      - name: Cmake Build Profile
+      - name: Cmake Build Release with Debug info
         run: cmake --build --preset windows-msvc-x64-relwithdebinfo
       - name: Cmake Build Release
         run: cmake --build --preset windows-msvc-x64-release
