@@ -16,10 +16,12 @@ namespace GDB
     protected:
         void OnUpdate() override;
         void OnPreRender() override;
+        void OnRenderMenuBar() override;
         void OnRender() override;
         void OnPostRender() override;
 
     private:
+        String _filter;
         Vector<WeakPtr<LoggerSinkConsole>> _sinks;
     };
 }

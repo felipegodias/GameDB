@@ -114,6 +114,7 @@ namespace GDB
         virtual void OnDisabled();
         virtual void OnUpdate();
         virtual void OnPreRender();
+        virtual void OnRenderMenuBar();
         virtual void OnRender();
         virtual void OnPostRender();
 

@@ -126,6 +126,7 @@ namespace GDB
                 ImGui::BeginMenuBar();
                 DrawMenuGroups(_editor, _editorMenu->GetGroups());
                 DrawMenuItems(_editor, _editorMenu->GetItems());
+                OnRenderMenuBar();
                 ImGui::EndMenuBar();
             }
 
@@ -192,6 +193,11 @@ namespace GDB
     }
 
     void EditorWindow::OnPreRender()
+    {
+        GDB_PROFILE_FUNCTION();
+    }
+
+    void EditorWindow::OnRenderMenuBar()
     {
         GDB_PROFILE_FUNCTION();
     }
