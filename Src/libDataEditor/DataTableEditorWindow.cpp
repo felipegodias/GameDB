@@ -100,72 +100,74 @@ namespace GDB
         }
 
         constexpr ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY;
-        ImGui::BeginTable("Table", tableColumns, flags);
-
-        for (const auto& column : dataTable->GetColumns())
+        if (ImGui::BeginTable("Table", tableColumns, flags))
         {
-            ImGui::TableSetupColumn(column->GetName().c_str());
-        }
-        ImGui::TableHeadersRow();
-
-        for (const auto& row : dataTable->GetRows())
-        {
-            ImGui::TableNextRow();
             for (const auto& column : dataTable->GetColumns())
             {
-                ImGui::TableNextColumn();
-                std::optional<DataValue*> value = row->GetValue(*column);
-                InputDataValue(value.value());
+                ImGui::TableSetupColumn(column->GetName().c_str());
             }
-        }
+            ImGui::TableHeadersRow();
 
-        SharedPtr<DataColumn> columnToDelete = nullptr;
-        int hoveredColumn = -1;
-        for (size_t i = 0; i < dataTable->GetColumns().size(); ++i)
-        {
-            const int column = static_cast<int>(i);
-            const int id = column;
-
-            ImGui::PushID(id);
-            if (ImGui::TableGetColumnFlags(column) & ImGuiTableColumnFlags_IsHovered)
+            for (const auto& row : dataTable->GetRows())
             {
-                hoveredColumn = column;
-            }
-
-            constexpr std::string_view popupId = "ColumnPopup";
-            if (hoveredColumn == column && ImGui::IsMouseReleased(1))
-            {
-                ImGui::OpenPopup(popupId.data());
-            }
-
-            ImGui::SetNextWindowSize(ImVec2(200, 0));
-            if (ImGui::BeginPopup(popupId.data()))
-            {
-                ImGui::BeginDisabled(column == 0);
-                if (ImGui::Button(ICON_FA_PEN_TO_SQUARE " Edit Column", ImVec2(-1, 0)))
+                ImGui::TableNextRow();
+                for (const auto& column : dataTable->GetColumns())
                 {
-                    auto* window = Resolve<EditDataColumnEditorWindow*, EditDataColumnEditorWindow::ResolveData>({
-                        dataTable->GetColumns()[i]
-                    });
-                    window->Show();
-                    ImGui::CloseCurrentPopup();
+                    ImGui::TableNextColumn();
+                    std::optional<DataValue*> value = row->GetValue(*column);
+                    InputDataValue(value.value());
+                }
+            }
+
+            SharedPtr<DataColumn> columnToDelete = nullptr;
+            int hoveredColumn = -1;
+            for (size_t i = 0; i < dataTable->GetColumns().size(); ++i)
+            {
+                const int column = static_cast<int>(i);
+                const int id = column;
+
+                ImGui::PushID(id);
+                if (ImGui::TableGetColumnFlags(column) & ImGuiTableColumnFlags_IsHovered)
+                {
+                    hoveredColumn = column;
                 }
 
-                if (ImGui::Button(ICON_FA_TRASH " Delete Column", ImVec2(-1, 0)))
+                constexpr std::string_view popupId = "ColumnPopup";
+                if (hoveredColumn == column && ImGui::IsMouseReleased(1))
                 {
-                    columnToDelete = dataTable->GetColumns()[i];
-                    ImGui::CloseCurrentPopup();
+                    ImGui::OpenPopup(popupId.data());
                 }
-                ImGui::EndDisabled();
-                ImGui::EndPopup();
-            }
-            ImGui::PopID();
-        }
-        ImGui::EndTable();
 
-        if (columnToDelete != nullptr)
-        {
-            dataTable->DeleteColumn(columnToDelete);
+                ImGui::SetNextWindowSize(ImVec2(200, 0));
+                if (ImGui::BeginPopup(popupId.data()))
+                {
+                    ImGui::BeginDisabled(column == 0);
+                    if (ImGui::Button(ICON_FA_PEN_TO_SQUARE " Edit Column", ImVec2(-1, 0)))
+                    {
+                        auto* window = Resolve<EditDataColumnEditorWindow*, EditDataColumnEditorWindow::ResolveData>({
+                            dataTable->GetColumns()[i]
+                            });
+                        window->Show();
+                        ImGui::CloseCurrentPopup();
+                    }
+
+                    if (ImGui::Button(ICON_FA_TRASH " Delete Column", ImVec2(-1, 0)))
+                    {
+                        columnToDelete = dataTable->GetColumns()[i];
+                        ImGui::CloseCurrentPopup();
+                    }
+                    ImGui::EndDisabled();
+                    ImGui::EndPopup();
+                }
+                ImGui::PopID();
+            }
+
+            if (columnToDelete != nullptr)
+            {
+                dataTable->DeleteColumn(columnToDelete);
+            }
+
+            ImGui::EndTable();
         }
     }
 
