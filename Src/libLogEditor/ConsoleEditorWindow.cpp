@@ -1,4 +1,4 @@
-#include "GameDB/DebugEditor/ConsoleEditorWindow.hpp"
+#include "GameDB/LogEditor/ConsoleEditorWindow.hpp"
 
 #include <imgui.h>
 #include <regex>

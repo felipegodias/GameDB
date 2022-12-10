@@ -7,7 +7,7 @@
 #include "GameDB/libData.hpp"
 #include "GameDB/libDataEditor.hpp"
 #include "GameDB/libDebug.hpp"
-#include "GameDB/libDebugEditor.hpp"
+#include "GameDB/libLogEditor.hpp"
 #include "GameDB/libDI.hpp"
 #include "GameDB/libEditor.hpp"
 #include "GameDB/libEditorTheme.hpp"

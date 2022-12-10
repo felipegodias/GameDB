@@ -1,4 +1,4 @@
-#include "GameDB/DebugEditor/LoggerSinkConsole.hpp"
+#include "GameDB/LogEditor/LoggerSinkConsole.hpp"
 
 namespace GDB
 {
